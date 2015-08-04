@@ -12,21 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/subCategoryListView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/categoryNotes"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/categoryNotes"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/subCategoryListView"
-        android:layout_alignEnd="@+id/subCategoryListView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
+        android:layout_alignParentLeft="true"/>
 </RelativeLayout>

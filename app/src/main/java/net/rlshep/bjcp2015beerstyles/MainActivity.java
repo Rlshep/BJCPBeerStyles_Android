@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import net.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
+import net.rlshep.bjcp2015beerstyles.domain.Category;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,26 +24,26 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = new BjcpDataHelper(this, BjcpDataHelper.DATABASE_NAME, null, 1);
         dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
 
-        ListAdapter categoryAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dbHandler.getAllCategories());
+        ListAdapter categoryAdapter = new CategoriesListAdapter(this, dbHandler.getAllCategories());
         ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String category = String.valueOf(parent.getItemAtPosition(position));
-                String categoryNumber = category.substring(0, category.indexOf('-') - 1);
-                String categoryName = category.substring(category.indexOf('-') + 1, category.length());
-
-                loadSubCategoryList(categoryNumber, categoryName);
+                Category category = (Category)parent.getItemAtPosition(position);
+                loadSubCategoryList(category);
             }
         });
     }
 
-    private void loadSubCategoryList(String categoryNumber, String categoryName) {
+    private void loadSubCategoryList(Category category) {
         Intent i = new Intent(this, SubCategoryListActivity.class);
-        i.putExtra("CATEGORY_NUM", categoryNumber);
-        i.putExtra("CATEGORY_NAME", categoryName);
+
+        i.putExtra("CATEGORY_ID", (new Long(category.get_id())).toString());
+        i.putExtra("CATEGORY", category.get_category());
+        i.putExtra("CATEGORY_NAME", category.get_name());
+
         startActivity(i);
     }
 }

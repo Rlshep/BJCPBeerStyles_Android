@@ -16,8 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SubCategoryListActivity" >
+        </activity>
         <activity
-            android:name=".SubCategoryListActivity" >
+            android:name=".SubCategoryBodyActivity"
+            android:label="@string/title_activity_sub_category_body" >
         </activity>
     </application>
 

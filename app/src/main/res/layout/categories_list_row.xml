@@ -6,10 +6,15 @@
               android:id="@+id/categorySectionRow">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Small Text"
-        android:id="@+id/categorySectionText"
-        android:layout_gravity="center_horizontal"/>
+        android:id="@+id/catSectionText"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:id="@+id/catListText"/>
 </LinearLayout>

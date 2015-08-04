@@ -3,4 +3,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_sub_category_list">SubCategoryListActivity</string>
+    <string name="title_activity_sub_category_body">SubCategoryBodyActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

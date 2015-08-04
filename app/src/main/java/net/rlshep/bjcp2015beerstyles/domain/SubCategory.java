@@ -22,6 +22,13 @@ public class SubCategory {
         this._tapped = false;
     }
 
+    public SubCategory(long id, String subCategory, String name) {
+        this._id = id;
+        this._subCategory = subCategory;
+        this._name = name;
+        this._tapped = false;
+    }
+
     public long get_id() {
         return _id;
     }

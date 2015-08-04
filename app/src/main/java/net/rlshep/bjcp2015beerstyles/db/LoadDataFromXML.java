@@ -116,9 +116,9 @@ public class LoadDataFromXML {
 
         while (isNotTheEnd(xpp, name)){
             if (xpp.getEventType() == XmlPullParser.START_TAG) {
-                bodyText += "<" + xpp.getName() + ">";
+                bodyText += " <" + xpp.getName() + "> ";
             } else if (xpp.getEventType() == XmlPullParser.END_TAG) {
-                bodyText += "</" + xpp.getName() + ">";
+                bodyText += " </" + xpp.getName() + "> ";
             } else {
                 bodyText += xpp.getText();
             }

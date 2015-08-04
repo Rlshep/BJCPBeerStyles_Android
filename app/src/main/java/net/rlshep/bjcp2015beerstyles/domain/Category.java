@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    private final static String LANG_ENGLISH = "English";
-    private final static double CURRENT_REVISION = 2015;
+    public final static String LANG_ENGLISH = "English";
+    public final static double CURRENT_REVISION = 2015;
 
     private long _id;
     private String _category;
@@ -25,6 +25,12 @@ public class Category {
         this._category = category;
         this._language = LANG_ENGLISH;
         this._revision = CURRENT_REVISION;
+    }
+
+    public Category(long id, String category, String name) {
+        this._id = id;
+        this._category = category;
+        this._name = name;
     }
 
     public String get_category() {
