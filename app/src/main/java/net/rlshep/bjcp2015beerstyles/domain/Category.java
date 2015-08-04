@@ -14,6 +14,7 @@ public class Category {
     private String _language;
     private List<SubCategory> _subCategories = new ArrayList<SubCategory>();
     private List<Section> _sections = new ArrayList<Section>();
+    private int _orderNumber;
 
     public Category() {
         this._language = LANG_ENGLISH;
@@ -82,4 +83,11 @@ public class Category {
         this._sections = _sections;
     }
 
+    public int get_orderNumber() {
+        return _orderNumber;
+    }
+
+    public void set_orderNumber(int _orderNumber) {
+        this._orderNumber = _orderNumber;
+    }
 }

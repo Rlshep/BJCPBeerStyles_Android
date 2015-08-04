@@ -38,19 +38,12 @@ public class LoadDataFromXML {
 
     private List<Category> loadCategoriesFromXml(XmlPullParser xpp) throws XmlPullParserException, IOException {
         List<Category> categories = new ArrayList<Category>();
-
+        int orderNumber = 0;
         int eventType = xpp.getEventType();
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-//            if(eventType == XmlPullParser.START_TAG) {
-//                System.out.println("Start tag "+xpp.getName());
-                //            } else if(eventType == XmlPullParser.END_TAG) {
-//                System.out.println("End tag "+xpp.getName());
-//            } else if(eventType == XmlPullParser.TEXT) {
-//                System.out.println("Text " +xpp.getText());
-//            }
 
+        while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG && "category".equals(xpp.getName())) {
-                categories.add(createCategory(xpp));
+                categories.add(createCategory(xpp, orderNumber));
             }
 
             eventType = xpp.next();
@@ -59,11 +52,11 @@ public class LoadDataFromXML {
         return categories;
     }
 
-    private Category createCategory(XmlPullParser xpp) throws XmlPullParserException, IOException {
+    private Category createCategory(XmlPullParser xpp, int orderNumber) throws XmlPullParserException, IOException {
         Category category = new Category(xpp.getAttributeValue(null, "id"));
         List<Section> sections = new ArrayList<Section>();
         List<SubCategory> subCategories = new ArrayList<SubCategory>();
-        int orderNumber = 1;
+        int sectionOrder = 0;
 
        while (isNotTheEnd(xpp,"category")) {
             if (isStartTag(xpp, "name")) {
@@ -71,13 +64,14 @@ public class LoadDataFromXML {
             } else if (isStartTag(xpp, "subcategory")) {
                 subCategories.add(createSubCategory(xpp));
             } else if (isSection(xpp)) {
-                sections.add(createSection(xpp, orderNumber));
-                orderNumber++;
+                sections.add(createSection(xpp, sectionOrder));
+                sectionOrder++;
             }
         }
 
         category.set_sections(sections);
         category.set_subCategories(subCategories);
+        category.set_orderNumber(orderNumber);
 
         return category;
     }
