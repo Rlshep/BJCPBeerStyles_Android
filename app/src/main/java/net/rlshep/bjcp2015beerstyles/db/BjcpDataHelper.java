@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import net.rlshep.bjcp2015beerstyles.domain.Category;
 import net.rlshep.bjcp2015beerstyles.domain.Section;
@@ -18,19 +19,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BjcpDataHelper extends SQLiteOpenHelper{
-    private SQLiteDatabase db;
+    private static final String TAG = "LoadDatabase";
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "BjcpBeerStyles.db";
-    protected Context dbContext;
 
-    public BjcpDataHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, DATABASE_VERSION);
+    protected Context dbContext;
+    private SQLiteDatabase db;
+    private static BjcpDataHelper instance;
+
+    private BjcpDataHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         this.dbContext = context;
     }
 
+    public static synchronized BjcpDataHelper getInstance(Context context) {
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (instance == null) {
+            instance = new BjcpDataHelper(context);
+        }
+        return instance;
+    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.db = db;
+
         List<String> queries = new ArrayList<String>();
         queries.add("CREATE TABLE " + BjcpContract.TABLE_CATEGORY + "(" + BjcpContract.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +  BjcpContract.COLUMN_CAT + " TEXT, " + BjcpContract.COLUMN_NAME + " TEXT, " + BjcpContract.COLUMN_REVISION  + " NUMBER, " + BjcpContract.COLUMN_LANG + " TEXT," + BjcpContract.COLUMN_ORDER + " INTEGER" + " );");
         queries.add("CREATE TABLE " + BjcpContract.TABLE_SUB_CATEGORY + "(" + BjcpContract.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BjcpContract.COLUMN_CAT_ID + " INTEGER, " + BjcpContract.COLUMN_SUB_CAT + " TEXT, " + BjcpContract.COLUMN_NAME + " TEXT, " + BjcpContract.COLUMN_TAPPED  + " BOOLEAN, FOREIGN KEY(" +  BjcpContract.COLUMN_CAT_ID + ") REFERENCES " + BjcpContract.TABLE_CATEGORY + "(" + BjcpContract.COLUMN_ID + "));");
@@ -42,16 +58,13 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         }
 
         // Load database from xml file.
-        //TODO: FIGURE OUT HOW TO HANDLE THESE EXCEPTIONS.
         try {
             addCategories(new LoadDataFromXML().loadXmlFromFile(dbContext));
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
-
-        db.close();
     }
 
     @Override
@@ -62,7 +75,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS " + BjcpContract.TABLE_VITALS);
 
         onCreate(db);
-        db.close();
+//        db.close();
     }
 
     private void addCategories(List<Category> categories) {
@@ -80,7 +93,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         values.put(BjcpContract.COLUMN_ORDER, category.get_orderNumber());
 
         //Write category to database.
-        SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(BjcpContract.TABLE_CATEGORY, null, values);
 
         //Insert sub-tables if available.
@@ -103,7 +115,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         values.put(BjcpContract.COLUMN_TAPPED, subCategory.is_tapped());
 
         //Write category to database.
-        SQLiteDatabase db = getWritableDatabase();
         long id = db.insert(BjcpContract.TABLE_SUB_CATEGORY, null, values);
 
         //Insert sub-tables if available.
@@ -133,7 +144,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         values.put(BjcpContract.COLUMN_ABV_END, vitalStatistics.get_abvEnd());
 
         //Write category to database.
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(BjcpContract.TABLE_VITALS, null, values);
     }
 
@@ -153,7 +163,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
         values.put(BjcpContract.COLUMN_ORDER, section.get_orderNumber());
 
         //Write category to database.
-        SQLiteDatabase db = getWritableDatabase();
         db.insert(BjcpContract.TABLE_SECTION, null, values);
     }
 
@@ -164,7 +173,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
     public List<Category> getAllCategories() {
         List<Category> categories = new ArrayList<Category>();
         SQLiteDatabase db = getWritableDatabase();
-
 
         String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + " FROM "
                 + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION +
@@ -181,7 +189,8 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
             c.moveToNext();
         }
 
-        db.close();
+        c.close();
+//        db.close();
 
         return categories;
     }
@@ -210,7 +219,8 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
             sections.add(section);
         }
 
-        db.close();
+        c.close();
+//        db.close();
 
         return sections;
     }
@@ -234,7 +244,8 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
             c.moveToNext();
         }
 
-        db.close();
+        c.close();
+//        db.close();
 
         return subCategories;
     }
@@ -263,7 +274,8 @@ public class BjcpDataHelper extends SQLiteOpenHelper{
             sections.add(section);
         }
 
-        db.close();
+        c.close();
+//        db.close();
 
         return sections;
     }

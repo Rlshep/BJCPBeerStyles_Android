@@ -24,7 +24,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category_list);
-        dbHandler = new BjcpDataHelper(this, BjcpDataHelper.DATABASE_NAME, null, 1);
+        dbHandler = BjcpDataHelper.getInstance(this);
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {

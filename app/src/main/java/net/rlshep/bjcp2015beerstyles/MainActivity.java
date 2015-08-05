@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dbHandler = new BjcpDataHelper(this, BjcpDataHelper.DATABASE_NAME, null, 1);
+        dbHandler = BjcpDataHelper.getInstance(this);
         dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
 
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, dbHandler.getAllCategories());
@@ -31,10 +31,22 @@ public class MainActivity extends AppCompatActivity {
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Category category = (Category)parent.getItemAtPosition(position);
+                Category category = (Category) parent.getItemAtPosition(position);
                 loadSubCategoryList(category);
             }
         });
+    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        dbHandler.close();
     }
 
     private void loadSubCategoryList(Category category) {
