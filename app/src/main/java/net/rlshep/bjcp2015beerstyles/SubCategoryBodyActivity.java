@@ -3,6 +3,8 @@ package net.rlshep.bjcp2015beerstyles;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
@@ -12,6 +14,7 @@ import net.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 
 public class SubCategoryBodyActivity extends AppCompatActivity {
     private static final String VITAL_HEADER = "Vital Statistics";
+    private static final String SRM_PREFIX = "srm_";
     BjcpDataHelper dbHandler;
 
     @Override
@@ -48,7 +51,9 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
         VitalStatistics vitalStatistics = dbHandler.getVitalStatistics(subCategoryId);
 
-        if (null != vitalStatistics) {
+        if (null == vitalStatistics) {
+            hideSrmImages();
+        } else {
             vitals += "<big><b> " + VITAL_HEADER + "</b></big>";
 
             if (null != vitalStatistics.get_ibuStart()) {
@@ -64,10 +69,29 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
                 vitals += "<br><b>FG:</b> " + vitalStatistics.get_fgStart() + " - " + vitalStatistics.get_fgEnd();
             }
             if (null != vitalStatistics.get_srmStart()) {
-                vitals += "<br><b>SRM:</b> " + vitalStatistics.get_srmStart() + " - " + vitalStatistics.get_srmEnd();
+                vitals += "<br><b>SRM:</b>";
+                showSrmImages(vitalStatistics);
+            } else {
+                hideSrmImages();
             }
         }
 
         return vitals;
+    }
+
+    private void showSrmImages(VitalStatistics vitalStatistics) {
+        ImageView imgSrmBegin = (ImageView)findViewById(R.id.imgSrmBegin);
+        ImageView imgSrmEnd = (ImageView)findViewById(R.id.imgSrmEnd);
+
+        imgSrmBegin.setImageResource(getResources().getIdentifier(SRM_PREFIX + vitalStatistics.get_srmStart(), "drawable", getPackageName()));
+        imgSrmEnd.setImageResource(getResources().getIdentifier(SRM_PREFIX + vitalStatistics.get_srmEnd(), "drawable", getPackageName()));
+    }
+
+    private void hideSrmImages() {
+        ImageView imgSrmBegin = (ImageView)findViewById(R.id.imgSrmBegin);
+        ImageView imgSrmEnd = (ImageView)findViewById(R.id.imgSrmEnd);
+
+        imgSrmBegin.setVisibility(View.GONE);
+        imgSrmEnd.setVisibility(View.GONE);
     }
 }
