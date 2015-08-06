@@ -9,8 +9,9 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
     public static final String SWIPE_LEFT = "left";
     public static final String SWIPE_RIGHT = "right";
     public static final String LONG_PRESS = "long";
-    private static final int SWIPE_THRESHOLD = 100;
+    private static final int SWIPE_THRESHOLD = 200;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
+    private static final int SWIPE_MIN_DISTANCE = 120;
 
     public static String currentGesture = "";
 
@@ -46,18 +47,14 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
             float diffX = e2.getX() - e1.getX();
             if (Math.abs(diffX) > Math.abs(diffY)) {
                 if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffX > 0) {
+                    if (diffX > SWIPE_MIN_DISTANCE) {
                         currentGesture = SWIPE_LEFT;
-                    }
-                    else {
+                    } else {
                         currentGesture = SWIPE_RIGHT;
                     }
+                    result = true;
                 }
-                result = true;
             }
-
-            result = true;
-
         } catch (Exception e) {
             Log.e(GESTURE_TAG, e.getMessage());
         }
