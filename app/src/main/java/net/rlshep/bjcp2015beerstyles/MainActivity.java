@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import net.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import net.rlshep.bjcp2015beerstyles.domain.Category;
+import net.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         dbHandler = BjcpDataHelper.getInstance(this);
 
         // Only call when debugging new database changes
-//         dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
+//        dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
 
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, dbHandler.getAllCategories());
         ListView categoryListView = (ListView) findViewById(R.id.categoryListView);

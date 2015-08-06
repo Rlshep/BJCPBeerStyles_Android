@@ -12,13 +12,15 @@ public class SubCategory {
     private boolean _tapped;
     private List<Section> _sections = new ArrayList<Section>();;
     private VitalStatistics _vitalStatistics;
+    private int _orderNumber;
 
     public SubCategory() {
         this._tapped = false;
     }
 
-    public SubCategory(String _subCategory) {
+    public SubCategory(String _subCategory, int orderNumber) {
         this._subCategory = _subCategory;
+        this._orderNumber = orderNumber;
         this._tapped = false;
     }
 
@@ -83,5 +85,13 @@ public class SubCategory {
 
     public void set_categoryId(long _categoryId) {
         this._categoryId = _categoryId;
+    }
+
+    public int get_orderNumber() {
+        return _orderNumber;
+    }
+
+    public void set_orderNumber(int _orderNumber) {
+        this._orderNumber = _orderNumber;
     }
 }

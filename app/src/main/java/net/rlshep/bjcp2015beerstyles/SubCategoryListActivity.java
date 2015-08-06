@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import net.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import net.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import net.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,12 +55,14 @@ public class SubCategoryListActivity extends AppCompatActivity {
         });
     }
 
-    public void loadSubCategoryBody(SubCategory subCategory) {
+    private void loadSubCategoryBody(SubCategory subCategory) {
         Intent i = new Intent(this, SubCategoryBodyActivity.class);
 
+        i.putExtra("CATEGORY_ID", (new Long(subCategory.get_categoryId())).toString());
         i.putExtra("SUB_CATEGORY_ID", (new Long(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
+        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(i);
     }

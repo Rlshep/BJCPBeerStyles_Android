@@ -67,12 +67,14 @@ public class LoadDataFromXML {
         List<Section> sections = new ArrayList<Section>();
         List<SubCategory> subCategories = new ArrayList<SubCategory>();
         int sectionOrder = 0;
+        int subCatOrder = 0;
 
        while (isNotTheEnd(xpp,BjcpContract.COLUMN_CAT)) {
             if (isStartTag(xpp, BjcpContract.COLUMN_NAME)) {
                 category.set_name(getNextText(xpp));
             } else if (isStartTag(xpp, BjcpContract.XML_SUBCATEGORY)) {
-                subCategories.add(createSubCategory(xpp));
+                subCategories.add(createSubCategory(xpp, subCatOrder));
+                subCatOrder++;
             } else if (isSection(xpp)) {
                 sections.add(createSection(xpp, sectionOrder));
                 sectionOrder++;
@@ -86,10 +88,10 @@ public class LoadDataFromXML {
         return category;
     }
 
-    private SubCategory createSubCategory(XmlPullParser xpp) throws XmlPullParserException, IOException {
-        SubCategory subCategory = new SubCategory(xpp.getAttributeValue(null, BjcpContract.XML_ID));
+    private SubCategory createSubCategory(XmlPullParser xpp, int orderNumber) throws XmlPullParserException, IOException {
+        SubCategory subCategory = new SubCategory(xpp.getAttributeValue(null, BjcpContract.XML_ID), orderNumber);
         List<Section> sections = new ArrayList<Section>();
-        int orderNumber = 1;
+        int sectionOrder = 1;
 
         while (isNotTheEnd(xpp,BjcpContract.XML_SUBCATEGORY)){
            if (isStartTag(xpp, BjcpContract.COLUMN_NAME)) {
@@ -99,14 +101,14 @@ public class LoadDataFromXML {
 
                // If statistics is an exception then add to sections.
                if (null == vitalStatistics) {
-                   sections.add(createSection(xpp, orderNumber));
-                   orderNumber++;
+                   sections.add(createSection(xpp, sectionOrder));
+                   sectionOrder++;
                }
 
                subCategory.set_vitalStatistics(vitalStatistics);
            } else if (isSection(xpp)) {
-               sections.add(createSection(xpp, orderNumber));
-               orderNumber++;
+               sections.add(createSection(xpp, sectionOrder));
+               sectionOrder++;
             }
         }
 

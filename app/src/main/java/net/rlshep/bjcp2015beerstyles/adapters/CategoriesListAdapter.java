@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles;
+package net.rlshep.bjcp2015beerstyles.adapters;
 
 import android.content.Context;
 import android.text.Html;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import net.rlshep.bjcp2015beerstyles.R;
 import net.rlshep.bjcp2015beerstyles.domain.Category;
 import net.rlshep.bjcp2015beerstyles.domain.Section;
 import net.rlshep.bjcp2015beerstyles.domain.SubCategory;
