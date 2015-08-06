@@ -22,7 +22,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dbHandler = BjcpDataHelper.getInstance(this);
-        dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
+
+        // Only call when debugging new database changes
+//         dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
 
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, dbHandler.getAllCategories());
         ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
@@ -36,11 +38,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//    }
 
     @Override
     protected void onStop() {

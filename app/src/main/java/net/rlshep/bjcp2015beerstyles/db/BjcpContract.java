@@ -30,4 +30,16 @@ public class BjcpContract {
     public static final String COLUMN_SRM_END = "srm_end";
     public static final String COLUMN_ABV_START = "abv_start";
     public static final String COLUMN_ABV_END = "abv_end";
+
+    public static final String XML_ID = "id";
+    public static final String XML_SUBCATEGORY = "subcategory";
+    public static final String XML_STATS = "stats";
+    public static final String XML_OG = "og";
+    public static final String XML_FG = "fg";
+    public static final String XML_IBU = "ibu";
+    public static final String XML_SRM = "srm";
+    public static final String XML_ABV = "abv";
+    public static final String XML_LOW = "low";
+    public static final String XML_HIGH = "high";
+    public static final String XML_EXCEPTIONS = "exceptions";
 }

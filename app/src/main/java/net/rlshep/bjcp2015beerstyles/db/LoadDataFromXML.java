@@ -17,12 +17,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class LoadDataFromXML {
+    private static final String XML_FILE_NAME = "styleguide-2015-min.xml";
     private static final String[] ALLOWED_SECTIONS = {"notes", "impression", "aroma", "appearance", "flavor", "mouthfeel", "comments", "history",
             "ingredients", "comparison", "examples", "tags", "entryinstructions", "exceptions"};
     private final List<String> allowedSections = Arrays.asList(ALLOWED_SECTIONS);
+    private final static HashMap<String, String> VALUES_TO_CONVERT = new HashMap<String, String>();
+    static {
+        VALUES_TO_CONVERT.put("entryinstructions", "Entry Instructions");
+        VALUES_TO_CONVERT.put("<ul>", "");
+        VALUES_TO_CONVERT.put("</ul>", "");
+        VALUES_TO_CONVERT.put("<li>", "<br>");
+        VALUES_TO_CONVERT.put("<li>", "<br>");
+    }
 
     public List<Category> loadXmlFromFile(Context context) throws XmlPullParserException, IOException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -30,7 +40,7 @@ public class LoadDataFromXML {
         XmlPullParser xpp = factory.newPullParser();
 
         AssetManager assetManager = context.getAssets();
-        InputStream is = assetManager.open("styleguide-2015-min.xml");
+        InputStream is = assetManager.open(XML_FILE_NAME);
         xpp.setInput(is, null);
 
         return loadCategoriesFromXml(xpp);
@@ -42,7 +52,7 @@ public class LoadDataFromXML {
         int eventType = xpp.getEventType();
 
         while (eventType != XmlPullParser.END_DOCUMENT) {
-            if (eventType == XmlPullParser.START_TAG && "category".equals(xpp.getName())) {
+            if (eventType == XmlPullParser.START_TAG && BjcpContract.COLUMN_CAT.equals(xpp.getName())) {
                 categories.add(createCategory(xpp, orderNumber));
             }
 
@@ -53,15 +63,15 @@ public class LoadDataFromXML {
     }
 
     private Category createCategory(XmlPullParser xpp, int orderNumber) throws XmlPullParserException, IOException {
-        Category category = new Category(xpp.getAttributeValue(null, "id"));
+        Category category = new Category(xpp.getAttributeValue(null, BjcpContract.XML_ID));
         List<Section> sections = new ArrayList<Section>();
         List<SubCategory> subCategories = new ArrayList<SubCategory>();
         int sectionOrder = 0;
 
-       while (isNotTheEnd(xpp,"category")) {
-            if (isStartTag(xpp, "name")) {
+       while (isNotTheEnd(xpp,BjcpContract.COLUMN_CAT)) {
+            if (isStartTag(xpp, BjcpContract.COLUMN_NAME)) {
                 category.set_name(getNextText(xpp));
-            } else if (isStartTag(xpp, "subcategory")) {
+            } else if (isStartTag(xpp, BjcpContract.XML_SUBCATEGORY)) {
                 subCategories.add(createSubCategory(xpp));
             } else if (isSection(xpp)) {
                 sections.add(createSection(xpp, sectionOrder));
@@ -77,14 +87,14 @@ public class LoadDataFromXML {
     }
 
     private SubCategory createSubCategory(XmlPullParser xpp) throws XmlPullParserException, IOException {
-        SubCategory subCategory = new SubCategory(xpp.getAttributeValue(null, "id"));
+        SubCategory subCategory = new SubCategory(xpp.getAttributeValue(null, BjcpContract.XML_ID));
         List<Section> sections = new ArrayList<Section>();
         int orderNumber = 1;
 
-        while (isNotTheEnd(xpp,"subcategory")){
-           if (isStartTag(xpp, "name")) {
+        while (isNotTheEnd(xpp,BjcpContract.XML_SUBCATEGORY)){
+           if (isStartTag(xpp, BjcpContract.COLUMN_NAME)) {
                subCategory.set_name(getNextText(xpp));
-           } else if (isStartTag(xpp, "stats")) {
+           } else if (isStartTag(xpp, BjcpContract.XML_STATS)) {
                VitalStatistics vitalStatistics = createVitalStatistics(xpp);
 
                // If statistics is an exception then add to sections.
@@ -112,13 +122,13 @@ public class LoadDataFromXML {
     private Section createSection(XmlPullParser xpp, int orderNumber) throws XmlPullParserException, IOException {
         String name = xpp.getName();
         String bodyText = new String();
-        Section section = new Section(StringUtils.capitalize(name),  orderNumber);
+        Section section = new Section(convertValue(name),  orderNumber);
 
         while (isNotTheEnd(xpp, name)){
             if (xpp.getEventType() == XmlPullParser.START_TAG) {
-                bodyText += " <" + xpp.getName() + "> ";
+                bodyText += convertValue(" <" + xpp.getName() + "> ");
             } else if (xpp.getEventType() == XmlPullParser.END_TAG) {
-                bodyText += " </" + xpp.getName() + "> ";
+                bodyText += convertValue(" </" + xpp.getName() + "> ");
             } else {
                 bodyText += xpp.getText();
             }
@@ -130,29 +140,41 @@ public class LoadDataFromXML {
         return section;
     }
 
+    private String convertValue(String value) {
+        String converted = new String(value.trim());
+
+        if (VALUES_TO_CONVERT.containsKey(converted)) {
+            converted = VALUES_TO_CONVERT.get(converted);
+        } else {
+            converted = StringUtils.capitalize(value);
+        }
+
+        return converted;
+    }
+
     private VitalStatistics createVitalStatistics(XmlPullParser xpp) throws XmlPullParserException, IOException {
         VitalStatistics vitalStatistics = new VitalStatistics();
 
-        while (isNotTheEnd(xpp,"stats")){
-            if (isStartTag(xpp, "exceptions")) {
+        while (isNotTheEnd(xpp, BjcpContract.XML_STATS)){
+            if (isStartTag(xpp, BjcpContract.XML_EXCEPTIONS)) {
                 return null;    //TODO: I feel dirty
             }
 
-            if (isStartTag(xpp, "og")) {
-                vitalStatistics.set_ogStart(getNextByName(xpp, "low"));
-                vitalStatistics.set_ogEnd(getNextByName(xpp, "high"));
-            } else if (isStartTag(xpp, "fg")) {
-                vitalStatistics.set_fgStart(getNextByName(xpp, "low"));
-                vitalStatistics.set_fgEnd(getNextByName(xpp, "high"));
-            } else if (isStartTag(xpp, "ibu")) {
-                vitalStatistics.set_ibuStart(getNextByName(xpp, "low"));
-                vitalStatistics.set_ibuEnd(getNextByName(xpp, "high"));
-            } else if (isStartTag(xpp, "srm")) {
-                vitalStatistics.set_srmStart(getNextByName(xpp, "low"));
-                vitalStatistics.set_srmEnd(getNextByName(xpp, "high"));
-            } else if (isStartTag(xpp, "abv")) {
-                vitalStatistics.set_abvStart(getNextByName(xpp, "low"));
-                vitalStatistics.set_abvEnd(getNextByName(xpp, "high"));
+            if (isStartTag(xpp, BjcpContract.XML_OG)) {
+                vitalStatistics.set_ogStart(getNextByName(xpp, BjcpContract.XML_LOW));
+                vitalStatistics.set_ogEnd(getNextByName(xpp, BjcpContract.XML_HIGH));
+            } else if (isStartTag(xpp, BjcpContract.XML_FG)) {
+                vitalStatistics.set_fgStart(getNextByName(xpp, BjcpContract.XML_LOW));
+                vitalStatistics.set_fgEnd(getNextByName(xpp, BjcpContract.XML_HIGH));
+            } else if (isStartTag(xpp, BjcpContract.XML_IBU)) {
+                vitalStatistics.set_ibuStart(getNextByName(xpp, BjcpContract.XML_LOW));
+                vitalStatistics.set_ibuEnd(getNextByName(xpp, BjcpContract.XML_HIGH));
+            } else if (isStartTag(xpp, BjcpContract.XML_SRM)) {
+                vitalStatistics.set_srmStart(getNextByName(xpp, BjcpContract.XML_LOW));
+                vitalStatistics.set_srmEnd(getNextByName(xpp, BjcpContract.XML_HIGH));
+            } else if (isStartTag(xpp, BjcpContract.XML_ABV)) {
+                vitalStatistics.set_abvStart(getNextByName(xpp, BjcpContract.XML_LOW));
+                vitalStatistics.set_abvEnd(getNextByName(xpp, BjcpContract.XML_HIGH));
             }
         }
 
