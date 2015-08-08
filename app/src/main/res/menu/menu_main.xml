@@ -2,7 +2,11 @@
       xmlns:yourapp="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
 
-    <!-- Search, should appear as action button -->
+    <item android:id="@+id/action_delete"
+          android:icon="@drawable/ic_delete_white_24dp"
+          android:title="@string/action_info"
+          android:visible="false"/>
+
     <item android:id="@+id/action_search"
           android:icon="@drawable/ic_search_white_24dp"
           android:title="@string/action_search"
@@ -10,6 +14,6 @@
 
     <item android:id="@+id/action_info"
           android:icon="@drawable/ic_info_outline_white_24dp"
-          android:title="@string/action_info"
+          android:title="@string/action_delete"
           yourapp:showAsAction="ifRoom"/>
 </menu>

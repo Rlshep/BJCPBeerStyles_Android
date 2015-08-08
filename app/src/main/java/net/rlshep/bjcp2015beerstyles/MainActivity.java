@@ -23,18 +23,15 @@ public class MainActivity extends AppCompatActivity {
 
         CharSequence Titles[]={getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header)};
 
-        // Creating The Toolbar and setting it as the Toolbar for the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         ViewPagerAdapter adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles, NUM_OF_TABS);
 
-        // Assigning ViewPager View and setting the adapter
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
-        // Assiging the Sliding Tab Layout View
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
         tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
@@ -63,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-                Toast.makeText(getApplicationContext(), "openSearch", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Search not implemented.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_info:
-                Toast.makeText(getApplicationContext(), "openInfo", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "About not implemented", Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

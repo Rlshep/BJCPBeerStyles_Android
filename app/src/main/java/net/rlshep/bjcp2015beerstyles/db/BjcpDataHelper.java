@@ -235,7 +235,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER
                 +", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY  + " SC JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = SC."
                 + BjcpContract.COLUMN_CAT_ID + " WHERE C." + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH
-                + "' AND C." + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND SC." + BjcpContract.COLUMN_TAPPED + " = 1 ORDER BY SC." + BjcpContract.COLUMN_NAME;
+                + "' AND C." + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND SC." + BjcpContract.COLUMN_TAPPED + " = 1 ORDER BY SC." + BjcpContract.COLUMN_SUB_CAT;
 
         return getSubCategoriesByQuery(query);
     }

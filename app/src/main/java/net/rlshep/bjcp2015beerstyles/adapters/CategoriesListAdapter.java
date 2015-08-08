@@ -38,6 +38,9 @@ public class CategoriesListAdapter extends ArrayAdapter {
             SubCategory subCategory = (SubCategory)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
             rowText.setText(subCategory.get_subCategory() + " - " + subCategory.get_name());
+        } else if (item instanceof String) {
+            rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
+            rowText.setText((String)item);
         }
 
         return listRowView;

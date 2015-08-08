@@ -4,4 +4,5 @@
     <color name="ColorPrimaryDark">#5D793B</color>
     <color name="tabsScrollColor">#51623D</color>
     <color name="tabTextColor">#FFFFFF</color>
+    <color name="pressed_color">#E1EFD0</color>
 </resources>

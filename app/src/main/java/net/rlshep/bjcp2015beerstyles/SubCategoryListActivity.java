@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -55,17 +54,24 @@ public class SubCategoryListActivity extends AppCompatActivity {
         subCategoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
-                loadSubCategoryBody(subCategory);
+                if (parent.getItemAtPosition(position) instanceof SubCategory) {
+                    SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
+                    loadSubCategoryBody(subCategory);
+                }
             }
         });
 
         subCategoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                addSubCategoryToOnTap((SubCategory) parent.getItemAtPosition(position));
+                boolean consumed = false;
 
-                return true;
+                if (parent.getItemAtPosition(position) instanceof SubCategory) {
+                    addSubCategoryToOnTap((SubCategory) parent.getItemAtPosition(position));
+                    consumed = true;
+                }
+
+                return consumed;
             }
         });
     }
@@ -88,7 +94,5 @@ public class SubCategoryListActivity extends AppCompatActivity {
         dbHandler.updateSubCategoryUntapped(subCategory);
 
         Toast.makeText(getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
-        ListView onTapListView = (ListView) this.findViewById(R.id.onTapListView);
-        ((ArrayAdapter)onTapListView.getAdapter()).notifyDataSetChanged();
     }
 }

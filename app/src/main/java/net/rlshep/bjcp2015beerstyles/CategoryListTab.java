@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -53,17 +52,24 @@ public class CategoryListTab extends Fragment {
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Category category = (Category) parent.getItemAtPosition(position);
-                loadSubCategoryList(category);
+                if (parent.getItemAtPosition(position) instanceof Category) {
+                    Category category = (Category) parent.getItemAtPosition(position);
+                    loadSubCategoryList(category);
+                }
             }
         });
 
         categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                addAllSubCategoriesToOnTap((Category) parent.getItemAtPosition(position));
+                boolean consumed = false;
 
-                return true;
+                if (parent.getItemAtPosition(position) instanceof Category) {
+                    addAllSubCategoriesToOnTap((Category) parent.getItemAtPosition(position));
+                    consumed = true;
+                }
+
+                return consumed;
             }
         });
     }
@@ -88,7 +94,5 @@ public class CategoryListTab extends Fragment {
         dbHandler.updateSubCategoriesUntapped(subCategories);
 
         Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
-        ListView onTapListView = (ListView) getActivity().findViewById(R.id.onTapListView);
-        ((ArrayAdapter)onTapListView.getAdapter()).notifyDataSetChanged();
     }
 }
