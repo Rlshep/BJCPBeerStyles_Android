@@ -3,6 +3,7 @@ package net.rlshep.bjcp2015beerstyles;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -32,10 +33,13 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category_body);
         dbHandler = BjcpDataHelper.getInstance(this);
-
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
-            this.setTitle(extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME"));
+            String title = extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME");
+            Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
+            toolbar.setTitle(title);
+
             subCategoryId = extras.getString("SUB_CATEGORY_ID");
             categoryId = extras.getString("CATEGORY_ID");
         }
@@ -131,26 +135,16 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
     private void changeSubCategory(int i) {
         List<SubCategory> subCategories = dbHandler.getSubCategories(categoryId);
-        int newOrder = getNewOrderNumber(i, subCategories);
+        SubCategory subCategory = dbHandler.getSubCategory(subCategoryId);
+        int newOrder =  subCategory.get_orderNumber() + i;
 
         if (0 <= newOrder && subCategories.size() > newOrder) {
-            for (SubCategory subCategory : subCategories) {
-                if (newOrder == subCategory.get_orderNumber()) {
-                    loadSubCategoryBody(subCategory);
+            for (SubCategory sc : subCategories) {
+                if (newOrder == sc.get_orderNumber()) {
+                    loadSubCategoryBody(sc);
                 }
             }
         }
-    }
-
-    private int getNewOrderNumber(int i, List<SubCategory> subCategories) {
-        int newOrder = -1;
-
-        for (SubCategory subCategory : subCategories) {
-            if (subCategoryId.equals((new Long(subCategory.get_id()).toString()))) {
-                newOrder = subCategory.get_orderNumber() + i;
-            }
-        }
-        return newOrder;
     }
 
     private void loadSubCategoryBody(SubCategory subCategory) {

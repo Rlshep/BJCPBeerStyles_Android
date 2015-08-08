@@ -42,4 +42,6 @@ public class CategoriesListAdapter extends ArrayAdapter {
 
         return listRowView;
     }
+
+
 }

@@ -3,21 +3,24 @@ package net.rlshep.bjcp2015beerstyles;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import net.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import net.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import net.rlshep.bjcp2015beerstyles.domain.SubCategory;
-import net.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SubCategoryListActivity extends AppCompatActivity {
-    BjcpDataHelper dbHandler;
+    private BjcpDataHelper dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,10 @@ public class SubCategoryListActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
-            this.setTitle(extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME"));
+            String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
+            Toolbar toolbar = (Toolbar) findViewById(R.id.sclToolbar);
+            toolbar.setTitle(title);
+
             categoryId = extras.getString("CATEGORY_ID");
         }
 
@@ -53,6 +59,15 @@ public class SubCategoryListActivity extends AppCompatActivity {
                 loadSubCategoryBody(subCategory);
             }
         });
+
+        subCategoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                addSubCategoryToOnTap((SubCategory) parent.getItemAtPosition(position));
+
+                return true;
+            }
+        });
     }
 
     private void loadSubCategoryBody(SubCategory subCategory) {
@@ -65,5 +80,15 @@ public class SubCategoryListActivity extends AppCompatActivity {
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(i);
+    }
+
+    private void addSubCategoryToOnTap(SubCategory subCategory) {
+        subCategory.set_tapped(true);
+
+        dbHandler.updateSubCategoryUntapped(subCategory);
+
+        Toast.makeText(getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
+        ListView onTapListView = (ListView) this.findViewById(R.id.onTapListView);
+        ((ArrayAdapter)onTapListView.getAdapter()).notifyDataSetChanged();
     }
 }

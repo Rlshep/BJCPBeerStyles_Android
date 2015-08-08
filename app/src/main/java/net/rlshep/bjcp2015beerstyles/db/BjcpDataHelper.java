@@ -44,12 +44,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         return instance;
     }
 
-    private void getDb() {
-        if (null == this.db || !this.db.isOpen()) {
-            this.db = this.getReadableDatabase();
-        }
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         List<String> queries = new ArrayList<String>();
@@ -182,8 +176,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         List<Category> categories = new ArrayList<Category>();
         getDb();
 
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION +
-                " = " + Category.CURRENT_REVISION + " ORDER BY " + BjcpContract.COLUMN_ORDER;
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " ORDER BY " + BjcpContract.COLUMN_ORDER;
 
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query, null);
@@ -228,16 +221,39 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         return sections;
     }
 
+    public List<SubCategory> getSubCategories(long categoryId) {
+        return getSubCategories((new Long(categoryId)).toString());
+    }
+
     public List<SubCategory> getSubCategories(String categoryId) {
+        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER +", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId + " ORDER BY SC." + BjcpContract.COLUMN_ORDER;
+
+        return getSubCategoriesByQuery(query);
+    }
+
+    public List<SubCategory> getOnTapSubCategories() {
+        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER
+                +", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY  + " SC JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = SC."
+                + BjcpContract.COLUMN_CAT_ID + " WHERE C." + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH
+                + "' AND C." + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND SC." + BjcpContract.COLUMN_TAPPED + " = 1 ORDER BY SC." + BjcpContract.COLUMN_NAME;
+
+        return getSubCategoriesByQuery(query);
+    }
+
+    public SubCategory getSubCategory(String subCategoryId) {
+        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER +", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " = " + subCategoryId;
+
+        return getSubCategoriesByQuery(query).get(0);
+    }
+    private List<SubCategory> getSubCategoriesByQuery(String query) {
         List<SubCategory> subCategories = new ArrayList<SubCategory>();
         SubCategory subCategory;
         getDb();
 
-        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER +", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId + " ORDER BY SC." + BjcpContract.COLUMN_ORDER;
-
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query, null);
         c.moveToFirst();
+
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
@@ -313,5 +329,43 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         c.close();
 
         return vitalStatistics;
+    }
+
+    public void updateSubCategoryUntapped(SubCategory subCategory) {
+        List<SubCategory> subCategories = new ArrayList<SubCategory>();
+        subCategories.add(subCategory);
+
+        updateSubCategoriesUntapped(subCategories);
+    }
+
+    public void updateSubCategoriesUntapped(List<SubCategory> subCategories) {
+        ContentValues cv = new ContentValues();
+
+        getWriteableDb();
+
+        for (SubCategory subCategory : subCategories) {
+            cv.put(BjcpContract.COLUMN_TAPPED, (subCategory.is_tapped() ? 1 : 0) );
+            db.update(BjcpContract.TABLE_SUB_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + subCategory.get_id()), null);
+        }
+    }
+
+    private void getDb() {
+        if (null == this.db || !this.db.isOpen()) {
+            this.db = this.getReadableDatabase();
+        }
+    }
+
+    private void getWriteableDb() {
+        if (isDbOpenAndReadOnly()) {
+            db.close();
+        }
+
+        if (null == this.db || !this.db.isOpen()) {
+            this.db = this.getWritableDatabase();
+        }
+    }
+
+    private boolean isDbOpenAndReadOnly() {
+        return null != this.db && this.db.isOpen() && db.isReadOnly();
     }
 }

@@ -1,9 +1,13 @@
 <resources>
-    <string name="app_name">BJCP 2015 Beer Styles</string>
+    <string name="app_name">BJCP Beer Styles</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_sub_category_list">SubCategoryListActivity</string>
     <string name="title_activity_sub_category_body">SubCategoryBodyActivity</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="action_search">Search Styles</string>
+    <string name="action_info">About</string>
+    <string name="cat_tab_header">Categories</string>
+    <string name="on_tap_tab_header">On Tap</string>
+    <string name="on_tap_success">"Successfully added to On Tap"</string>
 </resources>
