@@ -1,5 +1,6 @@
 package net.rlshep.bjcp2015beerstyles;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import net.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 public class MainActivity extends AppCompatActivity {
     private static int NUM_OF_TABS = 2;
+    private static int ON_TAP_TAB = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        ViewPagerAdapter adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles, NUM_OF_TABS);
+        final ViewPagerAdapter adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles, NUM_OF_TABS);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
         SlidingTabLayout tabs = (SlidingTabLayout) findViewById(R.id.tabs);
@@ -40,6 +42,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public int getIndicatorColor(int position) {
                 return getResources().getColor(R.color.tabsScrollColor);
+            }
+        });
+
+        // Added trigger On Tap reload when switching between tabs.
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (ON_TAP_TAB == position) {
+                    OnTapTab fragment = (OnTapTab) adapter.instantiateItem(pager, position);
+                    if (fragment != null) {
+                        fragment.onResume();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
@@ -63,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Search not implemented.", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_info:
-                Toast.makeText(getApplicationContext(), "About not implemented", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, AboutActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

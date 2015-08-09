@@ -20,31 +20,21 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         this.NumbOfTabs = mNumbOfTabsumb;
     }
 
-
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-
         if(position == 0) {
-            CategoryListTab categoryListTab = new CategoryListTab();
-            return categoryListTab;
+            return new CategoryListTab();
         }
         else {
-            OnTapTab onTapTab = new OnTapTab();
-            return onTapTab;
+            return new OnTapTab();
         }
-
-
     }
-
-    // This method return the titles for the Tabs in the Tab Strip
 
     @Override
     public CharSequence getPageTitle(int position) {
         return Titles[position];
     }
-
-    // This method return the Number of tabs for the tabs Strip
 
     @Override
     public int getCount() {

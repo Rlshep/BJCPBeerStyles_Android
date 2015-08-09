@@ -41,6 +41,7 @@ public class OnTapTab extends Fragment {
     }
 
     @Override
+    // TODO: Come up with better way to reload when tapped items change than reloading every time.
     public void onResume() {
         super.onResume();
 
@@ -102,10 +103,7 @@ public class OnTapTab extends Fragment {
                 onTapListView.setSelected(true);
 
                 selectedPosition = position;
-
-                MenuItem deleteItem = menu.findItem(R.id.action_delete);
-                deleteItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                deleteItem.setVisible(true);
+                addDeleteIcon();
 
                 return true;
             }
@@ -133,6 +131,11 @@ public class OnTapTab extends Fragment {
         removeDeleteIcon();
     }
 
+    private void addDeleteIcon() {
+        MenuItem deleteItem = menu.findItem(R.id.action_delete);
+        deleteItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        deleteItem.setVisible(true);
+    }
 
     private void removeDeleteIcon() {
         MenuItem deleteItem = menu.findItem(R.id.action_delete);

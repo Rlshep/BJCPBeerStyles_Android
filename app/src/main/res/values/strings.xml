@@ -9,10 +9,19 @@
     <string name="action_info">About</string>
     <string name="action_delete">Remove</string>
     <string name="cat_tab_header">Categories</string>
-    <string name="on_tap_tab_header">On Tap</string>
+    <string name="on_tap_tab_header">Bookmarks</string>
     <string name="on_tap_success">"Successfully added to On Tap"</string>
     <string name="on_tap_delete">"Successfully removed from On Tap"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="title_activity_about">About</string>
     <string name="about_version">BJCP 2015 Beer Styles v0.1</string>
+    <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
+    <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
+    <string name="about_bjcp_end">Reproduced with permission."</string>
+    <string name="about_author">"Application authored by Richard Sheppard."</string>
+    <string name="about_thanks_begin">Thank you to </string>
+    <string name="about_thanks_mid">Seth Kroger</string>
+    <string name="about_thanks_end"> for providing the formatted XML."</string>
+    <string name="about_report_begin">"Report any bugs or issues to "</string>
+    <string name="about_report_end">Github Repository."</string>
 </resources>
