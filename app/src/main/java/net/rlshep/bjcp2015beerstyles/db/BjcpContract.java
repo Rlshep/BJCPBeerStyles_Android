@@ -31,6 +31,9 @@ public class BjcpContract {
     public static final String COLUMN_ABV_START = "abv_start";
     public static final String COLUMN_ABV_END = "abv_end";
 
+    public static final String TABLE_META = "android_metadata";
+    public static final String COLUMN_LOCALE = "locale";
+
     public static final String XML_ID = "id";
     public static final String XML_SUBCATEGORY = "subcategory";
     public static final String XML_STATS = "stats";

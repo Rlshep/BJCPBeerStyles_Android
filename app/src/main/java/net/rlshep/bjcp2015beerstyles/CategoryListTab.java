@@ -22,7 +22,6 @@ import java.util.List;
 public class CategoryListTab extends Fragment {
     private BjcpDataHelper dbHandler;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.category_list_tab, container, false);
