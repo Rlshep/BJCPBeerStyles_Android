@@ -12,3 +12,4 @@ app/src/main/res/drawable-xhdpi/Thumbs.db
 app/src/main/res/drawable-xxxhdpi/Thumbs.db
 app/src/main/res/drawable-xxhdpi/Thumbs.db
 app/src/main/res/drawable/Thumbs.db
+*.bak
