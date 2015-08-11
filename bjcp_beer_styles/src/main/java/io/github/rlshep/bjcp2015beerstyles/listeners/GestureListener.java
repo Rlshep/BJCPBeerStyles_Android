@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles.listeners;
+package io.github.rlshep.bjcp2015beerstyles.listeners;
 
 import android.util.Log;
 import android.view.GestureDetector;

@@ -1,12 +1,12 @@
-package net.rlshep.bjcp2015beerstyles.db;
+package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import net.rlshep.bjcp2015beerstyles.domain.Category;
-import net.rlshep.bjcp2015beerstyles.domain.Section;
-import net.rlshep.bjcp2015beerstyles.domain.SubCategory;
-import net.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 import org.apache.commons.lang.StringUtils;
 import org.xmlpull.v1.XmlPullParser;

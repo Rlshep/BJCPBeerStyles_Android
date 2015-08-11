@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles.tabs;
+package io.github.rlshep.bjcp2015beerstyles.tabs;
 
 /*
  * Copyright 2014 Google Inc. All rights reserved.

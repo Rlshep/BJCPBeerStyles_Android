@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles.domain;
+package io.github.rlshep.bjcp2015beerstyles.domain;
 
 public class Products {
     private long _id;

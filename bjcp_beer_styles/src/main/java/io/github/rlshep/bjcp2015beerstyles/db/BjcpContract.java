@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles.db;
+package io.github.rlshep.bjcp2015beerstyles.db;
 
 public class BjcpContract {
     public static final String TABLE_CATEGORY = "CATEGORY";

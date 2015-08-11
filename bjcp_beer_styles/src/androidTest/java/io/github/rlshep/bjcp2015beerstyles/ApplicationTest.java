@@ -1,4 +1,4 @@
-package net.rlshep.bjcp2015beerstyles;
+package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

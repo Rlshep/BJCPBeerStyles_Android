@@ -1,11 +1,11 @@
-package net.rlshep.bjcp2015beerstyles.adapters;
+package io.github.rlshep.bjcp2015beerstyles.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import net.rlshep.bjcp2015beerstyles.CategoryListTab;
-import net.rlshep.bjcp2015beerstyles.OnTapTab;
+import io.github.rlshep.bjcp2015beerstyles.CategoryListTab;
+import io.github.rlshep.bjcp2015beerstyles.OnTapTab;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
