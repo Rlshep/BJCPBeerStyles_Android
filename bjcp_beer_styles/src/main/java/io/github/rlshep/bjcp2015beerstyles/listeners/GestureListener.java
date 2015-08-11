@@ -5,10 +5,9 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 
 public class GestureListener extends GestureDetector.SimpleOnGestureListener {
-    public static final String GESTURE_TAG = "GestureListener";
+    private static final String GESTURE_TAG = "GestureListener";
     public static final String SWIPE_LEFT = "left";
     public static final String SWIPE_RIGHT = "right";
-    public static final String LONG_PRESS = "long";
     private static final int SWIPE_THRESHOLD = 200;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
     private static final int SWIPE_MIN_DISTANCE = 120;
@@ -26,7 +25,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
     @Override
     public void onLongPress(MotionEvent ev) {
-        currentGesture = LONG_PRESS;
+
     }
 
     @Override

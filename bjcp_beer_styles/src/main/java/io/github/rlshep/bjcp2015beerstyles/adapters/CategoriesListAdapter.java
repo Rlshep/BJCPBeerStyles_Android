@@ -16,12 +16,13 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class CategoriesListAdapter extends ArrayAdapter {
+    @SuppressWarnings("unchecked")
     public CategoriesListAdapter(Context context, List listValues) {
         super(context, R.layout.categories_list_row, listValues);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View listRowView = inflater.inflate(R.layout.categories_list_row, parent, false);
         TextView rowText;

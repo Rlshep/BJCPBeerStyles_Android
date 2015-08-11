@@ -5,16 +5,16 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
-import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
+import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+
 public class CreateBjcpDatabase {
-    public static final String LOCALE = "en_US";
+    private static final String LOCALE = "en_US";
     private static final String TAG = "CreateDatabase";
 
     public void onCreate(SQLiteDatabase db, Context dbContext) {

@@ -15,8 +15,8 @@ import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static int NUM_OF_TABS = 2;
-    private static int ON_TAP_TAB = 1;
+    private static final int NUM_OF_TABS = 2;
+    private static final int ON_TAP_TAB = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,12 +27,10 @@ public class OnTapTab extends Fragment {
     private BjcpDataHelper dbHandler;
     private View view;
     private Menu menu;
-    private LayoutInflater inflater;
     private int selectedPosition = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.inflater = inflater;
         this.view = inflater.inflate(R.layout.on_tap_tab,container,false);
 
         setListView();
@@ -73,6 +71,7 @@ public class OnTapTab extends Fragment {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void setListView() {
         List listItems = new ArrayList();
         dbHandler = BjcpDataHelper.getInstance(getActivity());
@@ -113,8 +112,8 @@ public class OnTapTab extends Fragment {
     private void loadSubCategoryBody(SubCategory subCategory) {
         Intent i = new Intent(getActivity(), SubCategoryBodyActivity.class);
 
-        i.putExtra("CATEGORY_ID", (new Long(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (new Long(subCategory.get_id())).toString());
+        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
+        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

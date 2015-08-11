@@ -4,7 +4,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:weightSum="100"
-              android:title="Title"
               tools:context="io.github.rlshep.bjcp2015beerstyles.AboutActivity">
 <include
     android:id="@+id/scbToolbar"

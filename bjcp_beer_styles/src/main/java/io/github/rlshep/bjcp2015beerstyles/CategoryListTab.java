@@ -76,7 +76,7 @@ public class CategoryListTab extends Fragment {
     private void loadSubCategoryList(Category category) {
         Intent i = new Intent(getActivity(), SubCategoryListActivity.class);
 
-        i.putExtra("CATEGORY_ID", (new Long(category.get_id())).toString());
+        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
         i.putExtra("CATEGORY", category.get_category());
         i.putExtra("CATEGORY_NAME", category.get_name());
 

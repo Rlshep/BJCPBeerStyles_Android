@@ -41,6 +41,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
         setListView(categoryId);
     }
 
+    @SuppressWarnings("unchecked")
     private void setListView(String categoryId) {
         List listView = new ArrayList();
 
@@ -79,8 +80,8 @@ public class SubCategoryListActivity extends AppCompatActivity {
     private void loadSubCategoryBody(SubCategory subCategory) {
         Intent i = new Intent(this, SubCategoryBodyActivity.class);
 
-        i.putExtra("CATEGORY_ID", (new Long(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (new Long(subCategory.get_id())).toString());
+        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
+        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

@@ -3,11 +3,6 @@ package io.github.rlshep.bjcp2015beerstyles.db;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
-import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
-
 import org.apache.commons.lang.StringUtils;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -19,6 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
+import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 
 public class LoadDataFromXML {
     private static final String XML_FILE_NAME = "styleguide-2015-min.xml";
@@ -123,7 +123,7 @@ public class LoadDataFromXML {
 
     private Section createSection(XmlPullParser xpp, int orderNumber) throws XmlPullParserException, IOException {
         String name = xpp.getName();
-        String bodyText = new String();
+        String bodyText = "";
         Section section = new Section(convertValue(name),  orderNumber);
 
         while (isNotTheEnd(xpp, name)){
@@ -143,7 +143,7 @@ public class LoadDataFromXML {
     }
 
     private String convertValue(String value) {
-        String converted = new String(value.trim());
+        String converted = value.trim();
 
         if (VALUES_TO_CONVERT.containsKey(converted)) {
             converted = VALUES_TO_CONVERT.get(converted);

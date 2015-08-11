@@ -10,7 +10,7 @@ public class SubCategory {
     private String _subCategory;
     private String _name;
     private boolean _tapped;
-    private List<Section> _sections = new ArrayList<Section>();;
+    private List<Section> _sections = new ArrayList<Section>();
     private VitalStatistics _vitalStatistics;
     private int _orderNumber;
 

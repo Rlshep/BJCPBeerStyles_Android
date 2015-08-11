@@ -23,10 +23,9 @@ import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 public class BjcpDataHelper extends SQLiteOpenHelper {
     private static final String TAG = "LoadDatabase";
     private static final int DATABASE_VERSION = 1;
-    private static String DB_PATH = "/data/data/io.github.rlshep.bjcp2015beerstyles/databases/";
-    public static final String DATABASE_NAME = "BjcpBeerStyles.db";
+    private static final String DATABASE_NAME = "BjcpBeerStyles.db";
 
-    protected Context dbContext;
+    private Context dbContext;
     private SQLiteDatabase db;
     private static BjcpDataHelper instance;
 
@@ -50,7 +49,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     /**
      * Creates a empty database on the system and rewrites it with your own database.
      */
-    public void createDataBase() throws IOException {
+    private void createDataBase() throws IOException {
         if (!checkDataBase()) {
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
@@ -73,7 +72,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try {
-            String myPath = DB_PATH + DATABASE_NAME;
+            String myPath = dbContext.getFilesDir().getPath() + DATABASE_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
             Log.e(TAG, e.getMessage());
@@ -83,7 +82,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             checkDB.close();
         }
 
-        return checkDB != null ? true : false;
+        return checkDB != null;
     }
 
     /**
@@ -96,7 +95,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         InputStream myInput = dbContext.getAssets().open(DATABASE_NAME);
 
         // Path to the just created empty db
-        String outFileName = DB_PATH + DATABASE_NAME;
+        String outFileName = dbContext.getFilesDir().getPath() + DATABASE_NAME;
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(outFileName);
@@ -186,7 +185,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     }
 
     public List<SubCategory> getSubCategories(long categoryId) {
-        return getSubCategories((new Long(categoryId)).toString());
+        return getSubCategories((Long.valueOf(categoryId)).toString());
     }
 
     public List<SubCategory> getSubCategories(String categoryId) {
@@ -335,7 +334,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     private void openReadDataBase() {
         try {
             createDataBase();
-            this.db = SQLiteDatabase.openDatabase(DB_PATH + DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
+            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -344,7 +343,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     private void openWriteDataBase() {
         try {
             createDataBase();
-            this.db = SQLiteDatabase.openDatabase(DB_PATH + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }

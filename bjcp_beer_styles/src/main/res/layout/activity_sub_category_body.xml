@@ -4,7 +4,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:weightSum="100"
-                android:title="Title"
                 tools:context="io.github.rlshep.bjcp2015beerstyles.SubCategoryBodyActivity">
     <include
         android:id="@+id/scbToolbar"
@@ -38,8 +37,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/srm_1"
-                android:layout_below="@+id/sectionsText"/>
+                android:layout_below="@+id/sectionsText"
+                android:contentDescription="@string/beginSrm"/>
 
             <ImageView
                 android:id="@+id/imgSrmEnd"
@@ -47,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_toRightOf="@id/imgSrmBegin"
-                android:src="@drawable/srm_40" />
+                android:contentDescription="@string/endSrm"/>
 
         </RelativeLayout>
     </ScrollView>
