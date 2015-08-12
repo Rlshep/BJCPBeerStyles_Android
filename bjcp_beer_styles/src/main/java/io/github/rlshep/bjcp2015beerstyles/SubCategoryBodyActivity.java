@@ -122,8 +122,12 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         ImageView imgSrmBegin = (ImageView) findViewById(R.id.imgSrmBegin);
         ImageView imgSrmEnd = (ImageView) findViewById(R.id.imgSrmEnd);
 
-        imgSrmBegin.setImageResource(getResources().getIdentifier(SRM_PREFIX + vitalStatistics.get_srmStart(), "drawable", getPackageName()));
-        imgSrmEnd.setImageResource(getResources().getIdentifier(SRM_PREFIX + vitalStatistics.get_srmEnd(), "drawable", getPackageName()));
+        imgSrmBegin.setImageResource(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "drawable", getPackageName()));
+        imgSrmEnd.setImageResource(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "drawable", getPackageName()));
+
+        // For disabled accessibility.
+        imgSrmBegin.setContentDescription(getString(R.string.beginSrm) + vitalStatistics.get_srmStart());
+        imgSrmEnd.setContentDescription(getString(R.string.endSrm) + vitalStatistics.get_srmEnd());
     }
 
     private void hideSrmImages() {
@@ -158,5 +162,15 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(i);
+    }
+
+    private String getStartSrm(VitalStatistics vitalStatistics) {
+        double floor = Math.floor(Double.parseDouble(vitalStatistics.get_srmStart()));
+        return ((Integer)Double.valueOf(floor).intValue()).toString();
+    }
+
+    private String getEndSrm(VitalStatistics vitalStatistics) {
+        double ceil = Math.ceil(Double.parseDouble(vitalStatistics.get_srmEnd()));
+        return ((Integer)Double.valueOf(ceil).intValue()).toString();
     }
 }

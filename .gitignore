@@ -6,10 +6,9 @@
 .DS_Store
 /build
 /captures
-app/src/main/res/drawable-hdpi/Thumbs.db
-app/src/main/res/drawable-mdpi/Thumbs.db
-app/src/main/res/drawable-xhdpi/Thumbs.db
-app/src/main/res/drawable-xxxhdpi/Thumbs.db
-app/src/main/res/drawable-xxhdpi/Thumbs.db
-app/src/main/res/drawable/Thumbs.db
 *.bak
+bjcp_beer_styles/src/main/res/drawable-mdpi/Thumbs.db
+bjcp_beer_styles/src/main/res/drawable-hdpi/Thumbs.db
+bjcp_beer_styles/src/main/res/drawable-xhdpi/Thumbs.db
+bjcp_beer_styles/src/main/res/drawable-hdpi/Thumbs.db
+bjcp_beer_styles/src/main/res/drawable-xxxhdpi/Thumbs.db

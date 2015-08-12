@@ -99,10 +99,15 @@ public class OnTapTab extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 LinearLayout onTapListView = (LinearLayout) view.findViewById(R.id.categorySectionRow);
-                onTapListView.setSelected(true);
 
-                selectedPosition = position;
-                addDeleteIcon();
+                if (0 <= selectedPosition) {
+                    onTapListView.setSelected(false);
+                    removeDeleteIcon();
+                } else {
+                    onTapListView.setSelected(true);
+                    addDeleteIcon();
+                    selectedPosition = position;
+                }
 
                 return true;
             }
