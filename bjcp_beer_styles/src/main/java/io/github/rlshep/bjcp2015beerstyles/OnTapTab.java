@@ -121,7 +121,6 @@ public class OnTapTab extends Fragment {
         i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(i);
     }

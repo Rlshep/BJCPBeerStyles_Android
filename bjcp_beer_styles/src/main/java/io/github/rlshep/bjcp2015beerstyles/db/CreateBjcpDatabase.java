@@ -26,6 +26,8 @@ public class CreateBjcpDatabase {
         queries.add("CREATE TABLE " + BjcpContract.TABLE_VITALS + "(" + BjcpContract.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + BjcpContract.COLUMN_SUB_CAT_ID + " INTEGER, " + BjcpContract.COLUMN_OG_START + " TEXT, " + BjcpContract.COLUMN_OG_END + " TEXT, " + BjcpContract.COLUMN_FG_START + " TEXT, " + BjcpContract.COLUMN_FG_END + " TEXT, " + BjcpContract.COLUMN_IBU_START + " TEXT, " + BjcpContract.COLUMN_IBU_END + " TEXT, " + BjcpContract.COLUMN_SRM_START + " TEXT, " + BjcpContract.COLUMN_SRM_END + " TEXT, " + BjcpContract.COLUMN_ABV_START + " TEXT, " + BjcpContract.COLUMN_ABV_END + " TEXT, FOREIGN KEY(" + BjcpContract.COLUMN_SUB_CAT_ID + " ) REFERENCES " + BjcpContract.TABLE_SUB_CATEGORY + "(" + BjcpContract.COLUMN_ID + "));");
 
         try {
+            db.beginTransaction();
+
             for (String query : queries) {
                 db.execSQL(query);
             }
@@ -33,6 +35,8 @@ public class CreateBjcpDatabase {
             // Load database from xml file.
             addCategories(db, new LoadDataFromXML().loadXmlFromFile(dbContext));
             addMetaData(db);
+
+            db.setTransactionSuccessful();
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

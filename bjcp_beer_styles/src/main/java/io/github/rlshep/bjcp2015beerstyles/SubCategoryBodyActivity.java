@@ -38,8 +38,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
         if (extras != null) {
             String title = extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME");
-            Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
-            toolbar.setTitle(title);
+            setupToolbar(title);
 
             subCategoryId = extras.getString("SUB_CATEGORY_ID");
             categoryId = extras.getString("CATEGORY_ID");
@@ -61,7 +60,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
                 changeSubCategory(-1);
             } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
                 changeSubCategory(1);
-            }
+        }
 
             eventReturn = true;
         }
@@ -70,6 +69,15 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         }
 
         return eventReturn;
+    }
+
+    private void setupToolbar(String title) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
+        toolbar.setTitle(title);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private String getSectionsBody(String subCategoryId) {
@@ -159,7 +167,6 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-        i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
         startActivity(i);
     }

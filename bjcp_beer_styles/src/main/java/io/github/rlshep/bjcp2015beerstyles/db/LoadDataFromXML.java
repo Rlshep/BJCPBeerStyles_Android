@@ -54,6 +54,7 @@ public class LoadDataFromXML {
         while (eventType != XmlPullParser.END_DOCUMENT) {
             if (eventType == XmlPullParser.START_TAG && BjcpContract.COLUMN_CAT.equals(xpp.getName())) {
                 categories.add(createCategory(xpp, orderNumber));
+                orderNumber++;
             }
 
             eventType = xpp.next();

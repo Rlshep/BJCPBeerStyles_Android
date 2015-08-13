@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:yourapp="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools" tools:context="io.github.rlshep.bjcp2015beerstyles.MainActivity">
 
     <item android:id="@+id/action_delete"
           android:icon="@drawable/ic_delete_white_24dp"
@@ -9,11 +9,13 @@
 
     <item android:id="@+id/action_search"
           android:icon="@drawable/ic_search_white_24dp"
-          android:title="@string/action_search"
+          android:title="@string/action_search_hint"
+          android:actionViewClass="android.support.v7.widget.SearchView"
           yourapp:showAsAction="ifRoom"/>
 
     <item android:id="@+id/action_info"
           android:icon="@drawable/ic_info_outline_white_24dp"
           android:title="@string/action_info"
           yourapp:showAsAction="ifRoom"/>
+
 </menu>

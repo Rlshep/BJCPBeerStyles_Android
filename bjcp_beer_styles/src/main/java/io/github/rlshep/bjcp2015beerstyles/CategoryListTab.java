@@ -25,6 +25,11 @@ public class CategoryListTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.category_list_tab, container, false);
+        dbHandler = BjcpDataHelper.getInstance(getActivity());
+
+        //TODO: Find a better way to do this
+        // Only call when debugging new database changes. Uncomment in BjcpDataHelper onUpgrade too.
+//        dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
 
         setupCategoryListView(v);
 
@@ -39,11 +44,6 @@ public class CategoryListTab extends Fragment {
     }
 
     private void setupCategoryListView(View v) {
-        dbHandler = BjcpDataHelper.getInstance(getActivity());
-
-        // Only call when debugging new database changes
-//        dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
-
         ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), dbHandler.getAllCategories());
         ListView categoryListView = (ListView) v.findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);

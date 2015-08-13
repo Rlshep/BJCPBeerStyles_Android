@@ -3,9 +3,10 @@
 
     <string name="action_settings">Settings</string>
 
-    <string name="action_search">Search Styles</string>
+    <string name="action_search_hint">Search Styles</string>
     <string name="action_info">About</string>
     <string name="action_delete">Remove</string>
+    <string name="action_back">Remove</string>
     <string name="cat_tab_header">Categories</string>
     <string name="on_tap_tab_header">Bookmarks</string>
     <string name="on_tap_success">"Successfully added to On Tap"</string>
@@ -26,4 +27,7 @@
     <string name="endSrm">Ending S R M equal to </string>
     <string name="title_activity_sub_category_list">SubCategoryListActivity</string>
     <string name="title_activity_sub_category_body">SubCategoryBodyActivity</string>
+    <string name="title_activity_search_results">SearchResultsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

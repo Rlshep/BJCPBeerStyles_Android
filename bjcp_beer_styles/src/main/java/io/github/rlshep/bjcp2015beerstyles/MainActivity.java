@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
@@ -78,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+//TODO: FIX
+        // Associate searchable configuration with the SearchView
+//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -86,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
             case R.id.action_search:
-                Toast.makeText(getApplicationContext(), "Search not implemented.", Toast.LENGTH_SHORT).show();
-                return true;
+//                Toast.makeText(getApplicationContext(), "Search not implemented.", Toast.LENGTH_SHORT).show();
+//                return true;
+                return super.onOptionsItemSelected(item);
             case R.id.action_info:
                 startActivity(new Intent(this, AboutActivity.class));
                 return true;

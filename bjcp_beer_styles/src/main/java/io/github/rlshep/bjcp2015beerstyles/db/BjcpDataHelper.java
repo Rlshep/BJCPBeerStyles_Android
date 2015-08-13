@@ -23,7 +23,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 public class BjcpDataHelper extends SQLiteOpenHelper {
     private static final String TAG = "LoadDatabase";
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "BjcpBeerStyles.db";
+    public static final String DATABASE_NAME = "BjcpBeerStyles.db";
 
     private Context dbContext;
     private SQLiteDatabase db;
@@ -130,16 +130,25 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+//        new CreateBjcpDatabase().onUpgrade(db, this.dbContext, 1, 1);
     }
 
     /* Start business queries *********************************************************************/
 
-    public List<Category> getAllCategories() {
-        List<Category> categories = new ArrayList<Category>();
-        getDb();
+    public Category getCategory(String categoryId) {
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " = " + categoryId;
+        return getCategories(query).get(0);
+    }
 
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " ORDER BY " + BjcpContract.COLUMN_ORDER;
+    public List<Category> getAllCategories() {
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " ORDER BY " + BjcpContract.COLUMN_ORDER;
+        return getCategories(query);
+    }
+
+    private List<Category> getCategories(String query) {
+        List<Category> categories = new ArrayList<Category>();
+        Category category;
+        getDb();
 
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query, null);
@@ -147,7 +156,10 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                categories.add(new Category(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_CAT)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME))));
+                category = new Category(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_CAT)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
+                category.set_orderNumber(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ORDER)));
+                categories.add(category);
+
             }
             c.moveToNext();
         }
