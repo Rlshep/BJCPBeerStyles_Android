@@ -13,10 +13,7 @@ public class AboutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
-        toolbar.setTitle(getString(R.string.title_activity_about));
-
+        setupToolbar();
         setBodyText();
     }
 
@@ -30,5 +27,14 @@ public class AboutActivity extends AppCompatActivity {
         TextView sectionsTextView = (TextView) findViewById(R.id.aboutText);
         sectionsTextView.setText(Html.fromHtml(body));
         sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
+    }
+
+    private void setupToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
+        toolbar.setTitle(getString(R.string.title_activity_about));
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setIcon(R.drawable.action_icon);
     }
 }
