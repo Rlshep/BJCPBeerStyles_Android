@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
@@ -69,6 +71,17 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         }
 
         return eventReturn;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                loadSubCategoryList();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupToolbar(String title) {
@@ -167,6 +180,17 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
         i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
         i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
+
+        startActivity(i);
+    }
+
+    private void loadSubCategoryList() {
+        Intent i = new Intent(this, SubCategoryListActivity.class);
+        Category category = dbHandler.getCategory(categoryId);
+
+        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
+        i.putExtra("CATEGORY", category.get_category());
+        i.putExtra("CATEGORY_NAME", category.get_name());
 
         startActivity(i);
     }
