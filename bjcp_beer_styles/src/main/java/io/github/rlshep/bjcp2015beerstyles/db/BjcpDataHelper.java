@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
@@ -145,6 +146,36 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         return getCategories(query);
     }
 
+    public List<Category> getCategoriesByIds(List<Long> ids) {
+        List<Category> categories = new ArrayList<>();
+
+        if (null != ids && !ids.isEmpty()) {
+            categories = getCategories(getCategoriesByIdsQuery(ids).toString());
+        }
+
+        return categories;
+    }
+
+    private String getCategoriesByIdsQuery(List<Long> ids) {
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", "  + BjcpContract.COLUMN_NAME + ", "
+                + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
+
+        return query.toString();
+    }
+
+    private String getIdsQuery(List<Long> ids) {
+        StringBuilder query = new StringBuilder();
+
+        for(int i=0; i < ids.size(); i++) {
+            if (0 < i) {
+                query.append(", ");
+            }
+            query.append(ids.get(i));
+        }
+
+        return query.toString();
+    }
+
     private List<Category> getCategories(String query) {
         List<Category> categories = new ArrayList<Category>();
         Category category;
@@ -216,6 +247,22 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " = " + subCategoryId;
 
         return getSubCategoriesByQuery(query).get(0);
+    }
+
+    public List<SubCategory> getSubCategoriesByIds(List<Long> ids) {
+        List<SubCategory> subCategories = new ArrayList<>();
+
+        if (null != ids && !ids.isEmpty()) {
+            subCategories = getSubCategoriesByQuery(getSubCategoriesByIdsQuery(ids).toString());
+        }
+
+        return subCategories;
+    }
+
+    private String getSubCategoriesByIdsQuery(List<Long> ids) {
+        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
+
+        return query.toString();
     }
 
     private List<SubCategory> getSubCategoriesByQuery(String query) {
@@ -320,6 +367,45 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             cv.put(BjcpContract.COLUMN_TAPPED, (subCategory.is_tapped() ? 1 : 0));
             db.update(BjcpContract.TABLE_SUB_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + subCategory.get_id()), null);
         }
+    }
+
+    //TODO: IMPLEMENT
+    public boolean search(String query) {
+        // DELETE ALL OLD
+        // QUERY AND ADD TO SEARCH RESULT TABLE
+        return true;
+    }
+
+    public List<SearchResult> getSearchResults() {
+        List<SearchResult> searchResults = new ArrayList<>();
+        SearchResult searchResult;
+        getDb();
+
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + ", " + BjcpContract.COLUMN_QUERY + " FROM " + BjcpContract.TABLE_SEARCH_RESULTS + " WHERE 1 = 1 ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
+
+        //Cursor point to a location in your results
+        Cursor c = db.rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
+                searchResult = new SearchResult();
+                searchResult.set_id(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
+                searchResult.set_resultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)));
+                searchResult.set_TableName(c.getString(c.getColumnIndex(BjcpContract.COLUMN_TABLE_NAME)));
+                searchResult.set_query(c.getString(c.getColumnIndex(BjcpContract.COLUMN_QUERY)));
+
+                searchResults.add(searchResult);
+            }
+        }
+
+        c.close();
+
+        return searchResults;
+    }
+
+    public void deleteSearchResults() {
+        getWriteableDb();
+        db.delete(BjcpContract.TABLE_SEARCH_RESULTS, "1 = 1", null);
     }
 
     private void getDb() {

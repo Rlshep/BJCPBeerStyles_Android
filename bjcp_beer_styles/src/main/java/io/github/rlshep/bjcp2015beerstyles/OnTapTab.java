@@ -32,9 +32,7 @@ public class OnTapTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.on_tap_tab,container,false);
-
         setListView();
-
         return view;
     }
 
@@ -42,7 +40,6 @@ public class OnTapTab extends Fragment {
     // TODO: Come up with better way to reload when tapped items change than reloading every time.
     public void onResume() {
         super.onResume();
-
         setListView();
     }
 

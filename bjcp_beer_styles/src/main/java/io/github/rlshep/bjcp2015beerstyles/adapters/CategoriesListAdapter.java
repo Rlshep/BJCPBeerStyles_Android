@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.R;
@@ -16,9 +18,17 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class CategoriesListAdapter extends ArrayAdapter {
+    private String searchedText = "";
+
     @SuppressWarnings("unchecked")
     public CategoriesListAdapter(Context context, List listValues) {
         super(context, R.layout.categories_list_row, listValues);
+    }
+
+    @SuppressWarnings("unchecked")
+    public CategoriesListAdapter(Context context, List listValues, String searchedText) {
+        super(context, R.layout.categories_list_row, listValues);
+        this.searchedText = searchedText;
     }
 
     @Override
@@ -30,7 +40,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
 
         if (item instanceof Section) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
-            rowText.setText(Html.fromHtml(((Section) item).get_body()));
+            rowText.setText(Html.fromHtml(getText(item)));
         } if (item instanceof Category) {
             Category category = (Category)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
@@ -47,5 +57,13 @@ public class CategoriesListAdapter extends ArrayAdapter {
         return listRowView;
     }
 
+    private String getText(Object item) {
+        String text = ((Section) item).get_body();
 
+        if (!StringUtils.isEmpty(searchedText)) {
+            text = text.replaceAll(searchedText, "<font color='red'>" + searchedText + "</font>");
+        }
+
+        return text;
+    }
 }

@@ -40,6 +40,8 @@ public class CategoryListTab extends Fragment {
     public void onStop() {
         super.onStop();
 
+        //TODO: READD WHEN DONE TESTING
+//        dbHandler.deleteSearchResults();    // Just cleaning up
         dbHandler.close();
     }
 
@@ -91,7 +93,6 @@ public class CategoryListTab extends Fragment {
         }
 
         dbHandler.updateSubCategoriesUntapped(subCategories);
-
         Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 }

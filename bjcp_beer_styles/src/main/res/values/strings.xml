@@ -27,7 +27,7 @@
     <string name="endSrm">Ending S R M equal to </string>
     <string name="title_activity_sub_category_list">SubCategoryListActivity</string>
     <string name="title_activity_sub_category_body">SubCategoryBodyActivity</string>
-    <string name="title_activity_search_results">SearchResultsActivity</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_search_results">Search Results</string>
+    <string name="no_search_results">No Results Found</string>
+    <string name="not_enough_chars">Please enter at least 3 search characters.</string>
 </resources>

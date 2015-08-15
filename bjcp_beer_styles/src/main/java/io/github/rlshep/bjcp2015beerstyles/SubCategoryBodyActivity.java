@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
@@ -37,6 +39,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub_category_body);
         dbHandler = BjcpDataHelper.getInstance(this);
         Bundle extras = getIntent().getExtras();
+        String searchedText = "";
 
         if (extras != null) {
             String title = extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME");
@@ -44,11 +47,10 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
             subCategoryId = extras.getString("SUB_CATEGORY_ID");
             categoryId = extras.getString("CATEGORY_ID");
+            searchedText = extras.getString("SEARCHED_TEXT");
         }
 
-        TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
-        sectionsTextView.setText(Html.fromHtml(getSectionsBody(subCategoryId) + getVitalStatistics(subCategoryId)));
-
+        setText(searchedText);
         gestureDetector = new GestureDetector(this, new GestureListener());
     }
 
@@ -60,9 +62,10 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         if (eventConsumed) {
             if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
                 changeSubCategory(-1);
-            } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
+            }
+            else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
                 changeSubCategory(1);
-        }
+            }
 
             eventReturn = true;
         }
@@ -162,7 +165,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
     private void changeSubCategory(int i) {
         List<SubCategory> subCategories = dbHandler.getSubCategories(categoryId);
         SubCategory subCategory = dbHandler.getSubCategory(subCategoryId);
-        int newOrder =  subCategory.get_orderNumber() + i;
+        int newOrder = subCategory.get_orderNumber() + i;
 
         if (0 <= newOrder && subCategories.size() > newOrder) {
             for (SubCategory sc : subCategories) {
@@ -197,11 +200,23 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
     private String getStartSrm(VitalStatistics vitalStatistics) {
         double floor = Math.floor(Double.parseDouble(vitalStatistics.get_srmStart()));
-        return ((Integer)Double.valueOf(floor).intValue()).toString();
+        return ((Integer) Double.valueOf(floor).intValue()).toString();
     }
 
     private String getEndSrm(VitalStatistics vitalStatistics) {
         double ceil = Math.ceil(Double.parseDouble(vitalStatistics.get_srmEnd()));
-        return ((Integer)Double.valueOf(ceil).intValue()).toString();
+        return ((Integer) Double.valueOf(ceil).intValue()).toString();
+    }
+
+    private void setText(String searchedText) {
+        String text = getSectionsBody(subCategoryId) + getVitalStatistics(subCategoryId);
+        TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
+
+        if (StringUtils.isEmpty(searchedText)) {
+            sectionsTextView.setText(Html.fromHtml(text));
+        } else {
+            text = text.replaceAll(searchedText, "<font color='red'>" + searchedText + "</font>");
+            sectionsTextView.setText(Html.fromHtml(text));
+        }
     }
 }

@@ -33,6 +33,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_category_list);
         dbHandler = BjcpDataHelper.getInstance(this);
+        String searchedText = "";
 
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
@@ -40,20 +41,21 @@ public class SubCategoryListActivity extends AppCompatActivity {
             setupToolbar(title);
 
             categoryId = extras.getString("CATEGORY_ID");
+            searchedText = extras.getString("SEARCHED_TEXT");
         }
 
         gestureDetector = new GestureDetector(this, new GestureListener());
-        setListView(categoryId);
+        setListView(categoryId, searchedText);
     }
 
     @SuppressWarnings("unchecked")
-    private void setListView(String categoryId) {
+    private void setListView(String categoryId, String searchedText) {
         List listView = new ArrayList();
 
         listView.addAll(dbHandler.getCategorySections(categoryId));
         listView.addAll(dbHandler.getSubCategories(categoryId));
 
-        ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listView);
+        ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
         ListView subCategoryListView = (ListView) findViewById(R.id.subCategoryListView);
         subCategoryListView.setAdapter(subCategoryAdapter);
 

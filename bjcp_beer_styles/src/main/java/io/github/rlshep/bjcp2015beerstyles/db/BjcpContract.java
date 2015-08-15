@@ -34,6 +34,11 @@ public class BjcpContract {
     public static final String TABLE_META = "android_metadata";
     public static final String COLUMN_LOCALE = "locale";
 
+    public static final String TABLE_SEARCH_RESULTS = "SEARCH_RESULTS";
+    public static final String COLUMN_RESULT_ID = "result_id";
+    public static final String COLUMN_TABLE_NAME = "table_name";
+    public static final String COLUMN_QUERY = "query";
+
     public static final String XML_ID = "id";
     public static final String XML_SUBCATEGORY = "subcategory";
     public static final String XML_STATS = "stats";
