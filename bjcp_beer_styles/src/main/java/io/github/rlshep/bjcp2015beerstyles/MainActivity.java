@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
@@ -35,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NUM_OF_TABS);
-
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
@@ -113,9 +113,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String keyword) {
-        Intent i = new Intent(this, SearchResultsActivity.class);
-        i.putExtra("SEARCHED_TEXT", keyword);
-        startActivity(i);
+        if (MAX_SEARCH_CHARS <= keyword.length()) {
+            startSearchResultsActivity(keyword);
+        } else {
+            Toast.makeText(this.getApplicationContext(), R.string.not_enough_chars, Toast.LENGTH_SHORT).show();
+        }
 
         return true;
     }
@@ -140,5 +142,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setIcon(R.drawable.action_icon);
+    }
+
+    private void startSearchResultsActivity(String keyword) {
+        Intent i = new Intent(this, SearchResultsActivity.class);
+        i.putExtra("SEARCHED_TEXT", keyword);
+        startActivity(i);
     }
 }
