@@ -39,6 +39,8 @@ public class BjcpContract {
     public static final String COLUMN_TABLE_NAME = "table_name";
     public static final String COLUMN_QUERY = "query";
 
+    public static final String TABLE_FTS_SEARCH = "FTS_SEARCH";
+
     public static final String XML_ID = "id";
     public static final String XML_SUBCATEGORY = "subcategory";
     public static final String XML_STATS = "stats";

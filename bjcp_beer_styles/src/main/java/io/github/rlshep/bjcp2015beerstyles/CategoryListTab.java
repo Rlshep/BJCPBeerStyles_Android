@@ -39,9 +39,6 @@ public class CategoryListTab extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
-        //TODO: READD WHEN DONE TESTING
-//        dbHandler.deleteSearchResults();    // Just cleaning up
         dbHandler.close();
     }
 

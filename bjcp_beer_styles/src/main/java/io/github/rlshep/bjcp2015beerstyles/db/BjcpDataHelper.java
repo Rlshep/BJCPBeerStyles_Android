@@ -369,30 +369,22 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         }
     }
 
-    //TODO: IMPLEMENT
-    public boolean search(String query) {
-        // DELETE ALL OLD
-        // QUERY AND ADD TO SEARCH RESULT TABLE
-        return true;
-    }
-
-    public List<SearchResult> getSearchResults() {
+    public List<SearchResult> search(String keyword) {
         List<SearchResult> searchResults = new ArrayList<>();
         SearchResult searchResult;
-        getDb();
-
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + ", " + BjcpContract.COLUMN_QUERY + " FROM " + BjcpContract.TABLE_SEARCH_RESULTS + " WHERE 1 = 1 ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
+        String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH
+                + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION
+                + " AND " + BjcpContract.COLUMN_BODY + " MATCH '" + keyword + "*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
 
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)) != null) {
                 searchResult = new SearchResult();
-                searchResult.set_id(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
                 searchResult.set_resultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)));
                 searchResult.set_TableName(c.getString(c.getColumnIndex(BjcpContract.COLUMN_TABLE_NAME)));
-                searchResult.set_query(c.getString(c.getColumnIndex(BjcpContract.COLUMN_QUERY)));
+                searchResult.set_query(keyword);
 
                 searchResults.add(searchResult);
             }
@@ -401,11 +393,6 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         c.close();
 
         return searchResults;
-    }
-
-    public void deleteSearchResults() {
-        getWriteableDb();
-        db.delete(BjcpContract.TABLE_SEARCH_RESULTS, "1 = 1", null);
     }
 
     private void getDb() {

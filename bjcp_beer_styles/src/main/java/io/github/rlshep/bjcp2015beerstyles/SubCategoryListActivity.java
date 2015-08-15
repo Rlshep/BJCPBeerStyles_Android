@@ -20,6 +20,7 @@ import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
@@ -107,7 +108,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
 
     private void setupToolbar(String title) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.sclToolbar);
-        toolbar.setTitle(title);
+        toolbar.setTitle(StringFormatter.getFormattedTitle(title));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

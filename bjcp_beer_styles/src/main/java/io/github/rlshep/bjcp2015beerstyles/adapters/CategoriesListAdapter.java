@@ -8,14 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class CategoriesListAdapter extends ArrayAdapter {
     private String searchedText = "";
@@ -39,8 +38,9 @@ public class CategoriesListAdapter extends ArrayAdapter {
         Object item = getItem(position);
 
         if (item instanceof Section) {
+            Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
-            rowText.setText(Html.fromHtml(getText(item)));
+            rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.get_body(), searchedText)));
         } if (item instanceof Category) {
             Category category = (Category)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
@@ -55,15 +55,5 @@ public class CategoriesListAdapter extends ArrayAdapter {
         }
 
         return listRowView;
-    }
-
-    private String getText(Object item) {
-        String text = ((Section) item).get_body();
-
-        if (!StringUtils.isEmpty(searchedText)) {
-            text = text.replaceAll(searchedText, "<font color='red'>" + searchedText + "</font>");
-        }
-
-        return text;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -21,15 +22,21 @@ import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class SearchResultsActivity extends AppCompatActivity {
     private BjcpDataHelper dbHandler;
-    private String searchedText;
+    private String searchedText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
-        setupToolbar();
         dbHandler = BjcpDataHelper.getInstance(this);
-        setListView(dbHandler.getSearchResults());
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null) {
+            searchedText = extras.getString("SEARCHED_TEXT");
+        }
+
+        setupToolbar();
+        setListView(dbHandler.search(searchedText));
     }
 
     private void setListView(List<SearchResult> searchResults) {
@@ -41,7 +48,8 @@ public class SearchResultsActivity extends AppCompatActivity {
 
             if (BjcpContract.TABLE_CATEGORY.equalsIgnoreCase(searchResult.get_TableName())) {
                 categoryIds.add(searchResult.get_resultId());
-            } else if (BjcpContract.TABLE_SUB_CATEGORY.equalsIgnoreCase(searchResult.get_TableName())) {
+            }
+            else if (BjcpContract.TABLE_SUB_CATEGORY.equalsIgnoreCase(searchResult.get_TableName())) {
                 subCategoryIds.add(searchResult.get_resultId());
             }
         }
@@ -105,6 +113,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.srToolbar);
 
+        toolbar.setTitle(Html.fromHtml(getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);

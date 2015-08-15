@@ -13,8 +13,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
@@ -22,6 +20,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
@@ -89,7 +88,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
     private void setupToolbar(String title) {
         Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
-        toolbar.setTitle(title);
+        toolbar.setTitle(StringFormatter.getFormattedTitle(title));
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -211,12 +210,6 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
     private void setText(String searchedText) {
         String text = getSectionsBody(subCategoryId) + getVitalStatistics(subCategoryId);
         TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
-
-        if (StringUtils.isEmpty(searchedText)) {
-            sectionsTextView.setText(Html.fromHtml(text));
-        } else {
-            text = text.replaceAll(searchedText, "<font color='red'>" + searchedText + "</font>");
-            sectionsTextView.setText(Html.fromHtml(text));
-        }
+        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
     }
 }
