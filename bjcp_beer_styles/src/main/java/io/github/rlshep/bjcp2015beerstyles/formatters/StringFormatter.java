@@ -2,9 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles.formatters;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class StringFormatter {
     private final static int MAX_TITLE_SIZE = 30;
 
@@ -37,20 +34,20 @@ public class StringFormatter {
 //
 //        return title;
 //    }
-
-    private static int getHtmlTagSize(String text) {
-        String allTags = "";
-        Pattern p = Pattern.compile("<(\\S+)>");
-        Matcher m = p.matcher(text);
-        int allTagsLength = 0;
-
-        // if we find a match, get the group
-        while (m.find()) {
-            allTags += m.group(1);
-            allTagsLength += (allTags.length() * 2); //Add beginning and end tag text
-            allTagsLength += 5; //Brackets of both tags < > </
-        }
-
-        return allTagsLength;
-    }
+//
+//    private static int getHtmlTagSize(String text) {
+//        String allTags = "";
+//        Pattern p = Pattern.compile("<(\\S+)>");
+//        Matcher m = p.matcher(text);
+//        int allTagsLength = 0;
+//
+//        // if we find a match, get the group
+//        while (m.find()) {
+//            allTags += m.group(1);
+//            allTagsLength += (allTags.length() * 2); //Add beginning and end tag text
+//            allTagsLength += 5; //Brackets of both tags < > </
+//        }
+//
+//        return allTagsLength;
+//    }
 }
