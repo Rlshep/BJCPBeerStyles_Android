@@ -32,8 +32,9 @@ public class SearchResultsActivity extends BjcpActivity {
         if (extras != null) {
             searchedText = extras.getString("SEARCHED_TEXT");
         }
-
-        String title = getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>";
+// TODO: Fix someday. Can't format titles in Android v4.1 and lower. http://stackoverflow.com/questions/7658725/android-java-lang-illegalargumentexception-invalid-payload-item-type/25674354#25674354
+//        String title = getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>";
+        String title = getString(R.string.title_activity_search_results) + " " + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'";
         setupToolbar(R.id.srToolbar, title, false, true);
         setListView(dbHandler.search(searchedText));
     }
@@ -58,13 +59,7 @@ public class SearchResultsActivity extends BjcpActivity {
 
     @SuppressWarnings("unchecked")
     private void setListView(List<Category> categories, List<SubCategory> subCategories) {
-        List listItems = new ArrayList();
-        listItems.addAll(categories);
-        listItems.addAll(subCategories);
-
-        if (listItems.isEmpty()) {
-            listItems.add(getString(R.string.no_search_results));
-        }
+        List listItems = getFullList(categories, subCategories);
 
         ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listItems);
         ListView listView = (ListView) this.findViewById(R.id.searchResults);
@@ -84,5 +79,47 @@ public class SearchResultsActivity extends BjcpActivity {
                 }
             }
         });
+    }
+
+    private List getFullList(List<Category> categories, List<SubCategory> subCategories) {
+        List listItems;
+
+        if (categories.isEmpty() && subCategories.isEmpty()) {
+            listItems = new ArrayList();
+            listItems.add(getString(R.string.no_search_results));
+        } else {
+            listItems = sortByPriority(categories, subCategories);
+        }
+
+        return listItems;
+    }
+
+    // Bringing categories and subcategories who have the search criteria in the name to the top.
+    @SuppressWarnings("unchecked")
+    private List sortByPriority(List<Category> categories, List<SubCategory> subCategories) {
+        List sorted = new ArrayList();
+        List<Category> catRemaining = new ArrayList<>();
+        List<SubCategory> subCatRemaining = new ArrayList<>();
+
+        for (Category category : categories) {
+            if (category.get_name().toUpperCase().contains(searchedText.toUpperCase())) {
+                sorted.add(category);
+            } else {
+                catRemaining.add(category);
+            }
+        }
+
+        for (SubCategory subCategory : subCategories) {
+            if (subCategory.get_name().toUpperCase().contains(searchedText.toUpperCase())) {
+                sorted.add(subCategory);
+            }else {
+                subCatRemaining.add(subCategory);
+            }
+        }
+
+        sorted.addAll(catRemaining);
+        sorted.addAll(subCatRemaining);
+
+        return sorted;
     }
 }

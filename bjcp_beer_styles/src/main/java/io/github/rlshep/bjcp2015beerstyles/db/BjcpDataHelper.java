@@ -68,10 +68,10 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         SQLiteDatabase checkDB = null;
 
         try {
-            String myPath = dbContext.getFilesDir().getPath() + DATABASE_NAME;
+            String myPath = dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
-            Log.e(TAG, e.getMessage());
+            // Do nothing.
         }
 
         if (checkDB != null) {
@@ -91,7 +91,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         InputStream myInput = dbContext.getAssets().open(DATABASE_NAME);
 
         // Path to the just created empty db
-        String outFileName = dbContext.getFilesDir().getPath() + DATABASE_NAME;
+        String outFileName = dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME;
 
         //Open the empty db as the output stream
         OutputStream myOutput = new FileOutputStream(outFileName);
@@ -411,7 +411,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     private void openReadDataBase() {
         try {
             createDataBase();
-            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
+            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }
@@ -420,7 +420,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     private void openWriteDataBase() {
         try {
             createDataBase();
-            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
+            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         } catch (IOException e) {
             Log.e(TAG, e.getMessage());
         }

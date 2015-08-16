@@ -2,7 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -11,7 +10,7 @@ public abstract class BjcpActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(toolBarId);
 
         if (!StringUtils.isEmpty(title)) {
-            toolbar.setTitle(Html.fromHtml(title));
+            toolbar.setTitle(title);
         }
 
         setSupportActionBar(toolbar);
