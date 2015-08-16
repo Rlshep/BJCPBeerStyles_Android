@@ -5,14 +5,12 @@ import android.support.v7.widget.Toolbar;
 
 import org.apache.commons.lang.StringUtils;
 
-import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
-
 public abstract class BjcpActivity extends AppCompatActivity {
     protected void setupToolbar(int toolBarId, String title, boolean showIcon, boolean showUp) {
         Toolbar toolbar = (Toolbar) findViewById(toolBarId);
 
         if (!StringUtils.isEmpty(title)) {
-            toolbar.setTitle(StringFormatter.getFormattedTitle(title));
+            toolbar.setTitle(title);
         }
 
         setSupportActionBar(toolbar);

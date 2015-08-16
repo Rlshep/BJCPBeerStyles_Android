@@ -1,8 +1,5 @@
 package io.github.rlshep.bjcp2015beerstyles.formatters;
 
-import android.text.Html;
-import android.text.Spanned;
-
 import org.apache.commons.lang.StringUtils;
 
 import java.util.regex.Matcher;
@@ -25,20 +22,21 @@ public class StringFormatter {
         return formatted;
     }
 
+    //TODO: Fix title based upon screen size.
     // This isn't perfect but will do for now.
-    public static Spanned getFormattedTitle(String text) {
-        Spanned title;
-        getHtmlTagSize(text);
-
-        if (MAX_TITLE_SIZE < (text.length() - getHtmlTagSize(text))) {
-            title = Html.fromHtml("<small>" + text + "</small>");
-        }
-        else {
-            title = Html.fromHtml(text);
-        }
-
-        return title;
-    }
+//    public static Spanned getFormattedTitle(String text) {
+//        Spanned title;
+//        getHtmlTagSize(text);
+//
+//        if (MAX_TITLE_SIZE < (text.length() - getHtmlTagSize(text))) {
+//            title = Html.fromHtml("<small>" + text + "</small>");
+//        }
+//        else {
+//            title = Html.fromHtml(text);
+//        }
+//
+//        return title;
+//    }
 
     private static int getHtmlTagSize(String text) {
         String allTags = "";
