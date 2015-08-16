@@ -6,11 +6,11 @@
     <string name="action_delete">Remove</string>
     <string name="cat_tab_header">Categories</string>
     <string name="on_tap_tab_header">Bookmarks</string>
-    <string name="on_tap_success">"Successfully added to On Tap"</string>
-    <string name="on_tap_delete">"Successfully removed from On Tap"</string>
+    <string name="on_tap_success">"Successfully added to Bookmarks"</string>
+    <string name="on_tap_delete">"Successfully removed from Bookmarks"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="title_activity_about">About</string>
-    <string name="about_version">BJCP 2015 Beer Styles v0.3.0</string>
+    <string name="about_version">BJCP 2015 Beer Styles v0.3.1</string>
     <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission."</string>
