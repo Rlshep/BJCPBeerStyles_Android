@@ -1,6 +1,5 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
@@ -87,7 +87,7 @@ public class OnTapTab extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
-                loadSubCategoryBody(subCategory);
+                BjcpController.loadSubCategoryBody(getActivity(), subCategory);
                 removeDeleteIcon();
             }
         });
@@ -109,17 +109,6 @@ public class OnTapTab extends Fragment {
                 return true;
             }
         });
-    }
-
-    private void loadSubCategoryBody(SubCategory subCategory) {
-        Intent i = new Intent(getActivity(), SubCategoryBodyActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
-        i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
-        i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-
-        startActivity(i);
     }
 
     private void removeFromOnTap() {

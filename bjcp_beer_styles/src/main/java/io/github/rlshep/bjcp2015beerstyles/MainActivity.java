@@ -1,41 +1,35 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
-import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
-    private static final int NUM_OF_TABS = 2;
+public class MainActivity extends BjcpActivity implements SearchView.OnQueryTextListener {
     private static final int ON_TAP_TAB = 1;
     private static final int MAX_SEARCH_CHARS = 3;
 
-    private BjcpDataHelper dbHandler;
     private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbHandler = BjcpDataHelper.getInstance(this);
 
         CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header)};
-        setupToolbar();
+        setupToolbar(R.id.tool_bar, "", true, false);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, NUM_OF_TABS);
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles);
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
@@ -55,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -70,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -90,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
 
-        if (searchView != null) {
-            searchView.setOnQueryTextListener(this);
-        }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -104,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
             case R.id.action_search:
                 return super.onOptionsItemSelected(item);
             case R.id.action_info:
-                startActivity(new Intent(this, AboutActivity.class));
+                BjcpController.startAboutActivity(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -114,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String keyword) {
         if (MAX_SEARCH_CHARS <= keyword.length()) {
-            startSearchResultsActivity(keyword);
+            BjcpController.startSearchResultsActivity(this, keyword);
         } else {
             Toast.makeText(this.getApplicationContext(), R.string.not_enough_chars, Toast.LENGTH_SHORT).show();
         }
@@ -134,19 +122,5 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // Associate searchable configuration with the SearchView
         MenuItem searchItem = menu.findItem(R.id.action_search);
         MenuItemCompat.collapseActionView(searchItem);
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.action_icon);
-    }
-
-    private void startSearchResultsActivity(String keyword) {
-        Intent i = new Intent(this, SearchResultsActivity.class);
-        i.putExtra("SEARCHED_TEXT", keyword);
-        startActivity(i);
     }
 }

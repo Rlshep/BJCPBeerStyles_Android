@@ -55,12 +55,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             //By calling this method and empty database will be created into the default system path
             //of your application so we are gonna be able to overwrite that database with our database.
             this.db = this.getReadableDatabase();
-
-            try {
-                copyDataBase();
-            } catch (IOException e) {
-                throw new Error("Error copying database");
-            }
+            copyDataBase();
         }
     }
 
@@ -150,23 +145,22 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         List<Category> categories = new ArrayList<>();
 
         if (null != ids && !ids.isEmpty()) {
-            categories = getCategories(getCategoriesByIdsQuery(ids).toString());
+            categories = getCategories(getCategoriesByIdsQuery(ids));
         }
 
         return categories;
     }
 
     private String getCategoriesByIdsQuery(List<Long> ids) {
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", "  + BjcpContract.COLUMN_NAME + ", "
-                + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
+        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
 
-        return query.toString();
+        return query;
     }
 
     private String getIdsQuery(List<Long> ids) {
         StringBuilder query = new StringBuilder();
 
-        for(int i=0; i < ids.size(); i++) {
+        for (int i = 0; i < ids.size(); i++) {
             if (0 < i) {
                 query.append(", ");
             }
@@ -253,7 +247,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
         List<SubCategory> subCategories = new ArrayList<>();
 
         if (null != ids && !ids.isEmpty()) {
-            subCategories = getSubCategoriesByQuery(getSubCategoriesByIdsQuery(ids).toString());
+            subCategories = getSubCategoriesByQuery(getSubCategoriesByIdsQuery(ids));
         }
 
         return subCategories;
@@ -262,7 +256,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     private String getSubCategoriesByIdsQuery(List<Long> ids) {
         String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
 
-        return query.toString();
+        return query;
     }
 
     private List<SubCategory> getSubCategoriesByQuery(String query) {
@@ -372,9 +366,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
     public List<SearchResult> search(String keyword) {
         List<SearchResult> searchResults = new ArrayList<>();
         SearchResult searchResult;
-        String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH
-                + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION
-                + " AND " + BjcpContract.COLUMN_BODY + " MATCH '" + keyword + "*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
+        String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + BjcpContract.COLUMN_BODY + " MATCH '" + keyword + "*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
 
         //Cursor point to a location in your results
         Cursor c = db.rawQuery(query, null);

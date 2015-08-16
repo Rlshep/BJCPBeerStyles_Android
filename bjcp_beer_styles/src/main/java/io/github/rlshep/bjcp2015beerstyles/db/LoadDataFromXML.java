@@ -118,7 +118,7 @@ public class LoadDataFromXML {
         return subCategory;
     }
 
-    private boolean isSection(XmlPullParser xpp) throws XmlPullParserException, IOException {
+    private boolean isSection(XmlPullParser xpp) throws XmlPullParserException {
         return xpp.getEventType() == XmlPullParser.START_TAG && allowedSections.contains(xpp.getName());
     }
 

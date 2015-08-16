@@ -1,10 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.GestureDetector;
 import android.view.MenuItem;
@@ -15,8 +12,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
-import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
@@ -24,7 +21,7 @@ import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
-public class SubCategoryBodyActivity extends AppCompatActivity {
+public class SubCategoryBodyActivity extends BjcpActivity {
     private static final String VITAL_HEADER = "Vital Statistics";
     private static final String SRM_PREFIX = "srm_";
     private BjcpDataHelper dbHandler;
@@ -42,7 +39,7 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
 
         if (extras != null) {
             String title = extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME");
-            setupToolbar(title);
+            setupToolbar(R.id.scbToolbar, title, false, true);
 
             subCategoryId = extras.getString("SUB_CATEGORY_ID");
             categoryId = extras.getString("CATEGORY_ID");
@@ -79,20 +76,11 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                loadSubCategoryList();
+                BjcpController.loadSubCategoryList(this, dbHandler.getCategory(categoryId));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void setupToolbar(String title) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
-        toolbar.setTitle(StringFormatter.getFormattedTitle(title));
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private String getSectionsBody(String subCategoryId) {
@@ -169,32 +157,10 @@ public class SubCategoryBodyActivity extends AppCompatActivity {
         if (0 <= newOrder && subCategories.size() > newOrder) {
             for (SubCategory sc : subCategories) {
                 if (newOrder == sc.get_orderNumber()) {
-                    loadSubCategoryBody(sc);
+                    BjcpController.loadSubCategoryBody(this, sc);
                 }
             }
         }
-    }
-
-    private void loadSubCategoryBody(SubCategory subCategory) {
-        Intent i = new Intent(this, SubCategoryBodyActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
-        i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
-        i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-
-        startActivity(i);
-    }
-
-    private void loadSubCategoryList() {
-        Intent i = new Intent(this, SubCategoryListActivity.class);
-        Category category = dbHandler.getCategory(categoryId);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
-        i.putExtra("CATEGORY", category.get_category());
-        i.putExtra("CATEGORY_NAME", category.get_name());
-
-        startActivity(i);
     }
 
     private String getStartSrm(VitalStatistics vitalStatistics) {

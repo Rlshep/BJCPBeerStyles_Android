@@ -1,6 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
@@ -42,9 +43,9 @@ public class CategoryListTab extends Fragment {
         dbHandler.close();
     }
 
-    private void setupCategoryListView(View v) {
+    private void setupCategoryListView(View view) {
         ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), dbHandler.getAllCategories());
-        ListView categoryListView = (ListView) v.findViewById(R.id.categoryListView);
+        ListView categoryListView = (ListView) view.findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -52,7 +53,7 @@ public class CategoryListTab extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     Category category = (Category) parent.getItemAtPosition(position);
-                    loadSubCategoryList(category);
+                    BjcpController.loadSubCategoryList((Activity) view.getContext(), category);
                 }
             }
         });
@@ -70,16 +71,6 @@ public class CategoryListTab extends Fragment {
                 return consumed;
             }
         });
-    }
-
-    private void loadSubCategoryList(Category category) {
-        Intent i = new Intent(getActivity(), SubCategoryListActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
-        i.putExtra("CATEGORY", category.get_category());
-        i.putExtra("CATEGORY_NAME", category.get_name());
-
-        startActivity(i);
     }
 
     private void addAllSubCategoriesToOnTap(Category category) {

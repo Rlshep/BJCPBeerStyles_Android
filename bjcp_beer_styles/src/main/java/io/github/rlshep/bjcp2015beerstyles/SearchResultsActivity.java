@@ -1,10 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -14,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpContract;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
-public class SearchResultsActivity extends AppCompatActivity {
+public class SearchResultsActivity extends BjcpActivity {
     private BjcpDataHelper dbHandler;
     private String searchedText = "";
 
@@ -35,7 +33,8 @@ public class SearchResultsActivity extends AppCompatActivity {
             searchedText = extras.getString("SEARCHED_TEXT");
         }
 
-        setupToolbar();
+        String title = getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>";
+        setupToolbar(R.id.srToolbar, title, false, true);
         setListView(dbHandler.search(searchedText));
     }
 
@@ -77,45 +76,13 @@ public class SearchResultsActivity extends AppCompatActivity {
                 Object item = parent.getItemAtPosition(position);
                 if (item instanceof SubCategory) {
                     SubCategory subCategory = (SubCategory) item;
-                    loadSubCategoryBody(subCategory);
+                    BjcpController.loadSubCategoryBody((Activity) view.getContext(), subCategory, searchedText);
                 }
                 else {
                     Category category = (Category) item;
-                    loadSubCategoryList(category);
+                    BjcpController.loadSubCategoryList((Activity) view.getContext(), category, searchedText);
                 }
             }
         });
-    }
-
-    private void loadSubCategoryBody(SubCategory subCategory) {
-        Intent i = new Intent(this, SubCategoryBodyActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
-        i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
-        i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-        i.putExtra("SEARCHED_TEXT", searchedText);
-
-        startActivity(i);
-    }
-
-    private void loadSubCategoryList(Category category) {
-        Intent i = new Intent(this, SubCategoryListActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
-        i.putExtra("CATEGORY", category.get_category());
-        i.putExtra("CATEGORY_NAME", category.get_name());
-        i.putExtra("SEARCHED_TEXT", searchedText);
-
-        startActivity(i);
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.srToolbar);
-
-        toolbar.setTitle(Html.fromHtml(getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>"));
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 }

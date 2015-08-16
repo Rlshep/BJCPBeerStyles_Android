@@ -1,10 +1,8 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,14 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
+import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
-import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
-public class SubCategoryListActivity extends AppCompatActivity {
+public class SubCategoryListActivity extends BjcpActivity {
     private BjcpDataHelper dbHandler;
     private GestureDetector gestureDetector;
     private String categoryId = "";
@@ -39,7 +37,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras !=null) {
             String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
-            setupToolbar(title);
+            setupToolbar(R.id.sclToolbar, title, false, true);
 
             categoryId = extras.getString("CATEGORY_ID");
             searchedText = extras.getString("SEARCHED_TEXT");
@@ -65,7 +63,7 @@ public class SubCategoryListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) instanceof SubCategory) {
                     SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
-                    loadSubCategoryBody(subCategory);
+                    BjcpController.loadSubCategoryBody((Activity) view.getContext(), subCategory);
                 }
             }
         });
@@ -106,15 +104,6 @@ public class SubCategoryListActivity extends AppCompatActivity {
         return eventReturn;
     }
 
-    private void setupToolbar(String title) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.sclToolbar);
-        toolbar.setTitle(StringFormatter.getFormattedTitle(title));
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-    }
-
     private void addSubCategoryToOnTap(SubCategory subCategory) {
         subCategory.set_tapped(true);
         dbHandler.updateSubCategoryUntapped(subCategory);
@@ -129,30 +118,9 @@ public class SubCategoryListActivity extends AppCompatActivity {
         if (0 <= newOrder && categories.size() > newOrder) {
             for (Category c : categories) {
                 if (newOrder == c.get_orderNumber()) {
-                    loadSubCategoryList(c);
+                    BjcpController.loadSubCategoryList(this, c);
                 }
             }
         }
-    }
-
-    private void loadSubCategoryList(Category category) {
-        Intent i = new Intent(this, SubCategoryListActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
-        i.putExtra("CATEGORY", category.get_category());
-        i.putExtra("CATEGORY_NAME", category.get_name());
-
-        startActivity(i);
-    }
-
-    private void loadSubCategoryBody(SubCategory subCategory) {
-        Intent i = new Intent(this, SubCategoryBodyActivity.class);
-
-        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
-        i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
-        i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
-
-        startActivity(i);
     }
 }

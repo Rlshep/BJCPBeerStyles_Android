@@ -1,19 +1,18 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BjcpActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        setupToolbar();
+
+        setupToolbar(R.id.scbToolbar, getString(R.string.title_activity_about), true, true);
         setBodyText();
     }
 
@@ -27,14 +26,5 @@ public class AboutActivity extends AppCompatActivity {
         TextView sectionsTextView = (TextView) findViewById(R.id.aboutText);
         sectionsTextView.setText(Html.fromHtml(body));
         sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
-    }
-
-    private void setupToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.scbToolbar);
-        toolbar.setTitle(getString(R.string.title_activity_about));
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.action_icon);
     }
 }
