@@ -8,7 +8,7 @@ public class GestureListener extends GestureDetector.SimpleOnGestureListener {
     private static final String GESTURE_TAG = "GestureListener";
     public static final String SWIPE_LEFT = "left";
     public static final String SWIPE_RIGHT = "right";
-    private static final int SWIPE_THRESHOLD = 200;
+    private static final int SWIPE_THRESHOLD = 150;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
     private static final int SWIPE_MIN_DISTANCE = 120;
 

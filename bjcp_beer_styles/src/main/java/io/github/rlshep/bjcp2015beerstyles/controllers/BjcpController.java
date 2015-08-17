@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 
 import io.github.rlshep.bjcp2015beerstyles.AboutActivity;
+import io.github.rlshep.bjcp2015beerstyles.CrashActivity;
 import io.github.rlshep.bjcp2015beerstyles.SearchResultsActivity;
 import io.github.rlshep.bjcp2015beerstyles.SubCategoryBodyActivity;
 import io.github.rlshep.bjcp2015beerstyles.SubCategoryListActivity;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BjcpController {
 
@@ -51,5 +53,11 @@ public class BjcpController {
 
     public static void startAboutActivity(Activity activity) {
         activity.startActivity(new Intent(activity, AboutActivity.class));
+    }
+
+    public static void startCrashActivity(Activity activity, String error) {
+        Intent intent = new Intent(activity, CrashActivity.class);
+        intent.putExtra(ExceptionHandler.EXTRA_ERROR, error.toString());
+        activity.startActivity(intent);
     }
 }

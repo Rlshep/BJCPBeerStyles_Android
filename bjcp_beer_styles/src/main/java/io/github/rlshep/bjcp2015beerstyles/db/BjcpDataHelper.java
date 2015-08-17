@@ -1,7 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles.db;
 
+import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -20,23 +20,24 @@ import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BjcpDataHelper extends SQLiteOpenHelper {
     private static final String TAG = "LoadDatabase";
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "BjcpBeerStyles.db";
 
-    private Context dbContext;
+    private Activity dbContext;
     private SQLiteDatabase db;
     private static BjcpDataHelper instance;
 
-    private BjcpDataHelper(Context context) {
+    private BjcpDataHelper(Activity context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
         this.dbContext = context;
     }
 
-    public static synchronized BjcpDataHelper getInstance(Context context) {
+    public static synchronized BjcpDataHelper getInstance(Activity context) {
         // Use the application context, which will ensure that you
         // don't accidentally leak an Activity's context.
         // See this article for more information: http://bit.ly/6LRzfx
@@ -71,7 +72,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             String myPath = dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME;
             checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
-            // Do nothing.
+            Log.d(TAG, e.getMessage());
         }
 
         if (checkDB != null) {
@@ -413,7 +414,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             createDataBase();
             this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            new ExceptionHandler(this.dbContext).uncaughtException(e);
         }
     }
 
@@ -422,7 +423,7 @@ public class BjcpDataHelper extends SQLiteOpenHelper {
             createDataBase();
             this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
         } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
+            new ExceptionHandler(this.dbContext).uncaughtException(e);
         }
     }
 }

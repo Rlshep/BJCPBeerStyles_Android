@@ -5,11 +5,14 @@ import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+
 public class AboutActivity extends BjcpActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_about);
 
         setupToolbar(R.id.scbToolbar, getString(R.string.title_activity_about), true, true);

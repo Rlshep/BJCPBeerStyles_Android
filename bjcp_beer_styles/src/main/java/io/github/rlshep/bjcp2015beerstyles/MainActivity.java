@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 
@@ -23,6 +24,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
 
         CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header)};

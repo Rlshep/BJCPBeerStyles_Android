@@ -19,6 +19,7 @@ import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
@@ -30,6 +31,7 @@ public class SubCategoryListActivity extends BjcpActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_sub_category_list);
         dbHandler = BjcpDataHelper.getInstance(this);
         String searchedText = "";

@@ -17,6 +17,7 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class SearchResultsActivity extends BjcpActivity {
     private BjcpDataHelper dbHandler;
@@ -25,6 +26,7 @@ public class SearchResultsActivity extends BjcpActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_search_results);
         dbHandler = BjcpDataHelper.getInstance(this);
         Bundle extras = getIntent().getExtras();

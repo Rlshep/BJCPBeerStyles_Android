@@ -17,6 +17,7 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
@@ -32,6 +33,7 @@ public class SubCategoryBodyActivity extends BjcpActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_sub_category_body);
         dbHandler = BjcpDataHelper.getInstance(this);
         Bundle extras = getIntent().getExtras();
