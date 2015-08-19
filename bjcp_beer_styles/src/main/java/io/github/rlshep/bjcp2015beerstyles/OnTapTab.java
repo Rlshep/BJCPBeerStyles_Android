@@ -24,7 +24,6 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class OnTapTab extends Fragment {
-    private BjcpDataHelper dbHandler;
     private View view;
     private Menu menu;
     private int selectedPosition = -1;
@@ -71,9 +70,7 @@ public class OnTapTab extends Fragment {
     @SuppressWarnings("unchecked")
     private void setListView() {
         List listItems = new ArrayList();
-        dbHandler = BjcpDataHelper.getInstance(getActivity());
-
-        listItems.addAll(dbHandler.getOnTapSubCategories());
+        listItems.addAll(BjcpDataHelper.getInstance(getActivity()).getOnTapSubCategories());
 
         if (listItems.isEmpty()) {
             listItems.add(getString(R.string.on_tap_empty));
@@ -115,7 +112,7 @@ public class OnTapTab extends Fragment {
         ListView listView = (ListView)getActivity().findViewById(R.id.onTapListView);
         SubCategory subCategory = (SubCategory)listView.getItemAtPosition(selectedPosition);
         subCategory.set_tapped(false);
-        dbHandler.updateSubCategoryUntapped(subCategory);
+        BjcpDataHelper.getInstance(getActivity()).updateSubCategoryUntapped(subCategory);
         setListView();
         removeDeleteIcon();
     }

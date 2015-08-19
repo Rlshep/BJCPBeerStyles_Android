@@ -24,7 +24,6 @@ import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
 public class SubCategoryListActivity extends BjcpActivity {
-    private BjcpDataHelper dbHandler;
     private GestureDetector gestureDetector;
     private String categoryId = "";
 
@@ -33,7 +32,6 @@ public class SubCategoryListActivity extends BjcpActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_sub_category_list);
-        dbHandler = BjcpDataHelper.getInstance(this);
         String searchedText = "";
 
         Bundle extras = getIntent().getExtras();
@@ -53,8 +51,8 @@ public class SubCategoryListActivity extends BjcpActivity {
     private void setListView(String categoryId, String searchedText) {
         List listView = new ArrayList();
 
-        listView.addAll(dbHandler.getCategorySections(categoryId));
-        listView.addAll(dbHandler.getSubCategories(categoryId));
+        listView.addAll(BjcpDataHelper.getInstance(this).getCategorySections(categoryId));
+        listView.addAll(BjcpDataHelper.getInstance(this).getSubCategories(categoryId));
 
         ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
         ListView subCategoryListView = (ListView) findViewById(R.id.subCategoryListView);
@@ -108,13 +106,13 @@ public class SubCategoryListActivity extends BjcpActivity {
 
     private void addSubCategoryToOnTap(SubCategory subCategory) {
         subCategory.set_tapped(true);
-        dbHandler.updateSubCategoryUntapped(subCategory);
+        BjcpDataHelper.getInstance(this).updateSubCategoryUntapped(subCategory);
         Toast.makeText(getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 
     private void changeCategory(int i) {
-        List<Category> categories = dbHandler.getAllCategories();
-        Category category = dbHandler.getCategory(categoryId);
+        List<Category> categories = BjcpDataHelper.getInstance(this).getAllCategories();
+        Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
         int newOrder =  category.get_orderNumber() + i;
 
         if (0 <= newOrder && categories.size() > newOrder) {

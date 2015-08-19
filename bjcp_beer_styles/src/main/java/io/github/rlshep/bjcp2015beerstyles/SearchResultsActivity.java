@@ -20,7 +20,6 @@ import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class SearchResultsActivity extends BjcpActivity {
-    private BjcpDataHelper dbHandler;
     private String searchedText = "";
 
     @Override
@@ -28,7 +27,6 @@ public class SearchResultsActivity extends BjcpActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_search_results);
-        dbHandler = BjcpDataHelper.getInstance(this);
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -38,7 +36,7 @@ public class SearchResultsActivity extends BjcpActivity {
 //        String title = getString(R.string.title_activity_search_results) + " <small>" + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'</small>";
         String title = getString(R.string.title_activity_search_results) + " " + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'";
         setupToolbar(R.id.srToolbar, title, false, true);
-        setListView(dbHandler.search(searchedText));
+        setListView(BjcpDataHelper.getInstance(this).search(searchedText));
     }
 
     private void setListView(List<SearchResult> searchResults) {
@@ -56,7 +54,7 @@ public class SearchResultsActivity extends BjcpActivity {
             }
         }
 
-        setListView(dbHandler.getCategoriesByIds(categoryIds), dbHandler.getSubCategoriesByIds(subCategoryIds));
+        setListView(BjcpDataHelper.getInstance(this).getCategoriesByIds(categoryIds), BjcpDataHelper.getInstance(this).getSubCategoriesByIds(subCategoryIds));
     }
 
     @SuppressWarnings("unchecked")

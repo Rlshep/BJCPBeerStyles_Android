@@ -25,7 +25,6 @@ import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 public class SubCategoryBodyActivity extends BjcpActivity {
     private static final String VITAL_HEADER = "Vital Statistics";
     private static final String SRM_PREFIX = "srm_";
-    private BjcpDataHelper dbHandler;
     private GestureDetector gestureDetector;
     private String categoryId = "";
     private String subCategoryId = "";
@@ -35,7 +34,6 @@ public class SubCategoryBodyActivity extends BjcpActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_sub_category_body);
-        dbHandler = BjcpDataHelper.getInstance(this);
         Bundle extras = getIntent().getExtras();
         String searchedText = "";
 
@@ -78,7 +76,7 @@ public class SubCategoryBodyActivity extends BjcpActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                BjcpController.loadSubCategoryList(this, dbHandler.getCategory(categoryId));
+                BjcpController.loadSubCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(categoryId));
                 return true;
         }
 
@@ -88,7 +86,7 @@ public class SubCategoryBodyActivity extends BjcpActivity {
     private String getSectionsBody(String subCategoryId) {
         String body = "";
 
-        for (Section section : dbHandler.getSubCategorySections(subCategoryId)) {
+        for (Section section : BjcpDataHelper.getInstance(this).getSubCategorySections(subCategoryId)) {
             body += "<big><b> " + section.get_header() + "</b></big><br>";
             body += section.get_body() + "<br><br>";
         }
@@ -99,7 +97,7 @@ public class SubCategoryBodyActivity extends BjcpActivity {
     private String getVitalStatistics(String subCategoryId) {
         String vitals = "";
 
-        VitalStatistics vitalStatistics = dbHandler.getVitalStatistics(subCategoryId);
+        VitalStatistics vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(subCategoryId);
 
         if (null == vitalStatistics) {
             hideSrmImages();
@@ -152,8 +150,8 @@ public class SubCategoryBodyActivity extends BjcpActivity {
     }
 
     private void changeSubCategory(int i) {
-        List<SubCategory> subCategories = dbHandler.getSubCategories(categoryId);
-        SubCategory subCategory = dbHandler.getSubCategory(subCategoryId);
+        List<SubCategory> subCategories = BjcpDataHelper.getInstance(this).getSubCategories(categoryId);
+        SubCategory subCategory = BjcpDataHelper.getInstance(this).getSubCategory(subCategoryId);
         int newOrder = subCategory.get_orderNumber() + i;
 
         if (0 <= newOrder && subCategories.size() > newOrder) {

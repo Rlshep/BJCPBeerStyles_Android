@@ -21,16 +21,14 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class CategoryListTab extends Fragment {
-    private BjcpDataHelper dbHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.category_list_tab, container, false);
-        dbHandler = BjcpDataHelper.getInstance(getActivity());
 
         //TODO: Find a better way to do this
         // Only call when debugging new database changes. Uncomment in BjcpDataHelper onUpgrade too.
-//        dbHandler.onUpgrade(dbHandler.getWritableDatabase(), 1, 1);
+//        BjcpDataHelper.getInstance(this).onUpgrade(BjcpDataHelper.getInstance(this).getWritableDatabase(), 1, 1);
 
         setupCategoryListView(v);
 
@@ -40,11 +38,11 @@ public class CategoryListTab extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        dbHandler.close();
+        BjcpDataHelper.getInstance(getActivity()).close();
     }
 
     private void setupCategoryListView(View view) {
-        ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), dbHandler.getAllCategories());
+        ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), BjcpDataHelper.getInstance(getActivity()).getAllCategories());
         ListView categoryListView = (ListView) view.findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
@@ -74,13 +72,13 @@ public class CategoryListTab extends Fragment {
     }
 
     private void addAllSubCategoriesToOnTap(Category category) {
-        List<SubCategory> subCategories = dbHandler.getSubCategories(category.get_id());
+        List<SubCategory> subCategories = BjcpDataHelper.getInstance(getActivity()).getSubCategories(category.get_id());
 
         for (SubCategory subCategory : subCategories) {
             subCategory.set_tapped(true);
         }
 
-        dbHandler.updateSubCategoriesUntapped(subCategories);
+        BjcpDataHelper.getInstance(getActivity()).updateSubCategoriesUntapped(subCategories);
         Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 }
