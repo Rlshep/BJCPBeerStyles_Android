@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "23.0.0 rc2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "io.github.rlshep.bjcp2015beerstyles"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionCode 4
-        versionName "1.0.0"
+        targetSdkVersion 23
+        versionCode 45
+        versionName "1.0.1"
     }
     signingConfigs {
         release {
@@ -36,4 +36,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'commons-lang:commons-lang:2.6'
+}
+
+task jar(type: Jar) {
+    from('build/intermediates/classes/release')
+    include 'io/github/rlshep/bjcp2015beerstyles/**'
 }

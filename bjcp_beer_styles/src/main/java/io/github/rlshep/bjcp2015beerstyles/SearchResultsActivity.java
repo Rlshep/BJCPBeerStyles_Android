@@ -12,7 +12,7 @@ import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
-import io.github.rlshep.bjcp2015beerstyles.db.BjcpContract;
+import io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
