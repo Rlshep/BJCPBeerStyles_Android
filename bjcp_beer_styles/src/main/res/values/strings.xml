@@ -4,6 +4,7 @@
     <string name="action_search_hint">Search Styles</string>
     <string name="action_info">About</string>
     <string name="action_delete">Remove</string>
+    <string name="action_select_all">Select All</string>
     <string name="cat_tab_header">Categories</string>
     <string name="on_tap_tab_header">Bookmarks</string>
     <string name="on_tap_success">"Successfully added to Bookmarks"</string>

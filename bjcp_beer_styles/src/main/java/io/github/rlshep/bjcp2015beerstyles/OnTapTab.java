@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,11 +25,12 @@ import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 public class OnTapTab extends Fragment {
     private View view;
     private Menu menu;
-    private int selectedPosition = -1;
+    private ArrayList<Integer> selectedIds = new ArrayList<Integer>();
+    private CategoriesListAdapter subCategoryAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = inflater.inflate(R.layout.on_tap_tab,container,false);
+        this.view = inflater.inflate(R.layout.on_tap_tab, container, false);
         setListView();
         return view;
     }
@@ -52,6 +52,11 @@ public class OnTapTab extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu = menu;
         super.onCreateOptionsMenu(menu, inflater);
+
+        ListView listView = (ListView) getActivity().findViewById(R.id.onTapListView);
+        if (0 < listView.getAdapter().getCount()) {
+            addSelectAllIcon();
+        }
     }
 
     @Override
@@ -61,6 +66,9 @@ public class OnTapTab extends Fragment {
             case R.id.action_delete:
                 removeFromOnTap();
                 Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_delete, Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_select_all:
+                onSelectAllPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -76,7 +84,7 @@ public class OnTapTab extends Fragment {
             listItems.add(getString(R.string.on_tap_empty));
         }
 
-        ListAdapter subCategoryAdapter = new CategoriesListAdapter(getActivity(), listItems);
+        subCategoryAdapter = new CategoriesListAdapter(getActivity(), listItems);
         ListView onTapListView = (ListView) view.findViewById(R.id.onTapListView);
         onTapListView.setAdapter(subCategoryAdapter);
 
@@ -85,7 +93,7 @@ public class OnTapTab extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
                 BjcpController.loadSubCategoryBody(getActivity(), subCategory);
-                removeDeleteIcon();
+                removeAllSelected();
             }
         });
 
@@ -94,13 +102,10 @@ public class OnTapTab extends Fragment {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 LinearLayout onTapListView = (LinearLayout) view.findViewById(R.id.categorySectionRow);
 
-                if (0 <= selectedPosition) {
-                    onTapListView.setSelected(false);
-                    removeDeleteIcon();
+                if (selectedIds.contains(position)) {
+                    removeSelected(position);
                 } else {
-                    onTapListView.setSelected(true);
-                    addDeleteIcon();
-                    selectedPosition = position;
+                    addSelectedItem(position);
                 }
 
                 return true;
@@ -109,12 +114,16 @@ public class OnTapTab extends Fragment {
     }
 
     private void removeFromOnTap() {
-        ListView listView = (ListView)getActivity().findViewById(R.id.onTapListView);
-        SubCategory subCategory = (SubCategory)listView.getItemAtPosition(selectedPosition);
-        subCategory.set_tapped(false);
-        BjcpDataHelper.getInstance(getActivity()).updateSubCategoryUntapped(subCategory);
+        ListView listView = (ListView) getActivity().findViewById(R.id.onTapListView);
+
+        for (Integer selectedId : selectedIds) {
+            SubCategory subCategory = (SubCategory) listView.getItemAtPosition(selectedId);
+            subCategory.set_tapped(false);
+            BjcpDataHelper.getInstance(getActivity()).updateSubCategoryUntapped(subCategory);
+        }
+
         setListView();
-        removeDeleteIcon();
+        removeAllSelected();
     }
 
     private void addDeleteIcon() {
@@ -126,6 +135,58 @@ public class OnTapTab extends Fragment {
     private void removeDeleteIcon() {
         MenuItem deleteItem = menu.findItem(R.id.action_delete);
         deleteItem.setVisible(false);
-        selectedPosition = -1;
+    }
+
+    private void addSelectAllIcon() {
+        MenuItem selectAllItem = menu.findItem(R.id.action_select_all);
+        selectAllItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        selectAllItem.setVisible(true);
+    }
+
+    private void onSelectAllPressed() {
+        ListView listView = (ListView) getActivity().findViewById(R.id.onTapListView);
+        if (listView.getAdapter().getCount() == selectedIds.size()) {
+            removeAllSelected();
+        } else {
+            selectAllItems();
+        }
+    }
+
+    private void selectAllItems() {
+        ListView listView = (ListView) getActivity().findViewById(R.id.onTapListView);
+        CategoriesListAdapter subCategoryAdapter = (CategoriesListAdapter) listView.getAdapter();
+
+        for (int i = 0; i < listView.getAdapter().getCount(); i++) {
+            listView.setItemChecked(i, true);
+            selectedIds.add(i);
+        }
+
+        addDeleteIcon();
+        subCategoryAdapter.setSelectedIds(selectedIds);
+        subCategoryAdapter.notifyDataSetChanged();
+    }
+
+    private void addSelectedItem(Integer position) {
+        selectedIds.add(position);
+        addDeleteIcon();
+        subCategoryAdapter.setSelectedIds(selectedIds);
+        subCategoryAdapter.notifyDataSetChanged();
+    }
+
+    private void removeSelected(Integer position) {
+        selectedIds.remove(position);
+        subCategoryAdapter.setSelectedIds(selectedIds);
+        subCategoryAdapter.notifyDataSetChanged();
+
+        if (selectedIds.isEmpty()) {
+            removeDeleteIcon();
+        }
+    }
+
+    private void removeAllSelected() {
+        selectedIds = new ArrayList<Integer>();
+        subCategoryAdapter.setSelectedIds(selectedIds);
+        subCategoryAdapter.notifyDataSetChanged();
+        removeDeleteIcon();
     }
 }

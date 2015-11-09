@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.R;
@@ -18,6 +19,7 @@ import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class CategoriesListAdapter extends ArrayAdapter {
     private String searchedText = "";
+    private ArrayList<Integer> selectedIds = new ArrayList<Integer>();
 
     @SuppressWarnings("unchecked")
     public CategoriesListAdapter(Context context, List listValues) {
@@ -37,6 +39,9 @@ public class CategoriesListAdapter extends ArrayAdapter {
         TextView rowText;
         Object item = getItem(position);
 
+        //Used for on tap only
+        listRowView.setBackgroundColor((selectedIds.contains(position) ? listRowView.getResources().getColor(R.color.pressed_color) : listRowView.getResources().getColor(android.R.color.transparent)));
+
         if (item instanceof Section) {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
@@ -55,5 +60,13 @@ public class CategoriesListAdapter extends ArrayAdapter {
         }
 
         return listRowView;
+    }
+
+    public ArrayList<Integer> getSelectedIds() {
+        return selectedIds;
+    }
+
+    public void setSelectedIds(ArrayList<Integer> selectedIds) {
+        this.selectedIds = selectedIds;
     }
 }
