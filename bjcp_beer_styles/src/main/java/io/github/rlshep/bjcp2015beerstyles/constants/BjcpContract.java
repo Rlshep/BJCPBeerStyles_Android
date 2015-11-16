@@ -3,18 +3,15 @@ package io.github.rlshep.bjcp2015beerstyles.constants;
 public class BjcpContract {
     public static final String TABLE_CATEGORY = "CATEGORY";
     public static final String COLUMN_ID = "_id";
-    public static final String COLUMN_CAT = "category";
+    public static final String COLUMN_PARENT_ID = "parent_id";
+    public static final String COLUMN_CATEGORY_CODE = "category_code";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_REVISION = "revision";
     public static final String COLUMN_LANG = "language";
-
-    public static final String TABLE_SUB_CATEGORY = "SUB_CATEGORY";
-    public static final String COLUMN_CAT_ID = "category_id";
-    public static final String COLUMN_SUB_CAT = "sub_category";
-    public static final String COLUMN_TAPPED = "tapped";
+    public static final String COLUMN_BOOKMARKED = "bookmarked";
 
     public static final String TABLE_SECTION = "SECTION";
-    public static final String COLUMN_SUB_CAT_ID = "sub_category_id";
+    public static final String COLUMN_CAT_ID = "category_id";
     public static final String COLUMN_HEADER = "header";
     public static final String COLUMN_BODY = "body";
     public static final String COLUMN_ORDER = "order_number";

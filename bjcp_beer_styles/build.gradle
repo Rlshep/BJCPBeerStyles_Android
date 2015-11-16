@@ -9,14 +9,14 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 47
-        versionName "1.0.2"
+        versionName "1.1.0"
     }
     signingConfigs {
         release {
             storeFile file("/dev/keystores/bjcp_key.jks")
-            storePassword "password1"
+            storePassword "uHQpY2Q#jXBGexSN5uC6&G%8BcG"
             keyAlias "BjcpBeerStylesKey"
-            keyPassword "password2"
+            keyPassword "duq4bpSGZFqmfrrtfdPjVuCdEgR"
         }
     }
     buildTypes {

@@ -10,12 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
-import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
@@ -85,11 +81,11 @@ public class SubCategoryBodyActivity extends BjcpActivity {
 
     private String getSectionsBody(String subCategoryId) {
         String body = "";
-
-        for (Section section : BjcpDataHelper.getInstance(this).getSubCategorySections(subCategoryId)) {
-            body += "<big><b> " + section.get_header() + "</b></big><br>";
-            body += section.get_body() + "<br><br>";
-        }
+//TODO: FIX ME
+//        for (Section section : BjcpDataHelper.getInstance(this).getSubCategorySections(subCategoryId)) {
+//            body += "<big><b> " + section.get_header() + "</b></big><br>";
+//            body += section.get_body() + "<br><br>";
+//        }
 
         return body;
     }
@@ -105,19 +101,19 @@ public class SubCategoryBodyActivity extends BjcpActivity {
         else {
             vitals += "<big><b> " + VITAL_HEADER + "</b></big>";
 
-            if (null != vitalStatistics.get_ibuStart()) {
-                vitals += "<br><b>IBUs:</b> " + vitalStatistics.get_ibuStart() + " - " + vitalStatistics.get_ibuEnd();
+            if (null != vitalStatistics.getIbuStart()) {
+                vitals += "<br><b>IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
             }
-            if (null != vitalStatistics.get_ogStart()) {
-                vitals += "<br><b>OG:</b> " + vitalStatistics.get_ogStart() + " - " + vitalStatistics.get_ogEnd();
+            if (null != vitalStatistics.getOgStart()) {
+                vitals += "<br><b>OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
             }
-            if (null != vitalStatistics.get_abvStart()) {
-                vitals += "<br><b>ABV:</b> " + vitalStatistics.get_abvStart() + " - " + vitalStatistics.get_abvEnd();
+            if (null != vitalStatistics.getAbvStart()) {
+                vitals += "<br><b>ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
             }
-            if (null != vitalStatistics.get_fgStart()) {
-                vitals += "<br><b>FG:</b> " + vitalStatistics.get_fgStart() + " - " + vitalStatistics.get_fgEnd();
+            if (null != vitalStatistics.getFgStart()) {
+                vitals += "<br><b>FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
             }
-            if (null != vitalStatistics.get_srmStart()) {
+            if (null != vitalStatistics.getSrmStart()) {
                 vitals += "<br><b>SRM:</b>";
                 showSrmImages(vitalStatistics);
             }
@@ -137,8 +133,8 @@ public class SubCategoryBodyActivity extends BjcpActivity {
         imgSrmEnd.setImageResource(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "drawable", getPackageName()));
 
         // For disabled accessibility.
-        imgSrmBegin.setContentDescription(getString(R.string.beginSrm) + vitalStatistics.get_srmStart());
-        imgSrmEnd.setContentDescription(getString(R.string.endSrm) + vitalStatistics.get_srmEnd());
+        imgSrmBegin.setContentDescription(getString(R.string.beginSrm) + vitalStatistics.getSrmStart());
+        imgSrmEnd.setContentDescription(getString(R.string.endSrm) + vitalStatistics.getSrmEnd());
     }
 
     private void hideSrmImages() {
@@ -148,28 +144,28 @@ public class SubCategoryBodyActivity extends BjcpActivity {
         imgSrmBegin.setVisibility(View.GONE);
         imgSrmEnd.setVisibility(View.GONE);
     }
-
+    //TODO: FIX ME
     private void changeSubCategory(int i) {
-        List<SubCategory> subCategories = BjcpDataHelper.getInstance(this).getSubCategories(categoryId);
-        SubCategory subCategory = BjcpDataHelper.getInstance(this).getSubCategory(subCategoryId);
-        int newOrder = subCategory.get_orderNumber() + i;
-
-        if (0 <= newOrder && subCategories.size() > newOrder) {
-            for (SubCategory sc : subCategories) {
-                if (newOrder == sc.get_orderNumber()) {
-                    BjcpController.loadSubCategoryBody(this, sc);
-                }
-            }
-        }
+//        List<SubCategory> subCategories = BjcpDataHelper.getInstance(this).getSubCategories(categoryId);
+//        SubCategory subCategory = BjcpDataHelper.getInstance(this).getSubCategory(subCategoryId);
+//        int newOrder = subCategory.get_orderNumber() + i;
+//
+//        if (0 <= newOrder && subCategories.size() > newOrder) {
+//            for (SubCategory sc : subCategories) {
+//                if (newOrder == sc.get_orderNumber()) {
+//                    BjcpController.loadSubCategoryBody(this, sc);
+//                }
+//            }
+//        }
     }
 
     private String getStartSrm(VitalStatistics vitalStatistics) {
-        double floor = Math.floor(Double.parseDouble(vitalStatistics.get_srmStart()));
+        double floor = Math.floor(Double.parseDouble(vitalStatistics.getSrmStart()));
         return ((Integer) Double.valueOf(floor).intValue()).toString();
     }
 
     private String getEndSrm(VitalStatistics vitalStatistics) {
-        double ceil = Math.ceil(Double.parseDouble(vitalStatistics.get_srmEnd()));
+        double ceil = Math.ceil(Double.parseDouble(vitalStatistics.getSrmEnd()));
         return ((Integer) Double.valueOf(ceil).intValue()).toString();
     }
 
