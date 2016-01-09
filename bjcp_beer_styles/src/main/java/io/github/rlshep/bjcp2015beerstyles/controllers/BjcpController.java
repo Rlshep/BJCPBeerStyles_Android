@@ -12,11 +12,11 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BjcpController {
 
-    public static void loadSubCategoryList(Activity activity, Category category) {
-        loadSubCategoryList(activity, category, "");
+    public static void loadCategoryList(Activity activity, Category category) {
+        loadCategoryList(activity, category, "");
     }
 
-    public static void loadSubCategoryList(Activity activity, Category category, String searchedText) {
+    public static void loadCategoryList(Activity activity, Category category, String searchedText) {
         Intent i = new Intent(activity, SubCategoryListActivity.class);
 
         i.putExtra("CATEGORYId", (Long.valueOf(category.getId())).toString());
@@ -33,7 +33,7 @@ public class BjcpController {
 //    }
 //
 //    public static void loadSubCategoryBody(Activity activity, SubCategory subCategory, String searchedText) {
-//        Intent i = new Intent(activity, SubCategoryBodyActivity.class);
+//        Intent i = new Intent(activity, CategoryBodyActivity.class);
 //
 //        i.putExtra("CATEGORYId", (Long.valueOf(subCategory.get_categoryId())).toString());
 //        i.putExtra("SUB_CATEGORYId", (Long.valueOf(subCategory.getId())).toString());

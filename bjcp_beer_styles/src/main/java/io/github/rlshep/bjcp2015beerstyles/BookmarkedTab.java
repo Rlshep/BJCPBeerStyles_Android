@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 
-public class OnTapTab extends Fragment {
+public class BookmarkedTab extends Fragment {
     private View view;
     private Menu menu;
     private ArrayList<Integer> selectedIds = new ArrayList<Integer>();

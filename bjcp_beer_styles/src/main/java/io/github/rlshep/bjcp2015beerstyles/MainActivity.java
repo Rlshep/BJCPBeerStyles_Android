@@ -56,7 +56,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             @Override
             public void onPageSelected(int position) {
                 if (ON_TAP_TAB == position) {
-                    OnTapTab fragment = (OnTapTab) adapter.instantiateItem(pager, position);
+                    BookmarkedTab fragment = (BookmarkedTab) adapter.instantiateItem(pager, position);
                     if (fragment != null) {
                         fragment.onResume();
                     }

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import io.github.rlshep.bjcp2015beerstyles.CategoryListTab;
-import io.github.rlshep.bjcp2015beerstyles.OnTapTab;
+import io.github.rlshep.bjcp2015beerstyles.BookmarkedTab;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             return new CategoryListTab();
         }
         else {
-            return new OnTapTab();
+            return new BookmarkedTab();
         }
     }
 

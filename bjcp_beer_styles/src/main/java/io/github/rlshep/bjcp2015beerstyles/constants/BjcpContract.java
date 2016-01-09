@@ -39,6 +39,7 @@ public class BjcpContract {
     public static final String TABLE_FTS_SEARCH = "FTS_SEARCH";
 
     public static final String XML_ID = "id";
+    public static final String XML_CATEGORY = "category";
     public static final String XML_SUBCATEGORY = "subcategory";
     public static final String XML_STATS = "stats";
     public static final String XML_OG = "og";

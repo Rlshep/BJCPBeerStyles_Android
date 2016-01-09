@@ -18,7 +18,7 @@ import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
-public class SubCategoryBodyActivity extends BjcpActivity {
+public class CategoryBodyActivity extends BjcpActivity {
     private static final String VITAL_HEADER = "Vital Statistics";
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
