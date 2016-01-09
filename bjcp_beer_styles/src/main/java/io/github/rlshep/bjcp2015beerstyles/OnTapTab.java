@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -79,12 +78,14 @@ public class OnTapTab extends Fragment {
     private void setListView() {
         List listItems = new ArrayList();
         listItems.addAll(BjcpDataHelper.getInstance(getActivity()).getOnTapSubCategories());
+        subCategoryAdapter = new CategoriesListAdapter(getActivity(), listItems);
 
         if (listItems.isEmpty()) {
             listItems.add(getString(R.string.on_tap_empty));
+            subCategoryAdapter.setSelectEnabled(false);
         }
 
-        subCategoryAdapter = new CategoriesListAdapter(getActivity(), listItems);
+
         ListView onTapListView = (ListView) view.findViewById(R.id.onTapListView);
         onTapListView.setAdapter(subCategoryAdapter);
 
@@ -100,8 +101,6 @@ public class OnTapTab extends Fragment {
         onTapListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                LinearLayout onTapListView = (LinearLayout) view.findViewById(R.id.categorySectionRow);
-
                 if (selectedIds.contains(position)) {
                     removeSelected(position);
                 } else {
@@ -124,23 +123,44 @@ public class OnTapTab extends Fragment {
 
         setListView();
         removeAllSelected();
+        removeSelectAllIcon();
     }
 
     private void addDeleteIcon() {
-        MenuItem deleteItem = menu.findItem(R.id.action_delete);
-        deleteItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        deleteItem.setVisible(true);
+        if (isSelected() && !isFavoritesEmpty()) {
+            MenuItem deleteItem = menu.findItem(R.id.action_delete);
+            deleteItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            deleteItem.setVisible(true);
+        }
     }
 
     private void removeDeleteIcon() {
-        MenuItem deleteItem = menu.findItem(R.id.action_delete);
-        deleteItem.setVisible(false);
+        if (!isSelected()) {
+            MenuItem deleteItem = menu.findItem(R.id.action_delete);
+            deleteItem.setVisible(false);
+        }
     }
 
     private void addSelectAllIcon() {
-        MenuItem selectAllItem = menu.findItem(R.id.action_select_all);
-        selectAllItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        selectAllItem.setVisible(true);
+        if (!isFavoritesEmpty()) {
+            MenuItem selectAllItem = menu.findItem(R.id.action_select_all);
+            selectAllItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            selectAllItem.setVisible(true);
+        }
+    }
+
+    private void removeSelectAllIcon() {
+        if (isFavoritesEmpty()) {
+            MenuItem selectAllItem = menu.findItem(R.id.action_select_all);
+            selectAllItem.setVisible(false);
+        }
+    }
+
+    private boolean isFavoritesEmpty() {
+        List listItems = new ArrayList();
+        listItems.addAll(BjcpDataHelper.getInstance(getActivity()).getOnTapSubCategories());
+
+        return listItems.isEmpty();
     }
 
     private void onSelectAllPressed() {
@@ -155,6 +175,7 @@ public class OnTapTab extends Fragment {
     private void selectAllItems() {
         ListView listView = (ListView) getActivity().findViewById(R.id.onTapListView);
         CategoriesListAdapter subCategoryAdapter = (CategoriesListAdapter) listView.getAdapter();
+        selectedIds = new ArrayList<Integer>(); //reset selection
 
         for (int i = 0; i < listView.getAdapter().getCount(); i++) {
             listView.setItemChecked(i, true);
@@ -188,5 +209,9 @@ public class OnTapTab extends Fragment {
         subCategoryAdapter.setSelectedIds(selectedIds);
         subCategoryAdapter.notifyDataSetChanged();
         removeDeleteIcon();
+    }
+
+    private boolean isSelected() {
+        return !selectedIds.isEmpty();
     }
 }

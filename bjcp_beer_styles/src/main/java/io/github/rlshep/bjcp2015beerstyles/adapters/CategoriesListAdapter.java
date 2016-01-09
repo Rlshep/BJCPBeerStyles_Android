@@ -20,6 +20,7 @@ import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 public class CategoriesListAdapter extends ArrayAdapter {
     private String searchedText = "";
     private ArrayList<Integer> selectedIds = new ArrayList<Integer>();
+    private boolean selectEnabled = true;
 
     @SuppressWarnings("unchecked")
     public CategoriesListAdapter(Context context, List listValues) {
@@ -68,5 +69,13 @@ public class CategoriesListAdapter extends ArrayAdapter {
 
     public void setSelectedIds(ArrayList<Integer> selectedIds) {
         this.selectedIds = selectedIds;
+    }
+
+    public boolean isEnabled(int position) {
+        return selectEnabled;
+    }
+
+    public void setSelectEnabled(boolean enabled) {
+        selectEnabled = enabled;
     }
 }

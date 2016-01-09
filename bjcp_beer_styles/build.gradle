@@ -8,8 +8,8 @@ android {
         applicationId "io.github.rlshep.bjcp2015beerstyles"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 47
-        versionName "1.0.2"
+        versionCode 48
+        versionName "1.0.3"
     }
     signingConfigs {
         release {
