@@ -84,28 +84,29 @@ public class SearchResultsActivity extends BjcpActivity {
             listItems.add(getString(R.string.no_search_results));
         } else {
             listItems.addAll(categories);
-            Collections.sort(listItems);
+            sortByPriority(categories);
         }
 
         return listItems;
     }
 
     // Bringing categories and subcategories who have the search criteria in the name to the top.
-//    @SuppressWarnings("unchecked")
-//    private List sortByPriority(List<Category> categories) {
-//        List sorted = new ArrayList();
-//        List<Category> catRemaining = new ArrayList<>();
-//
-//        for (Category category : categories) {
-//            if (category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
-//                sorted.add(category);
-//            } else {
-//                catRemaining.add(category);
-//            }
-//        }
-//
-//        sorted.addAll(catRemaining);
-//
-//        return sorted;
-//    }
+    @SuppressWarnings("unchecked")
+    private List sortByPriority(List<Category> categories) {
+        List sorted = new ArrayList();
+        List<Category> catRemaining = new ArrayList<>();
+        Collections.sort(categories);
+
+        for (Category category : categories) {
+            if (category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
+                sorted.add(category);
+            } else {
+                catRemaining.add(category);
+            }
+        }
+
+        sorted.addAll(catRemaining);
+
+        return sorted;
+    }
 }
