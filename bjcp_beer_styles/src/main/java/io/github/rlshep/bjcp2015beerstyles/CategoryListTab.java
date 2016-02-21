@@ -24,7 +24,7 @@ public class CategoryListTab extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.category_list_tab, container, false);
-        
+
         setupCategoryListView(v);
 
         return v;
@@ -57,7 +57,7 @@ public class CategoryListTab extends Fragment {
                 boolean consumed = false;
 
                 if (parent.getItemAtPosition(position) instanceof Category) {
-                    addAllSubCategoriesToOnTap((Category) parent.getItemAtPosition(position));
+                    addAllCategoriesToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
 
@@ -66,8 +66,8 @@ public class CategoryListTab extends Fragment {
         });
     }
 
-    private void addAllSubCategoriesToOnTap(Category category) {
-        List<Category> categories = BjcpDataHelper.getInstance(getActivity()).getSubCategories(category.getId());
+    private void addAllCategoriesToBookmarked(Category category) {
+        List<Category> categories = BjcpDataHelper.getInstance(getActivity()).getCategoriesByParent(category.getId());
         //TODO: Cascade down through all children.
 
         for (Category cat : categories) {

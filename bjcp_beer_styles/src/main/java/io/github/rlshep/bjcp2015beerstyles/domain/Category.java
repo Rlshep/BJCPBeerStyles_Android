@@ -3,7 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements Comparable {
     public final static String LANG_ENGLISH = "English";
     public final static double CURRENT_REVISION = 2015;
 
@@ -13,11 +13,21 @@ public class Category {
     private String name;
     private double revision;
     private String language;
-    private int orderNumber;
+    private Integer orderNumber;
     private boolean bookmarked;
     private VitalStatistics vitalStatistics;
     private List<Section> sections = new ArrayList<Section>();
     private List<Category> childCategories = new ArrayList<Category>();
+
+    @Override
+    public int compareTo(Object another) {
+        if (another instanceof Category) {
+            Category c = (Category)another;
+            return this.orderNumber.compareTo(c.getOrderNumber());
+        }
+
+        return 0;
+    }
 
     public Category() {
         this.language = LANG_ENGLISH;
@@ -122,5 +132,9 @@ public class Category {
 
     public void setChildCategories(List<Category> childCategories) {
         this.childCategories = childCategories;
+    }
+
+    public boolean isParent() {
+        return 0 <= parentId;
     }
 }

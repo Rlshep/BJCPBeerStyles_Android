@@ -3,7 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles.domain;
 public class VitalStatistics {
 
     private long id;
-    private long subCategoryId;
+    private long categoryId;
     private String ogStart;
     private String ogEnd;
     private String fgStart;
@@ -26,12 +26,12 @@ public class VitalStatistics {
         this.id = id;
     }
 
-    public long getSubCategoryId() {
-        return subCategoryId;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void setSubCategoryId(long subCategoryId) {
-        this.subCategoryId = subCategoryId;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getOgStart() {

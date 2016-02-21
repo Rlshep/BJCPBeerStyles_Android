@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
@@ -23,21 +27,18 @@ public class CategoryBodyActivity extends BjcpActivity {
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";
-    private String subCategoryId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setContentView(R.layout.activity_sub_category_body);
+        setContentView(R.layout.activity_category_body);
         Bundle extras = getIntent().getExtras();
         String searchedText = "";
 
         if (extras != null) {
-            String title = extras.getString("SUB_CATEGORY") + " - " + extras.getString("SUB_CATEGORY_NAME");
+            String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             setupToolbar(R.id.scbToolbar, title, false, true);
-
-            subCategoryId = extras.getString("SUB_CATEGORY_ID");
             categoryId = extras.getString("CATEGORY_ID");
             searchedText = extras.getString("SEARCHED_TEXT");
         }
@@ -53,10 +54,10 @@ public class CategoryBodyActivity extends BjcpActivity {
 
         if (eventConsumed) {
             if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
-                changeSubCategory(-1);
+                changeCategory(-1);
             }
             else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
-                changeSubCategory(1);
+                changeCategory(1);
             }
 
             eventReturn = true;
@@ -72,28 +73,27 @@ public class CategoryBodyActivity extends BjcpActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                BjcpController.loadSubCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(categoryId));
+                BjcpController.loadCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(categoryId));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private String getSectionsBody(String subCategoryId) {
+    private String getSectionsBody(String categoryId) {
         String body = "";
-//TODO: FIX ME
-//        for (Section section : BjcpDataHelper.getInstance(this).getSubCategorySections(subCategoryId)) {
-//            body += "<big><b> " + section.get_header() + "</b></big><br>";
-//            body += section.get_body() + "<br><br>";
-//        }
+        for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
+            body += "<big><b> " + section.getHeader() + "</b></big><br>";
+            body += section.getBody() + "<br><br>";
+        }
 
         return body;
     }
 
-    private String getVitalStatistics(String subCategoryId) {
+    private String getVitalStatistics(String categoryId) {
         String vitals = "";
 
-        VitalStatistics vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(subCategoryId);
+        VitalStatistics vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
 
         if (null == vitalStatistics) {
             hideSrmImages();
@@ -144,19 +144,18 @@ public class CategoryBodyActivity extends BjcpActivity {
         imgSrmBegin.setVisibility(View.GONE);
         imgSrmEnd.setVisibility(View.GONE);
     }
-    //TODO: FIX ME
-    private void changeSubCategory(int i) {
-//        List<SubCategory> subCategories = BjcpDataHelper.getInstance(this).getSubCategories(categoryId);
-//        SubCategory subCategory = BjcpDataHelper.getInstance(this).getSubCategory(subCategoryId);
-//        int newOrder = subCategory.get_orderNumber() + i;
-//
-//        if (0 <= newOrder && subCategories.size() > newOrder) {
-//            for (SubCategory sc : subCategories) {
-//                if (newOrder == sc.get_orderNumber()) {
-//                    BjcpController.loadSubCategoryBody(this, sc);
-//                }
-//            }
-//        }
+    private void changeCategory(int i) {
+        List<Category> subCategories = BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId);
+        Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
+        int newOrder = category.getOrderNumber() + i;
+
+        if (0 <= newOrder && subCategories.size() > newOrder) {
+            for (Category sc : subCategories) {
+                if (newOrder == sc.getOrderNumber()) {
+                    BjcpController.loadCategoryBody(this, sc);
+                }
+            }
+        }
     }
 
     private String getStartSrm(VitalStatistics vitalStatistics) {
@@ -170,7 +169,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setText(String searchedText) {
-        String text = getSectionsBody(subCategoryId) + getVitalStatistics(subCategoryId);
+        String text = getSectionsBody(categoryId) + getVitalStatistics(categoryId);
         TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
         sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
     }
