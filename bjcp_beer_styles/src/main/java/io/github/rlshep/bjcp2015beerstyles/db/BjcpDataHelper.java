@@ -133,32 +133,6 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         return getCategories(query);
     }
-//TODO: USED?
-//    public List<Section> getSections(String categoryId) {
-//        List<Section> sections = new ArrayList<Section>();
-//        Section section;
-//
-//        String query = "SELECT S." + BjcpContract.COLUMN_ID + ", S." + BjcpContract.COLUMN_BODY + ", S." + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_SECTION + " S " + "WHERE S." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId + " ORDER BY S." + BjcpContract.COLUMN_ORDER;
-//
-//        //Cursor point to a location in your results
-//        Cursor c = getRead().rawQuery(query, null);
-//        c.moveToFirst();
-//
-//        while (!c.isAfterLast()) {
-//            section = new Section();
-//            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-//                section.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-//                section.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
-//                section.setBody(c.getString(c.getColumnIndex(BjcpContract.COLUMN_BODY)));
-//            }
-//            c.moveToNext();
-//            sections.add(section);
-//        }
-//
-//        c.close();
-//
-//        return sections;
-//    }
 
     public VitalStatistics getVitalStatistics(String categoryId) {
         VitalStatistics vitalStatistics = null;

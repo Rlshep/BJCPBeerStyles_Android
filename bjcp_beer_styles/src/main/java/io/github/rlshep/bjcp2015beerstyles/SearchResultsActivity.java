@@ -104,6 +104,7 @@ public class SearchResultsActivity extends BjcpActivity {
                 catRemaining.add(category);
             }
         }
+        //TODO: Sort Introductions and Appendix last
 
         sorted.addAll(catRemaining);
 

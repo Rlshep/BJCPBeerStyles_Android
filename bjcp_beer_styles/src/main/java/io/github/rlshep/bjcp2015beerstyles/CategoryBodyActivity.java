@@ -81,6 +81,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private String getSectionsBody(String categoryId) {
+        //TODO: Handle Tag table
         String body = "";
         for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
             body += "<big><b> " + section.getHeader() + "</b></big><br>";

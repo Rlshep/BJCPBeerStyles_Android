@@ -50,8 +50,9 @@ public class CategoryListActivity extends BjcpActivity {
     private void setListView(String categoryId, String searchedText) {
         List listView = new ArrayList();
 
-        listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
         listView.addAll(BjcpDataHelper.getInstance(this).getCategorySections(categoryId));
+        listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
+
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
         ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);

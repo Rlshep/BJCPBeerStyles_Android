@@ -15,6 +15,8 @@ public class VitalStatistics {
     private String abvStart;
     private String abvEnd;
 
+    private String header;
+
     public VitalStatistics() {
     }
 
@@ -112,5 +114,13 @@ public class VitalStatistics {
 
     public void setAbvEnd(String abvEnd) {
         this.abvEnd = abvEnd;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 }

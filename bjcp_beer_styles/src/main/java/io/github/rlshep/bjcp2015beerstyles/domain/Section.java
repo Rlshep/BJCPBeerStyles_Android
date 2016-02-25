@@ -10,8 +10,7 @@ public class Section {
     public Section() {
     }
 
-    public Section(String header, long orderNumber) {
-        this.header = header;
+    public Section(long orderNumber) {
         this.orderNumber = orderNumber;
     }
 

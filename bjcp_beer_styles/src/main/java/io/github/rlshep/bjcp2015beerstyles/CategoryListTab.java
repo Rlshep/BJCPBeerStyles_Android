@@ -68,7 +68,6 @@ public class CategoryListTab extends Fragment {
 
     private void addAllCategoriesToBookmarked(Category category) {
         List<Category> categories = BjcpDataHelper.getInstance(getActivity()).getCategoriesByParent(category.getId());
-        //TODO: Cascade down through all children.
 
         for (Category cat : categories) {
             cat.setBookmarked(true);

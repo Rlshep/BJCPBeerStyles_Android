@@ -41,18 +41,15 @@ public class CategoriesListAdapter extends ArrayAdapter {
         //Used for on tap only
         listRowView.setBackgroundColor((selectedIds.contains(position) ? listRowView.getResources().getColor(R.color.pressed_color) : listRowView.getResources().getColor(android.R.color.transparent)));
 
-        if (item instanceof Section) {
+            if (item instanceof Section) {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
+            rowText.setTextIsSelectable(true);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
         } if (item instanceof Category) {
             Category category = (Category)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
             rowText.setText(category.getCategory() + " - " + category.getName());
-//        } else if (item instanceof SubCategory) {
-//            SubCategory subCategory = (SubCategory)item;
-//            rowText = (TextView) listRowView.findViewById(R.id.catListText);
-//            rowText.setText(subCategory.get_subCategory() + " - " + subCategory.get_name());
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String)item);

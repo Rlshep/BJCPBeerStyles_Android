@@ -39,6 +39,6 @@ dependencies {
 }
 
 task jar(type: Jar) {
-    from('build/intermediates/classes/release')
+    from('build/intermediates/classes/debug')
     include 'io/github/rlshep/bjcp2015beerstyles/**'
 }

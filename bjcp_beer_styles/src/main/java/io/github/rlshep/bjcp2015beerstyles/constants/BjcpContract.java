@@ -50,4 +50,8 @@ public class BjcpContract {
     public static final String XML_LOW = "low";
     public static final String XML_HIGH = "high";
     public static final String XML_EXCEPTIONS = "exceptions";
+    public static final String XML_TITLE = "title";
+    public static final String XML_NOTES = "notes";
+
+
 }
