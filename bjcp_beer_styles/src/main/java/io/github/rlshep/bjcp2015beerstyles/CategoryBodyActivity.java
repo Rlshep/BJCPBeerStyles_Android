@@ -81,7 +81,6 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private String getSectionsBody(String categoryId) {
-        //TODO: Handle Tag table
         String body = "";
         for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
             body += "<big><b> " + section.getHeader() + "</b></big><br>";
@@ -94,32 +93,35 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String getVitalStatistics(String categoryId) {
         String vitals = "";
 
-        VitalStatistics vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
+        List<VitalStatistics> vitalStatisticses = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
 
-        if (null == vitalStatistics) {
-            hideSrmImages();
-        }
-        else {
+        if (!vitalStatisticses.isEmpty()) {
             vitals += "<big><b> " + VITAL_HEADER + "</b></big>";
+        }
 
-            if (null != vitalStatistics.getIbuStart()) {
-                vitals += "<br><b>IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
-            }
-            if (null != vitalStatistics.getOgStart()) {
-                vitals += "<br><b>OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
-            }
-            if (null != vitalStatistics.getAbvStart()) {
-                vitals += "<br><b>ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
-            }
-            if (null != vitalStatistics.getFgStart()) {
-                vitals += "<br><b>FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
-            }
-            if (null != vitalStatistics.getSrmStart()) {
-                vitals += "<br><b>SRM:</b>";
-                showSrmImages(vitalStatistics);
+        for (VitalStatistics vitalStatistics : vitalStatisticses) {
+            if (null == vitalStatistics) {
+                hideSrmImages();
             }
             else {
-                hideSrmImages();
+                if (null != vitalStatistics.getIbuStart()) {
+                    vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
+                }
+                if (null != vitalStatistics.getOgStart()) {
+                    vitals += "<br><b>" + vitalStatistics.getHeader() + " OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
+                }
+                if (null != vitalStatistics.getAbvStart()) {
+                    vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
+                }
+                if (null != vitalStatistics.getFgStart()) {
+                    vitals += "<br><b>" + vitalStatistics.getHeader() + " FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
+                }
+                if (null != vitalStatistics.getSrmStart()) {
+                    vitals += "<br><b>" + vitalStatistics.getHeader() + " SRM:</b>";
+                    showSrmImages(vitalStatistics);
+                } else {
+                    hideSrmImages();
+                }
             }
         }
 

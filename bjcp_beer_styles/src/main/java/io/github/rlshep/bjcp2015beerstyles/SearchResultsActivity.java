@@ -83,8 +83,7 @@ public class SearchResultsActivity extends BjcpActivity {
         if (categories.isEmpty()) {
             listItems.add(getString(R.string.no_search_results));
         } else {
-            listItems.addAll(categories);
-            sortByPriority(categories);
+            listItems.addAll(sortByPriority(categories));
         }
 
         return listItems;
@@ -93,20 +92,28 @@ public class SearchResultsActivity extends BjcpActivity {
     // Bringing categories and subcategories who have the search criteria in the name to the top.
     @SuppressWarnings("unchecked")
     private List sortByPriority(List<Category> categories) {
-        List sorted = new ArrayList();
+        List<Category> sorted = new ArrayList<>();
         List<Category> catRemaining = new ArrayList<>();
+        List<Category> catIntros = new ArrayList<>();
+        List<Category> catAppendixes = new ArrayList<>();
+
         Collections.sort(categories);
 
         for (Category category : categories) {
             if (category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
                 sorted.add(category);
+            } else if (category.getCategoryCode().startsWith("I")) {
+                catIntros.add(category);
+            } else if (category.getCategoryCode().startsWith("A")) {
+                catAppendixes.add(category);
             } else {
                 catRemaining.add(category);
             }
         }
-        //TODO: Sort Introductions and Appendix last
 
         sorted.addAll(catRemaining);
+        sorted.addAll(catIntros);
+        sorted.addAll(catAppendixes);
 
         return sorted;
     }

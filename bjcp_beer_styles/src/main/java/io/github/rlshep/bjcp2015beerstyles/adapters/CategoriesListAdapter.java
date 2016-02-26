@@ -49,17 +49,13 @@ public class CategoriesListAdapter extends ArrayAdapter {
         } if (item instanceof Category) {
             Category category = (Category)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
-            rowText.setText(category.getCategory() + " - " + category.getName());
+            rowText.setText(category.getCategoryCode() + " - " + category.getName());
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String)item);
         }
 
         return listRowView;
-    }
-
-    public ArrayList<Integer> getSelectedIds() {
-        return selectedIds;
     }
 
     public void setSelectedIds(ArrayList<Integer> selectedIds) {

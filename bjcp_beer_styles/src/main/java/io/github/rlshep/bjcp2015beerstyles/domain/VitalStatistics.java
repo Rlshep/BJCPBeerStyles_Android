@@ -14,8 +14,7 @@ public class VitalStatistics {
     private String srmEnd;
     private String abvStart;
     private String abvEnd;
-
-    private String header;
+    private String header = "";
 
     public VitalStatistics() {
     }

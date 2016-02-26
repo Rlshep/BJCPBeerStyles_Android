@@ -18,6 +18,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + BjcpContract.TABLE_CATEGORY + " C ";
     private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
+
     protected BjcpDataHelper(Activity context) {
         super(context);
     }
@@ -32,7 +33,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public Category getCategory(String categoryId) {
-        String query =  CATEGORY_SELECT + " WHERE " + BjcpContract.COLUMN_ID + " = " + categoryId;
+        String query = CATEGORY_SELECT + " WHERE " + BjcpContract.COLUMN_ID + " = " + categoryId;
         return getCategories(query).get(0);
     }
 
@@ -82,7 +83,7 @@ public class BjcpDataHelper extends BaseDataHelper {
                 category.setBookmarked(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_BOOKMARKED)) > 0);
                 category.setRevision(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_REVISION)));
                 category.setLanguage((c.getString(c.getColumnIndex((BjcpContract.COLUMN_LANG)))));
-                 categories.add(category);
+                categories.add(category);
 
             }
             c.moveToNext();
@@ -134,16 +135,20 @@ public class BjcpDataHelper extends BaseDataHelper {
         return getCategories(query);
     }
 
-    public VitalStatistics getVitalStatistics(String categoryId) {
-        VitalStatistics vitalStatistics = null;
-        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId;
+    public List<VitalStatistics> getVitalStatistics(String categoryId) {
+        List<VitalStatistics> vitalStatisticses = new ArrayList<>();
+        VitalStatistics vitalStatistics;
+
+        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + ", " + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId;
+
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
+        c.moveToFirst();
 
-        // Should only be one.
-        while (c.moveToNext()) {
+        while (!c.isAfterLast()) {
+            vitalStatistics = new VitalStatistics();
+
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                vitalStatistics = new VitalStatistics();
                 vitalStatistics.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
                 vitalStatistics.setOgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_START)));
                 vitalStatistics.setOgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_END)));
@@ -155,13 +160,15 @@ public class BjcpDataHelper extends BaseDataHelper {
                 vitalStatistics.setSrmEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_END)));
                 vitalStatistics.setAbvStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_START)));
                 vitalStatistics.setAbvEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_END)));
+                vitalStatistics.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
             }
             c.moveToNext();
+            vitalStatisticses.add(vitalStatistics);
         }
 
         c.close();
 
-        return vitalStatistics;
+        return vitalStatisticses;
     }
 
     public void updateCategoryBookmarked(Category category) {

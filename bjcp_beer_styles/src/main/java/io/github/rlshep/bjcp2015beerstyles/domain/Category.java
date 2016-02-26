@@ -9,15 +9,15 @@ public class Category implements Comparable {
 
     private long id;
     private long parentId;
-    private String category;
+    private String categoryCode;
     private String name;
     private double revision;
     private String language;
     private Integer orderNumber;
     private boolean bookmarked;
-    private VitalStatistics vitalStatistics;
     private List<Section> sections = new ArrayList<Section>();
     private List<Category> childCategories = new ArrayList<Category>();
+    private List<VitalStatistics> vitalStatisticses = new ArrayList<>();
 
     @Override
     public int compareTo(Object another) {
@@ -34,15 +34,15 @@ public class Category implements Comparable {
         this.revision = CURRENT_REVISION;
     }
 
-    public Category(String category) {
-        this.category = category;
+    public Category(String categoryCode) {
+        this.categoryCode = categoryCode;
         this.language = LANG_ENGLISH;
         this.revision = CURRENT_REVISION;
     }
 
-    public Category(long id, String category, String name) {
+    public Category(long id, String categoryCode, String name) {
         this.id = id;
-        this.category = category;
+        this.categoryCode = categoryCode;
         this.name = name;
     }
 
@@ -62,12 +62,12 @@ public class Category implements Comparable {
         this.parentId = parentId;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryCode() {
+        return categoryCode;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
     }
 
     public double getRevision() {
@@ -110,14 +110,6 @@ public class Category implements Comparable {
         this.bookmarked = bookmarked;
     }
 
-    public VitalStatistics getVitalStatistics() {
-        return vitalStatistics;
-    }
-
-    public void setVitalStatistics(VitalStatistics vitalStatistics) {
-        this.vitalStatistics = vitalStatistics;
-    }
-
     public List<Section> getSections() {
         return sections;
     }
@@ -132,6 +124,14 @@ public class Category implements Comparable {
 
     public void setChildCategories(List<Category> childCategories) {
         this.childCategories = childCategories;
+    }
+
+    public List<VitalStatistics> getVitalStatisticses() {
+        return vitalStatisticses;
+    }
+
+    public void setVitalStatisticses(List<VitalStatistics> vitalStatisticses) {
+        this.vitalStatisticses = vitalStatisticses;
     }
 
     public boolean isParent() {
