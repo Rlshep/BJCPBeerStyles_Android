@@ -41,10 +41,9 @@ public class CategoriesListAdapter extends ArrayAdapter {
         //Used for on tap only
         listRowView.setBackgroundColor((selectedIds.contains(position) ? listRowView.getResources().getColor(R.color.pressed_color) : listRowView.getResources().getColor(android.R.color.transparent)));
 
-            if (item instanceof Section) {
+        if (item instanceof Section) {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
-            rowText.setTextIsSelectable(true);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
         } if (item instanceof Category) {
             Category category = (Category)item;

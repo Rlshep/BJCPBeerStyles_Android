@@ -135,6 +135,6 @@ public class Category implements Comparable {
     }
 
     public boolean isParent() {
-        return 0 <= parentId;
+        return 0 >= parentId;
     }
 }

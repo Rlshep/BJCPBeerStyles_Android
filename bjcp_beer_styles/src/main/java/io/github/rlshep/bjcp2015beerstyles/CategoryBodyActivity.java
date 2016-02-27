@@ -73,7 +73,8 @@ public class CategoryBodyActivity extends BjcpActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                BjcpController.loadCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(categoryId));
+                Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
+                BjcpController.loadCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(((Long)category.getParentId()).toString()));
                 return true;
         }
 
@@ -147,16 +148,15 @@ public class CategoryBodyActivity extends BjcpActivity {
         imgSrmBegin.setVisibility(View.GONE);
         imgSrmEnd.setVisibility(View.GONE);
     }
+
     private void changeCategory(int i) {
-        List<Category> subCategories = BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId);
         Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
+        List<Category> subCategories = BjcpDataHelper.getInstance(this).getCategoriesByParent(category.getParentId());
         int newOrder = category.getOrderNumber() + i;
 
-        if (0 <= newOrder && subCategories.size() > newOrder) {
-            for (Category sc : subCategories) {
-                if (newOrder == sc.getOrderNumber()) {
-                    BjcpController.loadCategoryBody(this, sc);
-                }
+        for (Category sc : subCategories) {
+            if (newOrder == sc.getOrderNumber()) {
+                BjcpController.loadCategoryBody(this, sc);
             }
         }
     }

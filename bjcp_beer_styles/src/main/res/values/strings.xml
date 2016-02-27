@@ -23,7 +23,8 @@
     <string name="about_report_end">Github Repository."</string>
     <string name="beginSrm">Beginning S R M equal to </string>
     <string name="endSrm">Ending S R M equal to </string>
-    <string name="title_activity_sub_category_body">SubCategoryBodyActivity</string>
+    <string name="title_activity_category_body">CategoryBodyActivity</string>
+    <string name="title_activity_category_list">CategoryListActivity</string>
     <string name="title_activity_search_results">Results</string>
     <string name="title_activity_search_results_small">for</string>
     <string name="no_search_results">No Results Found</string>

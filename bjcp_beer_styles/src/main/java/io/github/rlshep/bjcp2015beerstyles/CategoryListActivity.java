@@ -34,7 +34,7 @@ public class CategoryListActivity extends BjcpActivity {
         String searchedText = "";
 
         Bundle extras = getIntent().getExtras();
-        if(extras !=null) {
+        if (extras != null) {
             String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             setupToolbar(R.id.sclToolbar, title, false, true);
 
@@ -95,8 +95,7 @@ public class CategoryListActivity extends BjcpActivity {
             }
 
             eventReturn = true;
-        }
-        else {
+        } else {
             eventReturn = super.dispatchTouchEvent(event);
         }
 
@@ -112,13 +111,11 @@ public class CategoryListActivity extends BjcpActivity {
     private void changeCategory(int i) {
         List<Category> categories = BjcpDataHelper.getInstance(this).getAllCategories();
         Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
-        int newOrder =  category.getOrderNumber() + i;
+        int newOrder = category.getOrderNumber() + i;
 
-        if (0 <= newOrder && categories.size() > newOrder) {
-            for (Category c : categories) {
-                if (newOrder == c.getOrderNumber()) {
-                    BjcpController.loadCategoryList(this, c);
-                }
+        for (Category c : categories) {
+            if (newOrder == c.getOrderNumber()) {
+                BjcpController.loadCategoryList(this, c);
             }
         }
     }

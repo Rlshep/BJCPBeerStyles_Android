@@ -16,7 +16,7 @@ import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 
 public class MainActivity extends BjcpActivity implements SearchView.OnQueryTextListener {
-    private static final int ON_TAP_TAB = 1;
+    private static final int BOOKMARKED_TAB = 1;
     private static final int MAX_SEARCH_CHARS = 3;
 
     private Menu menu;
@@ -55,7 +55,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
             @Override
             public void onPageSelected(int position) {
-                if (ON_TAP_TAB == position) {
+                if (BOOKMARKED_TAB == position) {
                     BookmarkedTab fragment = (BookmarkedTab) adapter.instantiateItem(pager, position);
                     if (fragment != null) {
                         fragment.onResume();
