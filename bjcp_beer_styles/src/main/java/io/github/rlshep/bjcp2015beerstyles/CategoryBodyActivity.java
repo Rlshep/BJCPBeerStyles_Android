@@ -43,7 +43,7 @@ public class CategoryBodyActivity extends BjcpActivity {
             searchedText = extras.getString("SEARCHED_TEXT");
         }
 
-        setText(searchedText);
+        setBody(searchedText);
         gestureDetector = new GestureDetector(this, new GestureListener());
     }
 
@@ -55,14 +55,12 @@ public class CategoryBodyActivity extends BjcpActivity {
         if (eventConsumed) {
             if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
                 changeCategory(-1);
-            }
-            else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
+            } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
                 changeCategory(1);
             }
 
             eventReturn = true;
-        }
-        else {
+        } else {
             eventReturn = super.dispatchTouchEvent(event);
         }
 
@@ -74,11 +72,35 @@ public class CategoryBodyActivity extends BjcpActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
-                BjcpController.loadCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(((Long)category.getParentId()).toString()));
+                BjcpController.loadCategoryList(this, BjcpDataHelper.getInstance(this).getCategory(((Long) category.getParentId()).toString()));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setBody(String searchedText) {
+        List<VitalStatistics> vitalStatisticses = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
+        setMainText(searchedText, vitalStatisticses);
+        setSrms(vitalStatisticses);
+    }
+
+    private void setSrms(List<VitalStatistics> vitalStatisticses) {
+        int i = 1;
+
+        for (VitalStatistics vitalStatistics : vitalStatisticses) {
+            if (null != vitalStatistics.getSrmStart()) {
+                setSrm(vitalStatistics, i);
+                i++;
+            }
+        }
+    }
+
+    private void setMainText(String searchedText, List<VitalStatistics> vitalStatisticses) {
+        String text = getSectionsBody(categoryId) + getVitalStatistics(vitalStatisticses);
+
+        TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
+        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
     }
 
     private String getSectionsBody(String categoryId) {
@@ -91,62 +113,52 @@ public class CategoryBodyActivity extends BjcpActivity {
         return body;
     }
 
-    private String getVitalStatistics(String categoryId) {
-        String vitals = "";
+    private void setSrm(VitalStatistics vitalStatistics, int i) {
+        getSrmImageView("imgSrmBegin", i).setImageResource(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "drawable", getPackageName()));
+        getSrmImageView("imgSrmBegin", i).setContentDescription(getString(R.string.beginSrm) + vitalStatistics.getSrmStart()); // For disabled accessibility.
+        getSrmImageView("imgSrmEnd", i).setImageResource(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "drawable", getPackageName()));
+        getSrmImageView("imgSrmEnd", i).setContentDescription(getString(R.string.endSrm) + vitalStatistics.getSrmEnd()); // For disabled accessibility.
 
-        List<VitalStatistics> vitalStatisticses = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
+        getSrmTextView("srmText", i).setText(Html.fromHtml("<br><b>" + vitalStatistics.getHeader() + " SRM:</b>"));
+
+        getSrmImageView("imgSrmBegin", i).setVisibility(View.VISIBLE);
+        getSrmImageView("imgSrmEnd", i).setVisibility(View.VISIBLE);
+        getSrmTextView("srmText", i).setVisibility(View.VISIBLE);
+    }
+
+    private String getVitalStatistics(List<VitalStatistics> vitalStatisticses) {
+        String vitals = "";
 
         if (!vitalStatisticses.isEmpty()) {
             vitals += "<big><b> " + VITAL_HEADER + "</b></big>";
         }
 
         for (VitalStatistics vitalStatistics : vitalStatisticses) {
-            if (null == vitalStatistics) {
-                hideSrmImages();
+            if (null != vitalStatistics.getIbuStart()) {
+                vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
             }
-            else {
-                if (null != vitalStatistics.getIbuStart()) {
-                    vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
-                }
-                if (null != vitalStatistics.getOgStart()) {
-                    vitals += "<br><b>" + vitalStatistics.getHeader() + " OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
-                }
-                if (null != vitalStatistics.getAbvStart()) {
-                    vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
-                }
-                if (null != vitalStatistics.getFgStart()) {
-                    vitals += "<br><b>" + vitalStatistics.getHeader() + " FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
-                }
-                if (null != vitalStatistics.getSrmStart()) {
-                    vitals += "<br><b>" + vitalStatistics.getHeader() + " SRM:</b>";
-                    showSrmImages(vitalStatistics);
-                } else {
-                    hideSrmImages();
-                }
+            if (null != vitalStatistics.getOgStart()) {
+                vitals += "<br><b>" + vitalStatistics.getHeader() + " OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
+            }
+            if (null != vitalStatistics.getAbvStart()) {
+                vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
+            }
+            if (null != vitalStatistics.getFgStart()) {
+                vitals += "<br><b>" + vitalStatistics.getHeader() + " FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
             }
         }
 
         return vitals;
     }
 
-    private void showSrmImages(VitalStatistics vitalStatistics) {
-        ImageView imgSrmBegin = (ImageView) findViewById(R.id.imgSrmBegin);
-        ImageView imgSrmEnd = (ImageView) findViewById(R.id.imgSrmEnd);
-
-        imgSrmBegin.setImageResource(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "drawable", getPackageName()));
-        imgSrmEnd.setImageResource(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "drawable", getPackageName()));
-
-        // For disabled accessibility.
-        imgSrmBegin.setContentDescription(getString(R.string.beginSrm) + vitalStatistics.getSrmStart());
-        imgSrmEnd.setContentDescription(getString(R.string.endSrm) + vitalStatistics.getSrmEnd());
+    private ImageView getSrmImageView(String srm, int i) {
+        int id = getResources().getIdentifier(srm + i, "id", getPackageName());
+        return (ImageView) findViewById(id);
     }
 
-    private void hideSrmImages() {
-        ImageView imgSrmBegin = (ImageView) findViewById(R.id.imgSrmBegin);
-        ImageView imgSrmEnd = (ImageView) findViewById(R.id.imgSrmEnd);
-
-        imgSrmBegin.setVisibility(View.GONE);
-        imgSrmEnd.setVisibility(View.GONE);
+    private TextView getSrmTextView(String srm, int i) {
+        int id = getResources().getIdentifier(srm + i, "id", getPackageName());
+        return (TextView) findViewById(id);
     }
 
     private void changeCategory(int i) {
@@ -169,11 +181,5 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String getEndSrm(VitalStatistics vitalStatistics) {
         double ceil = Math.ceil(Double.parseDouble(vitalStatistics.getSrmEnd()));
         return ((Integer) Double.valueOf(ceil).intValue()).toString();
-    }
-
-    private void setText(String searchedText) {
-        String text = getSectionsBody(categoryId) + getVitalStatistics(categoryId);
-        TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
-        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
     }
 }
