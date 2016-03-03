@@ -31,4 +31,6 @@
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="title_activity_crash">Error in BJCP 2015 Beer Styles</string>
     <string name="twitter_begin">Twitter:</string>
+    <string name="color_header"><b>Color</b></string>
+    <string name="color_srm"><b>SRM</b></string>
 </resources>

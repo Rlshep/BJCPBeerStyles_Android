@@ -6,13 +6,14 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import io.github.rlshep.bjcp2015beerstyles.CategoryListTab;
 import io.github.rlshep.bjcp2015beerstyles.BookmarkedTab;
+import io.github.rlshep.bjcp2015beerstyles.ColorTableTab;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     private CharSequence Titles[]; // This will Store the Titles of the Tabs which are Going to be passed when ViewPagerAdapter is created
-    private final static int NUM_OF_TABS = 2; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
+    private final static int NUM_OF_TABS = 3; // Store the number of tabs, this will also be passed when the ViewPagerAdapter is created
 
     // Build a Constructor and assign the passed Values to appropriate values in the class
-    public ViewPagerAdapter(FragmentManager fm,CharSequence mTitles[]) {
+    public ViewPagerAdapter(FragmentManager fm, CharSequence mTitles[]) {
         super(fm);
         this.Titles = mTitles;
     }
@@ -20,12 +21,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     //This method return the fragment for the every position in the View Pager
     @Override
     public Fragment getItem(int position) {
-        if(position == 0) {
+        if (position == 0) {
             return new CategoryListTab();
-        }
-        else {
+        } else if (position == 1) {
             return new BookmarkedTab();
         }
+
+        return new ColorTableTab();
     }
 
     @Override

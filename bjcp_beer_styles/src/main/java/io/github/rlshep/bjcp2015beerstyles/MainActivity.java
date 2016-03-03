@@ -17,6 +17,7 @@ import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 
 public class MainActivity extends BjcpActivity implements SearchView.OnQueryTextListener {
     private static final int BOOKMARKED_TAB = 1;
+    private static final int COLOR_TAB = 2;
     private static final int MAX_SEARCH_CHARS = 3;
 
     private Menu menu;
@@ -27,7 +28,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
 
-        CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header)};
+        CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header), "Color Chart"};
         setupToolbar(R.id.tool_bar, "", true, false);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
@@ -57,6 +58,11 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             public void onPageSelected(int position) {
                 if (BOOKMARKED_TAB == position) {
                     BookmarkedTab fragment = (BookmarkedTab) adapter.instantiateItem(pager, position);
+                    if (fragment != null) {
+                        fragment.onResume();
+                    }
+                } else if (COLOR_TAB == position) {
+                    ColorTableTab fragment = (ColorTableTab) adapter.instantiateItem(pager, position);
                     if (fragment != null) {
                         fragment.onResume();
                     }

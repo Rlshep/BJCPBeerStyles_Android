@@ -45,6 +45,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
+            rowText.setTextIsSelectable(true);
         } if (item instanceof Category) {
             Category category = (Category)item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
@@ -52,6 +53,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String)item);
+            rowText.setTextIsSelectable(true);
         }
 
         return listRowView;

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -76,9 +77,27 @@ public class CategoryListActivity extends BjcpActivity {
                     addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
+//                else if (parent.getItemAtPosition(position) instanceof Section) {
+//                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
+//                    rowText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//                        @Override
+//                        public void onFocusChange(View v, boolean hasFocus) {
+//                            if (hasFocus) {
+//                                System.out.println("focus");
+//                            } else {
+//                                System.out.println("lose focus");
+//                            }
+//                        }
+//
+//                    });
+//                    rowText.setSelectAllOnFocus(true);
+//                    consumed = false;
+//                }
 
                 return consumed;
             }
+
         });
     }
 
@@ -86,6 +105,7 @@ public class CategoryListActivity extends BjcpActivity {
     public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
         boolean eventReturn;
         boolean eventConsumed = gestureDetector.onTouchEvent(event);
+        TextView rowText = (TextView) findViewById(R.id.catSectionText);
 
         if (eventConsumed) {
             if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
@@ -95,7 +115,13 @@ public class CategoryListActivity extends BjcpActivity {
             }
 
             eventReturn = true;
-        } else {
+        } else if (rowText.isSelected()) {
+            if (event.equals(MotionEvent.ACTION_DOWN)) {
+                eventReturn = true;
+            } else {
+                eventReturn = false;
+            }
+        }else {
             eventReturn = super.dispatchTouchEvent(event);
         }
 
