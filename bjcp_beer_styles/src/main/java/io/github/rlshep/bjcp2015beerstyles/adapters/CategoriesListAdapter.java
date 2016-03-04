@@ -14,7 +14,6 @@ import java.util.List;
 import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class CategoriesListAdapter extends ArrayAdapter {
@@ -46,25 +45,20 @@ public class CategoriesListAdapter extends ArrayAdapter {
         if (item instanceof Section) {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
-            rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.get_body(), searchedText)));
-        } if (item instanceof Category) {
-            Category category = (Category)item;
+            rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
+//TODO: FIX            rowText.setTextIsSelectable(true);
+        }
+        if (item instanceof Category) {
+            Category category = (Category) item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
-            rowText.setText(category.get_category() + " - " + category.get_name());
-        } else if (item instanceof SubCategory) {
-            SubCategory subCategory = (SubCategory)item;
-            rowText = (TextView) listRowView.findViewById(R.id.catListText);
-            rowText.setText(subCategory.get_subCategory() + " - " + subCategory.get_name());
+            rowText.setText(category.getCategoryCode() + " - " + category.getName());
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
-            rowText.setText((String)item);
+            rowText.setText((String) item);
+//TODO: FIX            rowText.setTextIsSelectable(true);
         }
 
         return listRowView;
-    }
-
-    public ArrayList<Integer> getSelectedIds() {
-        return selectedIds;
     }
 
     public void setSelectedIds(ArrayList<Integer> selectedIds) {
@@ -72,10 +66,12 @@ public class CategoriesListAdapter extends ArrayAdapter {
     }
 
     public boolean isEnabled(int position) {
+
         return selectEnabled;
     }
 
     public void setSelectEnabled(boolean enabled) {
+
         selectEnabled = enabled;
     }
 }

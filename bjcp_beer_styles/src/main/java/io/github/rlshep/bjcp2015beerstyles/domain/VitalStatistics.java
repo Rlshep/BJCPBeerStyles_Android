@@ -2,115 +2,124 @@ package io.github.rlshep.bjcp2015beerstyles.domain;
 
 public class VitalStatistics {
 
-    private long _id;
-    private long _subCategoryId;
-    private String _ogStart;
-    private String _ogEnd;
-    private String _fgStart;
-    private String _fgEnd;
-    private String _ibuStart;
-    private String _ibuEnd;
-    private String _srmStart;
-    private String _srmEnd;
-    private String _abvStart;
-    private String _abvEnd;
+    private long id;
+    private long categoryId;
+    private String ogStart;
+    private String ogEnd;
+    private String fgStart;
+    private String fgEnd;
+    private String ibuStart;
+    private String ibuEnd;
+    private String srmStart;
+    private String srmEnd;
+    private String abvStart;
+    private String abvEnd;
+    private String header = "";
 
     public VitalStatistics() {
     }
 
-    public long get_id() {
-        return _id;
+    public long getId() {
+        return id;
     }
 
-    public void set_id(long _id) {
-        this._id = _id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String get_ogStart() {
-        return _ogStart;
+    public long getCategoryId() {
+        return categoryId;
     }
 
-    public void set_ogStart(String _ogStart) {
-        this._ogStart = _ogStart;
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String get_ogEnd() {
-        return _ogEnd;
+    public String getOgStart() {
+        return ogStart;
     }
 
-    public void set_ogEnd(String _ogEnd) {
-        this._ogEnd = _ogEnd;
+    public void setOgStart(String ogStart) {
+        this.ogStart = ogStart;
     }
 
-    public String get_fgStart() {
-        return _fgStart;
+    public String getOgEnd() {
+        return ogEnd;
     }
 
-    public void set_fgStart(String _fgStart) {
-        this._fgStart = _fgStart;
+    public void setOgEnd(String ogEnd) {
+        this.ogEnd = ogEnd;
     }
 
-    public String get_fgEnd() {
-        return _fgEnd;
+    public String getFgStart() {
+        return fgStart;
     }
 
-    public void set_fgEnd(String _fgEnd) {
-        this._fgEnd = _fgEnd;
+    public void setFgStart(String fgStart) {
+        this.fgStart = fgStart;
     }
 
-    public String get_ibuStart() {
-        return _ibuStart;
+    public String getFgEnd() {
+        return fgEnd;
     }
 
-    public void set_ibuStart(String _ibuStart) {
-        this._ibuStart = _ibuStart;
+    public void setFgEnd(String fgEnd) {
+        this.fgEnd = fgEnd;
     }
 
-    public String get_ibuEnd() {
-        return _ibuEnd;
+    public String getIbuStart() {
+        return ibuStart;
     }
 
-    public void set_ibuEnd(String _ibuEnd) {
-        this._ibuEnd = _ibuEnd;
+    public void setIbuStart(String ibuStart) {
+        this.ibuStart = ibuStart;
     }
 
-    public String get_srmStart() {
-        return _srmStart;
+    public String getIbuEnd() {
+        return ibuEnd;
     }
 
-    public void set_srmStart(String _srmStart) {
-        this._srmStart = _srmStart;
+    public void setIbuEnd(String ibuEnd) {
+        this.ibuEnd = ibuEnd;
     }
 
-    public String get_srmEnd() {
-        return _srmEnd;
+    public String getSrmStart() {
+        return srmStart;
     }
 
-    public void set_srmEnd(String _srmEnd) {
-        this._srmEnd = _srmEnd;
+    public void setSrmStart(String srmStart) {
+        this.srmStart = srmStart;
     }
 
-    public String get_abvStart() {
-        return _abvStart;
+    public String getSrmEnd() {
+        return srmEnd;
     }
 
-    public void set_abvStart(String _abvStart) {
-        this._abvStart = _abvStart;
+    public void setSrmEnd(String srmEnd) {
+        this.srmEnd = srmEnd;
     }
 
-    public String get_abvEnd() {
-        return _abvEnd;
+    public String getAbvStart() {
+        return abvStart;
     }
 
-    public void set_abvEnd(String _abvEnd) {
-        this._abvEnd = _abvEnd;
+    public void setAbvStart(String abvStart) {
+        this.abvStart = abvStart;
     }
 
-    public long get_subCategoryId() {
-        return _subCategoryId;
+    public String getAbvEnd() {
+        return abvEnd;
     }
 
-    public void set_subCategoryId(long _subCategoryId) {
-        this._subCategoryId = _subCategoryId;
+    public void setAbvEnd(String abvEnd) {
+        this.abvEnd = abvEnd;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -18,12 +19,11 @@ import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
-public class SubCategoryListActivity extends BjcpActivity {
+public class CategoryListActivity extends BjcpActivity {
     private GestureDetector gestureDetector;
     private String categoryId = "";
 
@@ -31,11 +31,11 @@ public class SubCategoryListActivity extends BjcpActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
-        setContentView(R.layout.activity_sub_category_list);
+        setContentView(R.layout.activity_category_list);
         String searchedText = "";
 
         Bundle extras = getIntent().getExtras();
-        if(extras !=null) {
+        if (extras != null) {
             String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             setupToolbar(R.id.sclToolbar, title, false, true);
 
@@ -52,34 +52,53 @@ public class SubCategoryListActivity extends BjcpActivity {
         List listView = new ArrayList();
 
         listView.addAll(BjcpDataHelper.getInstance(this).getCategorySections(categoryId));
-        listView.addAll(BjcpDataHelper.getInstance(this).getSubCategories(categoryId));
+        listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
 
-        ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
-        ListView subCategoryListView = (ListView) findViewById(R.id.subCategoryListView);
-        subCategoryListView.setAdapter(subCategoryAdapter);
+        ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
+        ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
+        categoryListView.setAdapter(categoryAdapter);
 
-        subCategoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) instanceof SubCategory) {
-                    SubCategory subCategory = (SubCategory) parent.getItemAtPosition(position);
-                    BjcpController.loadSubCategoryBody((Activity) view.getContext(), subCategory);
+                if (parent.getItemAtPosition(position) instanceof Category) {
+                    Category category = (Category) parent.getItemAtPosition(position);
+                    BjcpController.loadCategoryBody((Activity) view.getContext(), category);
                 }
             }
         });
 
-        subCategoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        categoryListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 boolean consumed = false;
 
-                if (parent.getItemAtPosition(position) instanceof SubCategory) {
-                    addSubCategoryToOnTap((SubCategory) parent.getItemAtPosition(position));
+                if (parent.getItemAtPosition(position) instanceof Category) {
+                    addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
+                //TODO: CLEAN UP OR FIX
+//                else if (parent.getItemAtPosition(position) instanceof Section) {
+//                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
+//                    rowText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//
+//                        @Override
+//                        public void onFocusChange(View v, boolean hasFocus) {
+//                            if (hasFocus) {
+//                                System.out.println("focus");
+//                            } else {
+//                                System.out.println("lose focus");
+//                            }
+//                        }
+//
+//                    });
+//                    rowText.setSelectAllOnFocus(true);
+//                    consumed = false;
+//                }
 
                 return consumed;
             }
+
         });
     }
 
@@ -87,6 +106,7 @@ public class SubCategoryListActivity extends BjcpActivity {
     public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
         boolean eventReturn;
         boolean eventConsumed = gestureDetector.onTouchEvent(event);
+        TextView rowText = (TextView) findViewById(R.id.catSectionText);
 
         if (eventConsumed) {
             if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
@@ -96,30 +116,33 @@ public class SubCategoryListActivity extends BjcpActivity {
             }
 
             eventReturn = true;
-        }
-        else {
+        } else if (rowText.isSelected()) {
+            if (event.equals(MotionEvent.ACTION_DOWN)) {
+                eventReturn = true;
+            } else {
+                eventReturn = false;
+            }
+        }else {
             eventReturn = super.dispatchTouchEvent(event);
         }
 
         return eventReturn;
     }
 
-    private void addSubCategoryToOnTap(SubCategory subCategory) {
-        subCategory.set_tapped(true);
-        BjcpDataHelper.getInstance(this).updateSubCategoryUntapped(subCategory);
+    private void addCategoryToBookmarked(Category category) {
+        category.setBookmarked(true);
+        BjcpDataHelper.getInstance(this).updateCategoryBookmarked(category);
         Toast.makeText(getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 
     private void changeCategory(int i) {
         List<Category> categories = BjcpDataHelper.getInstance(this).getAllCategories();
         Category category = BjcpDataHelper.getInstance(this).getCategory(categoryId);
-        int newOrder =  category.get_orderNumber() + i;
+        int newOrder = category.getOrderNumber() + i;
 
-        if (0 <= newOrder && categories.size() > newOrder) {
-            for (Category c : categories) {
-                if (newOrder == c.get_orderNumber()) {
-                    BjcpController.loadSubCategoryList(this, c);
-                }
+        for (Category c : categories) {
+            if (newOrder == c.getOrderNumber()) {
+                BjcpController.loadCategoryList(this, c);
             }
         }
     }

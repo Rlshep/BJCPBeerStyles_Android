@@ -4,42 +4,40 @@ import android.app.Activity;
 import android.content.Intent;
 
 import io.github.rlshep.bjcp2015beerstyles.AboutActivity;
+import io.github.rlshep.bjcp2015beerstyles.CategoryBodyActivity;
 import io.github.rlshep.bjcp2015beerstyles.CrashActivity;
 import io.github.rlshep.bjcp2015beerstyles.SearchResultsActivity;
-import io.github.rlshep.bjcp2015beerstyles.SubCategoryBodyActivity;
-import io.github.rlshep.bjcp2015beerstyles.SubCategoryListActivity;
+import io.github.rlshep.bjcp2015beerstyles.CategoryListActivity;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BjcpController {
 
-    public static void loadSubCategoryList(Activity activity, Category category) {
-        loadSubCategoryList(activity, category, "");
+    public static void loadCategoryList(Activity activity, Category category) {
+        loadCategoryList(activity, category, "");
     }
 
-    public static void loadSubCategoryList(Activity activity, Category category, String searchedText) {
-        Intent i = new Intent(activity, SubCategoryListActivity.class);
+    public static void loadCategoryList(Activity activity, Category category, String searchedText) {
+        Intent i = new Intent(activity, CategoryListActivity.class);
 
-        i.putExtra("CATEGORY_ID", (Long.valueOf(category.get_id())).toString());
-        i.putExtra("CATEGORY", category.get_category());
-        i.putExtra("CATEGORY_NAME", category.get_name());
+        i.putExtra("CATEGORY_ID", (Long.valueOf(category.getId())).toString());
+        i.putExtra("CATEGORY", category.getCategoryCode());
+        i.putExtra("CATEGORY_NAME", category.getName());
         i.putExtra("SEARCHED_TEXT", searchedText);
 
         activity.startActivity(i);
     }
 
-    public static void loadSubCategoryBody(Activity activity, SubCategory subCategory) {
-        loadSubCategoryBody(activity, subCategory, "");
+    public static void loadCategoryBody(Activity activity, Category category) {
+        loadCategoryBody(activity, category, "");
     }
 
-    public static void loadSubCategoryBody(Activity activity, SubCategory subCategory, String searchedText) {
-        Intent i = new Intent(activity, SubCategoryBodyActivity.class);
+    public static void loadCategoryBody(Activity activity, Category category, String searchedText) {
+        Intent i = new Intent(activity, CategoryBodyActivity.class);
 
-        i.putExtra("CATEGORY_ID", (Long.valueOf(subCategory.get_categoryId())).toString());
-        i.putExtra("SUB_CATEGORY_ID", (Long.valueOf(subCategory.get_id())).toString());
-        i.putExtra("SUB_CATEGORY", subCategory.get_subCategory());
-        i.putExtra("SUB_CATEGORY_NAME", subCategory.get_name());
+        i.putExtra("CATEGORY_ID", (Long.valueOf(category.getId())).toString());
+        i.putExtra("CATEGORY", category.getCategoryCode());
+        i.putExtra("CATEGORY_NAME", category.getName());
         i.putExtra("SEARCHED_TEXT", searchedText);
 
         activity.startActivity(i);

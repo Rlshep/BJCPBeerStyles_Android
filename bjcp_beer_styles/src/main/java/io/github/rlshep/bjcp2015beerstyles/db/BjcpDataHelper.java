@@ -11,11 +11,13 @@ import io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
+
+    private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + BjcpContract.TABLE_CATEGORY + " C ";
+    private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
 
     protected BjcpDataHelper(Activity context) {
         super(context);
@@ -31,29 +33,25 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public Category getCategory(String categoryId) {
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " = " + categoryId;
+        String query = CATEGORY_SELECT + " WHERE " + BjcpContract.COLUMN_ID + " = " + categoryId;
         return getCategories(query).get(0);
     }
 
     public List<Category> getAllCategories() {
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " ORDER BY " + BjcpContract.COLUMN_ORDER;
+        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_PARENT_ID + " IS NULL ORDER BY " + BjcpContract.COLUMN_ORDER;
         return getCategories(query);
     }
 
     public List<Category> getCategoriesByIds(List<Long> ids) {
         List<Category> categories = new ArrayList<>();
+        String sql;
 
         if (null != ids && !ids.isEmpty()) {
-            categories = getCategories(getCategoriesByIdsQuery(ids));
+            sql = CATEGORY_SELECT + " WHERE " + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
+            categories = getCategories(sql);
         }
 
         return categories;
-    }
-
-    private String getCategoriesByIdsQuery(List<Long> ids) {
-        String query = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CAT + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + " FROM " + BjcpContract.TABLE_CATEGORY + " WHERE " + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
-
-        return query;
     }
 
     private String getIdsQuery(List<Long> ids) {
@@ -79,8 +77,12 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                category = new Category(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_CAT)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
-                category.set_orderNumber(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ORDER)));
+                category = new Category(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_CATEGORY_CODE)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
+                category.setOrderNumber(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ORDER)));
+                category.setParentId(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_PARENT_ID)));
+                category.setBookmarked(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_BOOKMARKED)) > 0);
+                category.setRevision(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_REVISION)));
+                category.setLanguage((c.getString(c.getColumnIndex((BjcpContract.COLUMN_LANG)))));
                 categories.add(category);
 
             }
@@ -105,9 +107,9 @@ public class BjcpDataHelper extends BaseDataHelper {
         while (!c.isAfterLast()) {
             section = new Section();
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                section.set_id(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                section.set_header(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
-                section.set_body(c.getString(c.getColumnIndex(BjcpContract.COLUMN_BODY)));
+                section.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
+                section.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
+                section.setBody(c.getString(c.getColumnIndex(BjcpContract.COLUMN_BODY)));
             }
             c.moveToNext();
             sections.add(section);
@@ -118,139 +120,70 @@ public class BjcpDataHelper extends BaseDataHelper {
         return sections;
     }
 
-    public List<SubCategory> getSubCategories(long categoryId) {
-        return getSubCategories((Long.valueOf(categoryId)).toString());
+    public List<Category> getCategoriesByParent(long parentId) {
+        return getCategoriesByParent((Long.valueOf(parentId)).toString());
     }
 
-    public List<SubCategory> getSubCategories(String categoryId) {
-        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId + " ORDER BY SC." + BjcpContract.COLUMN_ORDER;
-
-        return getSubCategoriesByQuery(query);
+    public List<Category> getCategoriesByParent(String parentId) {
+        String query = CATEGORY_SELECT + " WHERE " + BjcpContract.COLUMN_PARENT_ID + " = " + parentId;
+        return getCategories(query);
     }
 
-    public List<SubCategory> getOnTapSubCategories() {
-        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = SC." + BjcpContract.COLUMN_CAT_ID + " WHERE C." + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND C." + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND SC." + BjcpContract.COLUMN_TAPPED + " = 1 ORDER BY SC." + BjcpContract.COLUMN_SUB_CAT;
+    public List<Category> getBookmarkedCategories() {
+        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_BOOKMARKED + " = 1 ORDER BY " + BjcpContract.COLUMN_CATEGORY_CODE;
 
-        return getSubCategoriesByQuery(query);
+        return getCategories(query);
     }
 
-    public SubCategory getSubCategory(String subCategoryId) {
-        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " = " + subCategoryId;
+    public List<VitalStatistics> getVitalStatistics(String categoryId) {
+        List<VitalStatistics> vitalStatisticses = new ArrayList<>();
+        VitalStatistics vitalStatistics;
 
-        return getSubCategoriesByQuery(query).get(0);
-    }
-
-    public List<SubCategory> getSubCategoriesByIds(List<Long> ids) {
-        List<SubCategory> subCategories = new ArrayList<>();
-
-        if (null != ids && !ids.isEmpty()) {
-            subCategories = getSubCategoriesByQuery(getSubCategoriesByIdsQuery(ids));
-        }
-
-        return subCategories;
-    }
-
-    private String getSubCategoriesByIdsQuery(List<Long> ids) {
-        String query = "SELECT SC." + BjcpContract.COLUMN_ID + ", SC." + BjcpContract.COLUMN_SUB_CAT + ", SC." + BjcpContract.COLUMN_NAME + ", SC." + BjcpContract.COLUMN_ORDER + ", SC." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_SUB_CATEGORY + " SC WHERE SC." + BjcpContract.COLUMN_ID + " IN(" + getIdsQuery(ids) + ")";
-
-        return query;
-    }
-
-    private List<SubCategory> getSubCategoriesByQuery(String query) {
-        List<SubCategory> subCategories = new ArrayList<SubCategory>();
-        SubCategory subCategory;
+        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + ", " + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                subCategory = new SubCategory(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_SUB_CAT)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
-                subCategory.set_orderNumber(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ORDER)));
-                subCategory.set_categoryId(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)));
+            vitalStatistics = new VitalStatistics();
 
-                subCategories.add(subCategory);
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
+                vitalStatistics.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
+                vitalStatistics.setOgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_START)));
+                vitalStatistics.setOgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_END)));
+                vitalStatistics.setFgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_START)));
+                vitalStatistics.setFgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_END)));
+                vitalStatistics.setIbuStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_START)));
+                vitalStatistics.setIbuEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_END)));
+                vitalStatistics.setSrmStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_START)));
+                vitalStatistics.setSrmEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_END)));
+                vitalStatistics.setAbvStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_START)));
+                vitalStatistics.setAbvEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_END)));
+                vitalStatistics.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
             }
             c.moveToNext();
+            vitalStatisticses.add(vitalStatistics);
         }
 
         c.close();
 
-        return subCategories;
+        return vitalStatisticses;
     }
 
-    public List<Section> getSubCategorySections(String subCategoryId) {
-        List<Section> sections = new ArrayList<Section>();
-        Section section;
+    public void updateCategoryBookmarked(Category category) {
+        List<Category> categories = new ArrayList<Category>();
+        categories.add(category);
 
-        String query = "SELECT S." + BjcpContract.COLUMN_ID + ", S." + BjcpContract.COLUMN_BODY + ", S." + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_SECTION + " S " + "WHERE S." + BjcpContract.COLUMN_SUB_CAT_ID + " = " + subCategoryId + " ORDER BY S." + BjcpContract.COLUMN_ORDER;
-
-        //Cursor point to a location in your results
-        Cursor c = getRead().rawQuery(query, null);
-        c.moveToFirst();
-
-        while (!c.isAfterLast()) {
-            section = new Section();
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                section.set_id(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                section.set_header(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
-                section.set_body(c.getString(c.getColumnIndex(BjcpContract.COLUMN_BODY)));
-            }
-            c.moveToNext();
-            sections.add(section);
-        }
-
-        c.close();
-
-        return sections;
+        updateCategoriesBookmarked(categories);
     }
 
-    public VitalStatistics getVitalStatistics(String subCategoryId) {
-        VitalStatistics vitalStatistics = null;
-
-        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + BjcpContract.COLUMN_SUB_CAT_ID + " = " + subCategoryId;
-
-        //Cursor point to a location in your results
-        Cursor c = getRead().rawQuery(query, null);
-
-        // Should only be one.
-        while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                vitalStatistics = new VitalStatistics();
-                vitalStatistics.set_id(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                vitalStatistics.set_ogStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_START)));
-                vitalStatistics.set_ogEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_END)));
-                vitalStatistics.set_fgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_START)));
-                vitalStatistics.set_fgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_END)));
-                vitalStatistics.set_ibuStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_START)));
-                vitalStatistics.set_ibuEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_END)));
-                vitalStatistics.set_srmStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_START)));
-                vitalStatistics.set_srmEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_END)));
-                vitalStatistics.set_abvStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_START)));
-                vitalStatistics.set_abvEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_END)));
-            }
-            c.moveToNext();
-        }
-
-        c.close();
-
-        return vitalStatistics;
-    }
-
-    public void updateSubCategoryUntapped(SubCategory subCategory) {
-        List<SubCategory> subCategories = new ArrayList<SubCategory>();
-        subCategories.add(subCategory);
-
-        updateSubCategoriesUntapped(subCategories);
-    }
-
-    public void updateSubCategoriesUntapped(List<SubCategory> subCategories) {
+    public void updateCategoriesBookmarked(List<Category> categories) {
         ContentValues cv = new ContentValues();
 
-        for (SubCategory subCategory : subCategories) {
-            cv.put(BjcpContract.COLUMN_TAPPED, (subCategory.is_tapped() ? 1 : 0));
-            getWrite().update(BjcpContract.TABLE_SUB_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + subCategory.get_id()), null);
+        for (Category category : categories) {
+            cv.put(BjcpContract.COLUMN_BOOKMARKED, (category.isBookmarked() ? 1 : 0));
+            getWrite().update(BjcpContract.TABLE_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + category.getId()), null);
         }
     }
 
@@ -265,9 +198,9 @@ public class BjcpDataHelper extends BaseDataHelper {
         while (c.moveToNext()) {
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)) != null) {
                 searchResult = new SearchResult();
-                searchResult.set_resultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)));
-                searchResult.set_TableName(c.getString(c.getColumnIndex(BjcpContract.COLUMN_TABLE_NAME)));
-                searchResult.set_query(keyword);
+                searchResult.setResultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)));
+                searchResult.setTableName(c.getString(c.getColumnIndex(BjcpContract.COLUMN_TABLE_NAME)));
+                searchResult.setQuery(keyword);
 
                 searchResults.add(searchResult);
             }

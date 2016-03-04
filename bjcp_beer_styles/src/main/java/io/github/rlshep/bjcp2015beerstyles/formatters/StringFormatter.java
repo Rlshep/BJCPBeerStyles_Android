@@ -43,36 +43,4 @@ public class StringFormatter {
 
         return formatted.toString();
     }
-
-    //TODO: Fix title based upon screen size.
-    // This isn't perfect but will do for now.
-//    public static Spanned getFormattedTitle(String text) {
-//        Spanned title;
-//        getHtmlTagSize(text);
-//
-//        if (MAX_TITLE_SIZE < (text.length() - getHtmlTagSize(text))) {
-//            title = Html.fromHtml("<small>" + text + "</small>");
-//        }
-//        else {
-//            title = Html.fromHtml(text);
-//        }
-//
-//        return title;
-//    }
-//
-//    private static int getHtmlTagSize(String text) {
-//        String allTags = "";
-//        Pattern p = Pattern.compile("<(\\S+)>");
-//        Matcher m = p.matcher(text);
-//        int allTagsLength = 0;
-//
-//        // if we find a match, get the group
-//        while (m.find()) {
-//            allTags += m.group(1);
-//            allTagsLength += (allTags.length() * 2); //Add beginning and end tag text
-//            allTagsLength += 5; //Brackets of both tags < > </
-//        }
-//
-//        return allTagsLength;
-//    }
 }

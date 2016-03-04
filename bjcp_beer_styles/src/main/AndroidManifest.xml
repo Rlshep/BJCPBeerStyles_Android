@@ -29,17 +29,19 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
-        <activity android:name=".SubCategoryListActivity">
+        <activity
+            android:name=".CategoryListActivity">
+            android:label="@string/title_activity_category_list">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="io.github.rlshep.bjcp2015beerstyles.MainActivity"/>
         </activity>
         <activity
-            android:name=".SubCategoryBodyActivity"
-            android:label="@string/title_activity_sub_category_body">
+            android:name=".CategoryBodyActivity"
+            android:label="@string/title_activity_category_body">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="io.github.rlshep.bjcp2015beerstyles.SubCategoryListActivity"/>
+                android:value=".CategoryListActivity"/>
         </activity>
         <activity
             android:name=".AboutActivity"

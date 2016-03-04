@@ -3,97 +3,138 @@ package io.github.rlshep.bjcp2015beerstyles.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public class Category implements Comparable {
     public final static String LANG_ENGLISH = "English";
     public final static double CURRENT_REVISION = 2015;
 
-    private long _id;
-    private String _category;
-    private String _name;
-    private double _revision;
-    private String _language;
-    private List<SubCategory> _subCategories = new ArrayList<SubCategory>();
-    private List<Section> _sections = new ArrayList<Section>();
-    private int _orderNumber;
+    private long id;
+    private long parentId;
+    private String categoryCode;
+    private String name;
+    private double revision;
+    private String language;
+    private Integer orderNumber;
+    private boolean bookmarked;
+    private List<Section> sections = new ArrayList<Section>();
+    private List<Category> childCategories = new ArrayList<Category>();
+    private List<VitalStatistics> vitalStatisticses = new ArrayList<>();
+
+    @Override
+    public int compareTo(Object another) {
+        if (another instanceof Category) {
+            Category c = (Category)another;
+            return this.orderNumber.compareTo(c.getOrderNumber());
+        }
+
+        return 0;
+    }
 
     public Category() {
-        this._language = LANG_ENGLISH;
-        this._revision = CURRENT_REVISION;
+        this.language = LANG_ENGLISH;
+        this.revision = CURRENT_REVISION;
     }
 
-    public Category(String category) {
-        this._category = category;
-        this._language = LANG_ENGLISH;
-        this._revision = CURRENT_REVISION;
+    public Category(String categoryCode) {
+        this.categoryCode = categoryCode;
+        this.language = LANG_ENGLISH;
+        this.revision = CURRENT_REVISION;
     }
 
-    public Category(long id, String category, String name) {
-        this._id = id;
-        this._category = category;
-        this._name = name;
+    public Category(long id, String categoryCode, String name) {
+        this.id = id;
+        this.categoryCode = categoryCode;
+        this.name = name;
     }
 
-    public String get_category() {
-        return _category;
+    public long getId() {
+        return id;
     }
 
-    public void set_category(String _category) {
-        this._category = _category;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String get_name() {
-        return _name;
+    public long getParentId() {
+        return parentId;
     }
 
-    public void set_name(String _name) {
-        this._name = _name;
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
     }
 
-    public double get_revision() {
-        return _revision;
+    public String getCategoryCode() {
+        return categoryCode;
     }
 
-    public void set_revision(double _revision) {
-        this._revision = _revision;
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
     }
 
-    public String get_language() {
-        return _language;
+    public double getRevision() {
+        return revision;
     }
 
-    public void set_language(String _language) {
-        this._language = _language;
+    public void setRevision(double revision) {
+        this.revision = revision;
     }
 
-    public long get_id() {
-        return _id;
+    public String getName() {
+        return name;
     }
 
-    public void set_id(long _id) {
-        this._id = _id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<SubCategory> get_subCategories() {
-        return _subCategories;
+    public String getLanguage() {
+        return language;
     }
 
-    public void set_subCategories(List<SubCategory> _subCategories) {
-        this._subCategories = _subCategories;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public List<Section> get_sections() {
-        return _sections;
+    public int getOrderNumber() {
+        return orderNumber;
     }
 
-    public void set_sections(List<Section> _sections) {
-        this._sections = _sections;
+    public void setOrderNumber(int orderNumber) {
+        this.orderNumber = orderNumber;
     }
 
-    public int get_orderNumber() {
-        return _orderNumber;
+    public boolean isBookmarked() {
+        return bookmarked;
     }
 
-    public void set_orderNumber(int _orderNumber) {
-        this._orderNumber = _orderNumber;
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
+    }
+
+    public List<Category> getChildCategories() {
+        return childCategories;
+    }
+
+    public void setChildCategories(List<Category> childCategories) {
+        this.childCategories = childCategories;
+    }
+
+    public List<VitalStatistics> getVitalStatisticses() {
+        return vitalStatisticses;
+    }
+
+    public void setVitalStatisticses(List<VitalStatistics> vitalStatisticses) {
+        this.vitalStatisticses = vitalStatisticses;
+    }
+
+    public boolean isParent() {
+        return 0 >= parentId;
     }
 }

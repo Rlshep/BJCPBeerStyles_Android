@@ -1,40 +1,40 @@
 package io.github.rlshep.bjcp2015beerstyles.domain;
 
 public class SearchResult {
-    private long _id;
-    private String _query;
-    private long _resultId;
-    private String _tableName;
+    private long id;
+    private String query;
+    private long resultId;
+    private String tableName;
 
-    public long get_id() {
-        return _id;
+    public long getId() {
+        return id;
     }
 
-    public void set_id(long _id) {
-        this._id = _id;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String get_query() {
-        return _query;
+    public String getQuery() {
+        return query;
     }
 
-    public void set_query(String _query) {
-        this._query = _query;
+    public void setQuery(String query) {
+        this.query = query;
     }
 
-    public long get_resultId() {
-        return _resultId;
+    public long getResultId() {
+        return resultId;
     }
 
-    public void set_resultId(long _resultId) {
-        this._resultId = _resultId;
+    public void setResultId(long resultId) {
+        this.resultId = resultId;
     }
 
-    public String get_TableName() {
-        return _tableName;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void set_TableName(String tableName) {
-        this._tableName = tableName;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }

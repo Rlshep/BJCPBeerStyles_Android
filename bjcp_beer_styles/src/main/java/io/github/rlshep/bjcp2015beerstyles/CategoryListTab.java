@@ -18,17 +18,12 @@ import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.SubCategory;
 
 public class CategoryListTab extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.category_list_tab, container, false);
-
-        //TODO: Find a better way to do this
-        // Only call when debugging new database changes. Uncomment in BjcpDataHelper onUpgrade too.
-//        BjcpDataHelper.getInstance(this).onUpgrade(BjcpDataHelper.getInstance(this).getWritableDatabase(), 1, 1);
 
         setupCategoryListView(v);
 
@@ -51,7 +46,7 @@ public class CategoryListTab extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     Category category = (Category) parent.getItemAtPosition(position);
-                    BjcpController.loadSubCategoryList((Activity) view.getContext(), category);
+                    BjcpController.loadCategoryList((Activity) view.getContext(), category);
                 }
             }
         });
@@ -62,7 +57,7 @@ public class CategoryListTab extends Fragment {
                 boolean consumed = false;
 
                 if (parent.getItemAtPosition(position) instanceof Category) {
-                    addAllSubCategoriesToOnTap((Category) parent.getItemAtPosition(position));
+                    addAllCategoriesToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
 
@@ -71,14 +66,14 @@ public class CategoryListTab extends Fragment {
         });
     }
 
-    private void addAllSubCategoriesToOnTap(Category category) {
-        List<SubCategory> subCategories = BjcpDataHelper.getInstance(getActivity()).getSubCategories(category.get_id());
+    private void addAllCategoriesToBookmarked(Category category) {
+        List<Category> categories = BjcpDataHelper.getInstance(getActivity()).getCategoriesByParent(category.getId());
 
-        for (SubCategory subCategory : subCategories) {
-            subCategory.set_tapped(true);
+        for (Category cat : categories) {
+            cat.setBookmarked(true);
         }
 
-        BjcpDataHelper.getInstance(getActivity()).updateSubCategoriesUntapped(subCategories);
+        BjcpDataHelper.getInstance(getActivity()).updateCategoriesBookmarked(categories);
         Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 }
