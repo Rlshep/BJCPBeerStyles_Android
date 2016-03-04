@@ -77,6 +77,7 @@ public class CategoryListActivity extends BjcpActivity {
                     addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
+                //TODO: CLEAN UP OR FIX
 //                else if (parent.getItemAtPosition(position) instanceof Section) {
 //                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
 //                    rowText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
