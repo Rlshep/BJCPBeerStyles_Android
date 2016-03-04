@@ -8,15 +8,15 @@ android {
         applicationId "io.github.rlshep.bjcp2015beerstyles"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 47
+        versionCode 49
         versionName "1.1.0"
     }
     signingConfigs {
         release {
             storeFile file("/dev/keystores/bjcp_key.jks")
-            storePassword "uHQpY2Q#jXBGexSN5uC6&G%8BcG"
+            storePassword "password1"
             keyAlias "BjcpBeerStylesKey"
-            keyPassword "duq4bpSGZFqmfrrtfdPjVuCdEgR"
+            keyPassword "password2"
         }
     }
     buildTypes {
@@ -38,7 +38,6 @@ dependencies {
     compile 'commons-lang:commons-lang:2.6'
     compile 'com.android.support:support-v4:23.1.1'
 }
-
 
 task jar(type: Jar) {
     from('build/intermediates/classes/debug')
