@@ -58,6 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/imgSrmBegin1"
                     android:contentDescription="@string/endSrm"/>
             </RelativeLayout>
 
@@ -86,6 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/imgSrmBegin2"
                     android:contentDescription="@string/endSrm"
                     android:visibility="gone"/>
             </RelativeLayout>
