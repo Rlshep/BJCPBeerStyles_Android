@@ -2,10 +2,9 @@ package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,12 +15,12 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BaseDataHelper extends SQLiteOpenHelper {
     private static final String TAG = "LoadDatabase";
-    private static final int DATABASE_VERSION = 1;
+    private static final String DB_PATH = "/../databases/";
     private Activity dbContext;
     private SQLiteDatabase db;
 
     protected BaseDataHelper(Activity context) {
-        super(context, BjcpConstants.DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, BjcpConstants.DATABASE_NAME, null, BjcpConstants.DATABASE_VERSION);
 
         this.dbContext = context;
     }
@@ -44,75 +43,76 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     }
 
     protected SQLiteDatabase getRead() {
-        if (null == this.db || !this.db.isOpen()) {
-            openReadDataBase();
+        if (!isDbOpen()) {
+            setOrCreateDatabase(SQLiteDatabase.OPEN_READONLY);
         }
 
-        return db;
+        return this.db;
     }
 
     protected SQLiteDatabase getWrite() {
-        if (isDbOpenAndReadOnly()) {
+        if (isDbReadOnly()) {
             db.close();
         }
 
-        if (null == this.db || !this.db.isOpen()) {
-            openWriteDataBase();
+        if (!isDbOpen()) {
+            setOrCreateDatabase(SQLiteDatabase.OPEN_READWRITE);
         }
 
         return db;
     }
 
-    private void openReadDataBase() {
-        try {
-            createDataBase();
-            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + BjcpConstants.DATABASE_NAME, null, SQLiteDatabase.OPEN_READONLY);
-        } catch (IOException e) {
-            new ExceptionHandler(this.dbContext).uncaughtException(e);
-        }
+    private boolean isDbOpen() {
+        return null != this.db && this.db.isOpen();
     }
 
-    private void openWriteDataBase() {
-        try {
-            createDataBase();
-            this.db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + "/../databases/" + BjcpConstants.DATABASE_NAME, null, SQLiteDatabase.OPEN_READWRITE);
-        } catch (IOException e) {
-            new ExceptionHandler(this.dbContext).uncaughtException(e);
-        }
+
+    private boolean isDbReadOnly() {
+        return isDbOpen() && db.isReadOnly();
+    }
+
+    private boolean isFileDbExists() {
+        File file = new File(dbContext.getFilesDir().getPath() + DB_PATH + BjcpConstants.DATABASE_NAME);
+
+        return file.exists();
     }
 
     /**
      * Creates a empty database on the system and rewrites it with your own database.
      */
-    private void createDataBase() throws IOException {
-        if (!checkDataBase()) {
-            //By calling this method and empty database will be created into the default system path
-            //of your application so we are gonna be able to overwrite that database with our database.
-            this.db = this.getReadableDatabase();
+    private void setOrCreateDatabase(int dbType) {
+        this.db = getDb(dbType);
+
+        if (isDatabaseCopyNeeded()) {
+            if (this.db != null) {
+                this.db.close();    //close to reopen as new db.
+            }
+
             copyDataBase();
+            this.db = getDb(dbType);  //reopen new db
         }
     }
 
-    /**
-     * Check if the database already exist to avoid re-copying the file each time you open the application.
-     *
-     * @return true if it exists, false if it doesn't
-     */
-    private boolean checkDataBase() {
-        SQLiteDatabase checkDB = null;
+    private SQLiteDatabase getDb(int dbType) {
+        SQLiteDatabase db = null;
 
-        try {
-            String myPath = dbContext.getFilesDir().getPath() + "/../databases/" + BjcpConstants.DATABASE_NAME;
-            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
-        } catch (SQLiteException e) {
-            Log.d(TAG, e.getMessage());
+        if (isFileDbExists()) {
+            db = SQLiteDatabase.openDatabase(dbContext.getFilesDir().getPath() + DB_PATH + BjcpConstants.DATABASE_NAME, null, dbType);
         }
 
-        if (checkDB != null) {
-            checkDB.close();
+        return db;
+    }
+
+    private boolean isDatabaseCopyNeeded() {
+        boolean needCopied = false;
+
+        if (this.db == null) {
+            needCopied = true;
+        } else if (BjcpConstants.DATABASE_VERSION != this.db.getVersion()) {
+            needCopied = true;
         }
 
-        return checkDB != null;
+        return needCopied;
     }
 
     /**
@@ -120,31 +120,33 @@ public class BaseDataHelper extends SQLiteOpenHelper {
      * system folder, from where it can be accessed and handled.
      * This is done by transfering bytestream.
      */
-    private void copyDataBase() throws IOException {
-        //Open your local db as the input stream
-        InputStream myInput = dbContext.getAssets().open(BjcpConstants.DATABASE_NAME);
+    private void copyDataBase() {
+        try {
+            //Open your local db as the input stream
+            InputStream myInput = null;
 
-        // Path to the just created empty db
-        String outFileName = dbContext.getFilesDir().getPath() + "/../databases/" + BjcpConstants.DATABASE_NAME;
+            this.db = this.getReadableDatabase();
+            myInput = dbContext.getAssets().open(BjcpConstants.DATABASE_NAME);
 
-        //Open the empty db as the output stream
-        OutputStream myOutput = new FileOutputStream(outFileName);
+            // Path to the just created empty db
+            String outFileName = dbContext.getFilesDir().getPath() + DB_PATH + BjcpConstants.DATABASE_NAME;
 
-        //transfer bytes from the inputfile to the outputfile
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = myInput.read(buffer)) > 0) {
-            myOutput.write(buffer, 0, length);
+            //Open the empty db as the output stream
+            OutputStream myOutput = new FileOutputStream(outFileName);
+
+            //transfer bytes from the inputfile to the outputfile
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = myInput.read(buffer)) > 0) {
+                myOutput.write(buffer, 0, length);
+            }
+
+            //Close the streams
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+        } catch (IOException e) {
+            new ExceptionHandler(this.dbContext).uncaughtException(e);
         }
-
-        //Close the streams
-        myOutput.flush();
-        myOutput.close();
-        myInput.close();
-
-    }
-
-    private boolean isDbOpenAndReadOnly() {
-        return null != this.db && this.db.isOpen() && db.isReadOnly();
     }
 }
