@@ -46,7 +46,8 @@ public class CategoriesListAdapter extends ArrayAdapter {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
-//TODO: FIX            rowText.setTextIsSelectable(true);
+//TODO: FIX
+            rowText.setTextIsSelectable(true);
         }
         if (item instanceof Category) {
             Category category = (Category) item;
@@ -55,7 +56,8 @@ public class CategoriesListAdapter extends ArrayAdapter {
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);
-//TODO: FIX            rowText.setTextIsSelectable(true);
+//TODO: FIX
+            rowText.setTextIsSelectable(true);
         }
 
         return listRowView;
@@ -66,12 +68,10 @@ public class CategoriesListAdapter extends ArrayAdapter {
     }
 
     public boolean isEnabled(int position) {
-
         return selectEnabled;
     }
 
     public void setSelectEnabled(boolean enabled) {
-
         selectEnabled = enabled;
     }
 }

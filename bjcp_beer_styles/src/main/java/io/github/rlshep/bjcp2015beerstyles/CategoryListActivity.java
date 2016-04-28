@@ -19,6 +19,7 @@ import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
@@ -72,33 +73,22 @@ public class CategoryListActivity extends BjcpActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 boolean consumed = false;
+                parent.setFocusable(false);
 
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
                 //TODO: CLEAN UP OR FIX
-//                else if (parent.getItemAtPosition(position) instanceof Section) {
-//                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
-//                    rowText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//
-//                        @Override
-//                        public void onFocusChange(View v, boolean hasFocus) {
-//                            if (hasFocus) {
-//                                System.out.println("focus");
-//                            } else {
-//                                System.out.println("lose focus");
-//                            }
-//                        }
-//
-//                    });
-//                    rowText.setSelectAllOnFocus(true);
-//                    consumed = false;
-//                }
+                else if (parent.getItemAtPosition(position) instanceof Section) {
+                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
+                    rowText.setSelectAllOnFocus(true);
+                    consumed = false;
+//                   consumed = true;
+                }
 
                 return consumed;
             }
-
         });
     }
 
@@ -146,4 +136,41 @@ public class CategoryListActivity extends BjcpActivity {
             }
         }
     }
+
+    //TODO: START
+//    public void onInitializeMenu(Menu menu) {
+//        // Start with a menu Item order value that is high enough
+//        // so that your "PROCESS_TEXT" menu items appear after the
+//        // standard selection menu items like Cut, Copy, Paste.
+//        int menuItemOrder = 100;
+//        for (ResolveInfo resolveInfo : getSupportedActivities()) {
+//            menu.add(Menu.NONE, Menu.NONE,
+//                    menuItemOrder++,
+//                    getLabel(resolveInfo))
+//
+//                    .setIntent(createProcessTextIntentForResolveInfo(resolveInfo))
+//                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+//        }
+//    }
+//
+//    private Intent createProcessTextIntent() {
+////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//        return new Intent()
+//                .setAction(Intent.ACTION_PROCESS_TEXT)
+//                .setType("text/plain");
+////        }
+//    }
+//
+//    private List getSupportedActivities() {
+//        PackageManager packageManager = getApplicationContext().getPackageManager();
+//        return packageManager.queryIntentActivities(createProcessTextIntent(), 0);
+//    }
+//
+//    private Intent createProcessTextIntentForResolveInfo(ResolveInfo info) {
+//        return createProcessTextIntent()
+//                .putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, !
+//                        mTextView.isTextEditable())
+//                .setClassName(info.activityInfo.packageName,
+//                        info.activityInfo.name);
+//    }
 }

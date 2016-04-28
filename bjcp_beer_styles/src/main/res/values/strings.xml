@@ -11,7 +11,7 @@
     <string name="on_tap_delete">"Successfully removed from Bookmarks"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="title_activity_about">About</string>
-    <string name="about_version">BJCP 2015 Beer Styles v1.1.0</string>
+    <string name="about_version">BJCP 2015 Beer Styles v1.1.1</string>
     <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
@@ -29,7 +29,7 @@
     <string name="title_activity_search_results_small">for</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
-    <string name="title_activity_crash">Error in BJCP 2015 Beer Styles</string>
+    <string name="title_activity_crash">Error in </string>
     <string name="twitter_begin">Twitter:</string>
     <string name="color_header"><b>Color</b></string>
     <string name="color_srm"><b>SRM</b></string>

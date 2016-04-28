@@ -145,6 +145,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
             myOutput.flush();
             myOutput.close();
             myInput.close();
+            this.db.close();
         } catch (IOException e) {
             new ExceptionHandler(this.dbContext).uncaughtException(e);
         }

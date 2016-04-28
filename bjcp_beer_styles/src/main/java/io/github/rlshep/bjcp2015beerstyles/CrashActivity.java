@@ -14,7 +14,7 @@ public class CrashActivity extends BjcpActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_crash);
         Bundle extras = getIntent().getExtras();
-        setupToolbar(R.id.errorToolbar, getString(R.string.title_activity_crash), false, false);
+        setupToolbar(R.id.errorToolbar, getString(R.string.title_activity_crash) + getString(R.string.about_version), false, false);
 
         TextView errorText = (TextView) findViewById(R.id.errorText);
 
