@@ -123,13 +123,13 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     private void copyDataBase() {
         try {
             //Open your local db as the input stream
-            InputStream myInput = null;
-
-            this.db = this.getReadableDatabase();
-            myInput = dbContext.getAssets().open(BjcpConstants.DATABASE_NAME);
+            InputStream myInput = dbContext.getAssets().open(BjcpConstants.DATABASE_NAME);
 
             // Path to the just created empty db
             String outFileName = dbContext.getFilesDir().getPath() + DB_PATH + BjcpConstants.DATABASE_NAME;
+
+            //Close database. Issue with OnePlus devices.
+            this.getReadableDatabase().close();
 
             //Open the empty db as the output stream
             OutputStream myOutput = new FileOutputStream(outFileName);
@@ -145,7 +145,6 @@ public class BaseDataHelper extends SQLiteOpenHelper {
             myOutput.flush();
             myOutput.close();
             myInput.close();
-            this.db.close();
         } catch (IOException e) {
             new ExceptionHandler(this.dbContext).uncaughtException(e);
         }
