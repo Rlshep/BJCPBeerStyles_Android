@@ -82,8 +82,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         // Inflate the menu items for use in the action bar
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
 
         // Associate searchable configuration with the SearchView
         MenuItem searchItem = menu.findItem(R.id.action_search);
