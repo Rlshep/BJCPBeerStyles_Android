@@ -13,11 +13,12 @@
         android:title="@string/action_select_all"
         android:visible="false"/>
 
-    <item android:id="@+id/action_search"
-          android:icon="@drawable/ic_search_white_24dp"
-          android:title="@string/action_search_hint"
-          yourapp:actionViewClass="android.support.v7.widget.SearchView"
-          yourapp:showAsAction="collapseActionView|ifRoom"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/action_search_hint"
+        yourapp:actionViewClass="io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView"
+        yourapp:showAsAction="ifRoom|collapseActionView"/>
 
     <item android:id="@+id/action_info"
           android:icon="@drawable/ic_info_outline_white_24dp"

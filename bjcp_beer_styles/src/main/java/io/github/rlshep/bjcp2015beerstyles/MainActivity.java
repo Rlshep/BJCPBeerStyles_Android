@@ -1,18 +1,24 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
+import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
 
 
 public class MainActivity extends BjcpActivity implements SearchView.OnQueryTextListener {
@@ -20,6 +26,9 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private static final int COLOR_TAB = 2;
     private static final int MAX_SEARCH_CHARS = 3;
 
+    private static final String[] COUNTRIES = new String[]{"Belgium",
+            "France", "France_", "Italy", "Germany", "Spain"};
+    private ArrayAdapter<String> adapter;
     private Menu menu;
 
     @Override
@@ -86,8 +95,24 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         // Associate searchable configuration with the SearchView
         MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        final ArrayAdapterSearchView searchView = (ArrayAdapterSearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+
+        // Set search text color
+        SearchView.SearchAutoComplete searchAutoComplete =
+                (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        searchAutoComplete.setTextColor(Color.WHITE);
+
+        // Set adapter to get search suggestions.
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        searchView.setAdapter(adapter);
+
+        searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchView.setText(adapter.getItem(position).toString());
+            }
+        });
 
         return super.onCreateOptionsMenu(menu);
     }

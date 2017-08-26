@@ -4,6 +4,8 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:background="@color/ColorPrimary"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Light"
+    app:titleTextColor="@android:color/white"
     app:titleTextAppearance="@style/ToolbarTitle"
+    app:editTextColor="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"/>
