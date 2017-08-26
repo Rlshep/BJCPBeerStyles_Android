@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../BJCP2015BeerStyles.iml" filepath="$PROJECT_DIR$/../BJCP2015BeerStyles.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bjcp_beer_styles.iml" filepath="$PROJECT_DIR$/bjcp_beer_styles.iml" />
+    </modules>
+  </component>
+</project>
