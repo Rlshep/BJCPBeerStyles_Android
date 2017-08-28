@@ -55,6 +55,5 @@ public class BjcpContract {
     public static final String XML_EXCEPTIONS = "exceptions";
     public static final String XML_TITLE = "title";
     public static final String XML_NOTES = "notes";
-
-
+    public static final String XML_KEYWORD = "keyword";
 }
