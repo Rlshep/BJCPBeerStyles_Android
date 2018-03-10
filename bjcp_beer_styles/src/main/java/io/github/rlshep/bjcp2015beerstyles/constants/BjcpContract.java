@@ -36,8 +36,9 @@ public class BjcpContract {
     public static final String COLUMN_TABLE_NAME = "table_name";
     public static final String COLUMN_QUERY = "query";
 
-    public static final String TABLE_KEYWORDS = "KEYWORDS";
-    public static final String COLUMN_KEYWORD = "keyword";
+    public static final String TABLE_SYNONYMS = "SYNONYMS";
+    public static final String COLUMN_LEFT = "left";
+    public static final String COLUMN_RIGHT = "right";
 
     public static final String TABLE_FTS_SEARCH = "FTS_SEARCH";
 
@@ -55,5 +56,4 @@ public class BjcpContract {
     public static final String XML_EXCEPTIONS = "exceptions";
     public static final String XML_TITLE = "title";
     public static final String XML_NOTES = "notes";
-    public static final String XML_KEYWORD = "keyword";
 }

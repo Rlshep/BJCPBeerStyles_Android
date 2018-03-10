@@ -18,7 +18,6 @@ public class Category implements Comparable {
     private List<Section> sections = new ArrayList<Section>();
     private List<Category> childCategories = new ArrayList<Category>();
     private List<VitalStatistics> vitalStatisticses = new ArrayList<>();
-    private List<Keywords> keywords = new ArrayList<>();
 
     @Override
     public int compareTo(Object another) {
@@ -137,13 +136,5 @@ public class Category implements Comparable {
 
     public boolean isParent() {
         return 0 >= parentId;
-    }
-
-    public List<Keywords> getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(List<Keywords> keywords) {
-        this.keywords = keywords;
     }
 }

@@ -189,7 +189,39 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<SearchResult> search(String keyword) {
         List<SearchResult> searchResults = new ArrayList<>();
+        List<String> keywords = searchSynonyms(keyword);
+        keywords.add(keyword);
+
+        for (String k : keywords) {
+            searchResults.addAll(searchStyles(k));
+        }
+
+        return searchResults;
+    }
+
+    public List<String> searchSynonyms(String keyword) {
+        ArrayList<String> searchResults = new ArrayList<>();
+        String searchResult;
+        String query = "SELECT " + BjcpContract.COLUMN_RIGHT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE UPPER(" + BjcpContract.COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+
+        //Cursor point to a location in your results
+        Cursor c = getRead().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_RIGHT)) != null) {
+                searchResult = c.getString(c.getColumnIndex(BjcpContract.COLUMN_RIGHT));
+                searchResults.add(searchResult);
+            }
+        }
+
+        c.close();
+
+        return searchResults;
+    }
+
+    private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
+        List<SearchResult> searchResults = new ArrayList<>();
         String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + BjcpContract.COLUMN_BODY + " MATCH '" + keyword + "*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
 
         //Cursor point to a location in your results
