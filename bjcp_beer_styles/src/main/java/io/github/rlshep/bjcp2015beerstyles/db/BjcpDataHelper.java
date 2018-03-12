@@ -190,7 +190,6 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<SearchResult> search(String keyword) {
         List<SearchResult> searchResults = new ArrayList<>();
         List<String> keywords = searchSynonyms(keyword);
-        keywords.add(keyword);
 
         for (String k : keywords) {
             searchResults.addAll(searchStyles(k));
@@ -202,7 +201,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<String> searchSynonyms(String keyword) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchResult;
-        String query = "SELECT " + BjcpContract.COLUMN_RIGHT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE UPPER(" + BjcpContract.COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+        String query = "SELECT " + BjcpContract.COLUMN_RIGHT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE  " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND UPPER(" + BjcpContract.COLUMN_LEFT + ") = UPPER('" + keyword + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -241,5 +240,43 @@ public class BjcpDataHelper extends BaseDataHelper {
         c.close();
 
         return searchResults;
+    }
+
+    public List<String> getAllSynonyms() {
+        ArrayList<String> synonyms = new ArrayList<>();
+        final String query = "SELECT " + BjcpContract.COLUMN_LEFT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "'";
+
+        //Cursor point to a location in your results
+        Cursor c = getRead().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_LEFT)) != null) {
+                synonyms.add(c.getString(c.getColumnIndex(BjcpContract.COLUMN_LEFT)));
+            }
+        }
+
+        c.close();
+
+        return synonyms;
+    }
+
+    public List<String> getAllCategoryNames() {
+        ArrayList<String> names = new ArrayList<>();
+        final String query = "SELECT " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " ORDER BY "+ BjcpContract.COLUMN_NAME;
+
+        //Cursor point to a location in your results
+        Cursor c = getRead().rawQuery(query, null);
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)) != null) {
+                names.add(c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
+            }
+            c.moveToNext();
+        }
+
+        c.close();
+
+        return names;
     }
 }
