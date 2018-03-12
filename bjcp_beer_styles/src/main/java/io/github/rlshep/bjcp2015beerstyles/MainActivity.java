@@ -2,6 +2,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
@@ -14,8 +15,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
+import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
+import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
@@ -26,8 +36,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private static final int COLOR_TAB = 2;
     private static final int MAX_SEARCH_CHARS = 3;
 
-    private static final String[] COUNTRIES = new String[]{"Belgium",
-            "France", "France_", "Italy", "Germany", "Spain"};
+    private String[] keywords;
     private ArrayAdapter<String> adapter;
     private Menu menu;
 
@@ -36,6 +45,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
+        keywords = getSearchKeywords();
 
         CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header), "Color Chart"};
         setupToolbar(R.id.tool_bar, "", true, false);
@@ -104,7 +114,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         searchAutoComplete.setTextColor(Color.WHITE);
 
         // Set adapter to get search suggestions.
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, COUNTRIES);
+        adapter = new ArrayAdapter<String>(this,R.layout.find_view,keywords);
         searchView.setAdapter(adapter);
 
         searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -154,5 +164,17 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         // Associate searchable configuration with the SearchView
         MenuItem searchItem = menu.findItem(R.id.action_search);
         MenuItemCompat.collapseActionView(searchItem);
+    }
+
+    private String[] getSearchKeywords() {
+        BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance(this);
+        List<String> searchKeywords = new ArrayList<>();
+
+        searchKeywords.addAll(bjcpDataHelper.getAllCategoryNames());
+        searchKeywords.addAll(bjcpDataHelper.getAllSynonyms());
+
+        String[] stringArray = Arrays.copyOf(searchKeywords.toArray(), searchKeywords.toArray().length, String[].class);
+
+        return stringArray;
     }
 }
