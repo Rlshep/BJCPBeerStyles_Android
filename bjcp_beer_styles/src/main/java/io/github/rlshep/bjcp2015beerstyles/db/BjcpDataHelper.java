@@ -191,6 +191,10 @@ public class BjcpDataHelper extends BaseDataHelper {
         List<SearchResult> searchResults = new ArrayList<>();
         List<String> keywords = searchSynonyms(keyword);
 
+        if (keywords.isEmpty()) {
+            keywords.add(keyword);
+        }
+
         for (String k : keywords) {
             searchResults.addAll(searchStyles(k));
         }
