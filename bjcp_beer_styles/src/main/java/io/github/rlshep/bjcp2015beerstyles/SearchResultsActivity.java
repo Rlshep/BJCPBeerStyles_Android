@@ -17,10 +17,12 @@ import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
+import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class SearchResultsActivity extends BjcpActivity {
-    private String searchedText = "";
+    protected String searchedText = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,7 @@ public class SearchResultsActivity extends BjcpActivity {
 
         String title = getString(R.string.title_activity_search_results) + " " + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'";
         setupToolbar(R.id.srToolbar, title, false, true);
-        setListView(BjcpDataHelper.getInstance(this).search(searchedText));
+        setListView(BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText)));
     }
 
     private void setListView(List<SearchResult> searchResults) {

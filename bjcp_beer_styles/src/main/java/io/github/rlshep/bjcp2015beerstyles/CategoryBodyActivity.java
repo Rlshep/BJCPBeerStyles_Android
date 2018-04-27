@@ -40,7 +40,7 @@ public class CategoryBodyActivity extends BjcpActivity {
             String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             setupToolbar(R.id.scbToolbar, title, false, true);
             categoryId = extras.getString("CATEGORY_ID");
-            searchedText = extras.getString("SEARCHED_TEXT");
+            searchedText = StringFormatter.removeDoubleSingleQuotes(extras.getString("SEARCHED_TEXT"));
         }
 
         setBody(searchedText);
@@ -99,7 +99,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     private void setMainText(String searchedText, List<VitalStatistics> vitalStatisticses) {
         String text = getSectionsBody(categoryId) + getVitalStatistics(vitalStatisticses);
 
-        TextView sectionsTextView = (TextView) findViewById(R.id.sectionsText);
+        TextView sectionsTextView = findViewById(R.id.sectionsText);
         sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
     }
 

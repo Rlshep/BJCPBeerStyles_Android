@@ -43,4 +43,13 @@ public class StringFormatter {
 
         return formatted.toString();
     }
+
+    public static String addDoubleSingleQuotes(String searchedText) {
+        return searchedText.replaceAll("'","''");
+    }
+
+    public static String removeDoubleSingleQuotes(String searchedText) {
+        return searchedText.replaceAll("''", "'");
+    }
+
 }
