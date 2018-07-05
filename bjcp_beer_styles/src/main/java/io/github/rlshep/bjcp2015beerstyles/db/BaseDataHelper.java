@@ -1,6 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -19,10 +20,10 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     private Activity dbContext;
     private SQLiteDatabase db;
 
-    protected BaseDataHelper(Activity context) {
-        super(context, BjcpConstants.DATABASE_NAME, null, BjcpConstants.DATABASE_VERSION);
+    protected BaseDataHelper(Activity activity) {
+        super(activity, BjcpConstants.DATABASE_NAME, null, BjcpConstants.DATABASE_VERSION);
 
-        this.dbContext = context;
+        this.dbContext = activity;
     }
 
     @Override

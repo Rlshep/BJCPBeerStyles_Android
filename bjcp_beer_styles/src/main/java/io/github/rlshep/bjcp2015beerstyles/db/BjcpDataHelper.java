@@ -2,11 +2,13 @@ package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
@@ -19,14 +21,14 @@ public class BjcpDataHelper extends BaseDataHelper {
     private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + BjcpContract.TABLE_CATEGORY + " C ";
     private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
 
-    protected BjcpDataHelper(Activity context) {
-        super(context);
+    protected BjcpDataHelper(Activity activity) {
+        super(activity);
     }
 
     // Use the application context, which will ensure that you don't accidentally leak an Activity's context. See this article for more information: http://bit.ly/6LRzfx
-    public static synchronized BjcpDataHelper getInstance(Activity context) {
+    public static synchronized BjcpDataHelper getInstance(Activity activity) {
         if (instance == null) {
-            instance = new BjcpDataHelper(context);
+            instance = new BjcpDataHelper(activity);
         }
 
         return instance;
@@ -266,7 +268,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllCategoryNames() {
         ArrayList<String> names = new ArrayList<>();
-        final String query = "SELECT " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " ORDER BY "+ BjcpContract.COLUMN_NAME;
+        final String query = "SELECT " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " ORDER BY " + BjcpContract.COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -282,5 +284,9 @@ public class BjcpDataHelper extends BaseDataHelper {
         c.close();
 
         return names;
+    }
+
+    public boolean isCorrectDatabaseVersion() {
+        return (BjcpConstants.DATABASE_VERSION == getRead().getVersion());
     }
 }

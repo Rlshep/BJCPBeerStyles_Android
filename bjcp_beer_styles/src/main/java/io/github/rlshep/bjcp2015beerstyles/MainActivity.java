@@ -45,6 +45,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
+        validateCorrectDatabaseVersion();
         keywords = getSearchKeywords();
 
         CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header), "Color Chart"};
@@ -177,4 +178,9 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         return stringArray;
     }
-}
+
+    private void validateCorrectDatabaseVersion() {
+        if (!BjcpDataHelper.getInstance(this).isCorrectDatabaseVersion()) {
+            BjcpController.startCrashActivity(this,"Invalid database version.");
+        }
+    }}
