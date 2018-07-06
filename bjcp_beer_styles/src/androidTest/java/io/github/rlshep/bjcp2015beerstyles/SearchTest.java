@@ -3,14 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
-import org.apache.commons.lang.StringUtils;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +24,10 @@ public class SearchTest {
     public static final String STRING_TO_BE_TYPED = "Espresso";
     public static final String APOSTROPHE_TO_BE_TYPED = "Marston's";
     public static final String EXACT_TO_BE_TYPED = "Fuller's";
+    public static final String NEW_ENGLAND_IPA = "New England IPA";
+    public static final String NEW_ENGLAND_IPA_SYNONYM = "Hazy IPA";
+    public static final String KOLSCH = "Kolsch";
+    public static final String KOLSCH_ACTUAL = "Kölsch";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
@@ -44,7 +41,7 @@ public class SearchTest {
 
         // Click on first result Sweet Stout
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(hasValueEqualTo(STRING_TO_BE_TYPED)));
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(STRING_TO_BE_TYPED)));
     }
 
     @Test
@@ -56,7 +53,7 @@ public class SearchTest {
 
         // Click on first result Sweet Stout
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(hasValueEqualTo(APOSTROPHE_TO_BE_TYPED)));
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(APOSTROPHE_TO_BE_TYPED)));
     }
 
     @Test
@@ -67,35 +64,30 @@ public class SearchTest {
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(hasValueEqualTo(EXACT_TO_BE_TYPED)));
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(EXACT_TO_BE_TYPED)));
     }
 
-    private Matcher<View> hasValueEqualTo(final String content) {
+    @Test
+    public void searchText_return_new_england_ipa() {
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
 
-        return new TypeSafeMatcher<View>() {
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
+    }
 
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Has EditText/TextView the value:  " + content);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                if (!(view instanceof TextView) && !(view instanceof EditText)) {
-                    return false;
-                }
-                if (view != null) {
-                    String text;
-                    if (view instanceof TextView) {
-                        text = ((TextView) view).getText().toString();
-                    } else {
-                        text = ((EditText) view).getText().toString();
-                    }
-
-                    return StringUtils.containsIgnoreCase(text, content);
-                }
-                return false;
-            }
-        };
+    @Test
+    public void searchText_return_kolsch() {
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(KOLSCH), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(KOLSCH_ACTUAL)));
     }
 }

@@ -2,13 +2,10 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.text.Html;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,15 +14,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
-import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
@@ -122,6 +115,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 searchView.setText(adapter.getItem(position).toString());
+                onQueryTextSubmit(adapter.getItem(position).toString());
             }
         });
 

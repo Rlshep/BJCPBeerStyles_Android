@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category implements Comparable {
-    public final static String LANG_ENGLISH = "English";
+    public final static String LANG_ENGLISH = "en";
     public final static double CURRENT_REVISION = 2015;
 
     private long id;

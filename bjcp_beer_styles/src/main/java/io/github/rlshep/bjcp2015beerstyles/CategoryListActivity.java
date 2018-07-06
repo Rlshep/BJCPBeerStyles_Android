@@ -56,7 +56,7 @@ public class CategoryListActivity extends BjcpActivity {
         listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
 
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
-        ListView categoryListView = (ListView) findViewById(R.id.categoryListView);
+        ListView categoryListView = findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -84,7 +84,6 @@ public class CategoryListActivity extends BjcpActivity {
                     TextView rowText = (TextView) findViewById(R.id.catSectionText);
                     rowText.setSelectAllOnFocus(true);
                     consumed = false;
-//                   consumed = true;
                 }
 
                 return consumed;
@@ -136,41 +135,4 @@ public class CategoryListActivity extends BjcpActivity {
             }
         }
     }
-
-    //TODO: START
-//    public void onInitializeMenu(Menu menu) {
-//        // Start with a menu Item order value that is high enough
-//        // so that your "PROCESS_TEXT" menu items appear after the
-//        // standard selection menu items like Cut, Copy, Paste.
-//        int menuItemOrder = 100;
-//        for (ResolveInfo resolveInfo : getSupportedActivities()) {
-//            menu.add(Menu.NONE, Menu.NONE,
-//                    menuItemOrder++,
-//                    getLabel(resolveInfo))
-//
-//                    .setIntent(createProcessTextIntentForResolveInfo(resolveInfo))
-//                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-//        }
-//    }
-//
-//    private Intent createProcessTextIntent() {
-////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//        return new Intent()
-//                .setAction(Intent.ACTION_PROCESS_TEXT)
-//                .setType("text/plain");
-////        }
-//    }
-//
-//    private List getSupportedActivities() {
-//        PackageManager packageManager = getApplicationContext().getPackageManager();
-//        return packageManager.queryIntentActivities(createProcessTextIntent(), 0);
-//    }
-//
-//    private Intent createProcessTextIntentForResolveInfo(ResolveInfo info) {
-//        return createProcessTextIntent()
-//                .putExtra(Intent.EXTRA_PROCESS_TEXT_READONLY, !
-//                        mTextView.isTextEditable())
-//                .setClassName(info.activityInfo.packageName,
-//                        info.activityInfo.name);
-//    }
 }
