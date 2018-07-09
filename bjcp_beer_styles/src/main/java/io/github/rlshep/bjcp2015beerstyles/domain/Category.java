@@ -66,6 +66,18 @@ public class Category implements Comparable {
         return categoryCode;
     }
 
+    public String getTruncatedCategoryCode() {
+        String truncatedCategoryCode = categoryCode;
+
+        int i = categoryCode.indexOf("-");
+
+        if (i > 0) {
+            truncatedCategoryCode = categoryCode.substring(0, i);
+        }
+
+        return truncatedCategoryCode;
+    }
+
     public void setCategoryCode(String categoryCode) {
         this.categoryCode = categoryCode;
     }

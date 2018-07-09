@@ -24,8 +24,10 @@ public class Matchers {
 
             @Override
             public boolean matchesSafely(View view) {
+                boolean matches = false;
+
                 if (!(view instanceof TextView) && !(view instanceof EditText)) {
-                    return false;
+                    matches = false;
                 }
                 if (view != null) {
                     String text;
@@ -35,9 +37,9 @@ public class Matchers {
                         text = ((EditText) view).getText().toString();
                     }
 
-                    return StringUtils.containsIgnoreCase(text, content);
+                    matches = StringUtils.containsIgnoreCase(text, content);
                 }
-                return false;
+                return matches;
             }
         };
     }

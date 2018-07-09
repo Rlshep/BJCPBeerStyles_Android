@@ -8,7 +8,7 @@ android {
         applicationId "io.github.rlshep.bjcp2015beerstyles"
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 61
+        versionCode 62
         versionName "1.1.5"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

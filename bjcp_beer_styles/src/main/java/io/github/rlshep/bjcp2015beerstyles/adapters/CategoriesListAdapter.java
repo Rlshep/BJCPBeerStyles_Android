@@ -52,7 +52,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
         if (item instanceof Category) {
             Category category = (Category) item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
-            rowText.setText(category.getCategoryCode() + " - " + category.getName());
+            rowText.setText(category.getTruncatedCategoryCode() + " - " + category.getName());
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);

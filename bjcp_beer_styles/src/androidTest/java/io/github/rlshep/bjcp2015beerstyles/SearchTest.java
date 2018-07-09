@@ -74,7 +74,10 @@ public class SearchTest {
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
+    }
 
+    @Test
+    public void searchText_return_hazy_ipa() {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());

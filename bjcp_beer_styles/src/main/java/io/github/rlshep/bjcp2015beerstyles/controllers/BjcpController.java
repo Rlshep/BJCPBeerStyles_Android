@@ -21,7 +21,7 @@ public class BjcpController {
         Intent i = new Intent(activity, CategoryListActivity.class);
 
         i.putExtra("CATEGORY_ID", (Long.valueOf(category.getId())).toString());
-        i.putExtra("CATEGORY", category.getCategoryCode());
+        i.putExtra("CATEGORY", category.getTruncatedCategoryCode());
         i.putExtra("CATEGORY_NAME", category.getName());
         i.putExtra("SEARCHED_TEXT", searchedText);
 
@@ -36,7 +36,7 @@ public class BjcpController {
         Intent i = new Intent(activity, CategoryBodyActivity.class);
 
         i.putExtra("CATEGORY_ID", (Long.valueOf(category.getId())).toString());
-        i.putExtra("CATEGORY", category.getCategoryCode());
+        i.putExtra("CATEGORY", category.getTruncatedCategoryCode());
         i.putExtra("CATEGORY_NAME", category.getName());
         i.putExtra("SEARCHED_TEXT", searchedText);
 
