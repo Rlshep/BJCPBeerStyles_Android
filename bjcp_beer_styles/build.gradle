@@ -35,10 +35,23 @@ android {
 
     signingConfigs {
         release {
+            def keysPropsFile = file('C:/Users/Richard/dev/keystores/keys.properties')
+            def Properties keysProps = new Properties()
+
+            if (keysPropsFile.canRead()) {
+                keysProps.load(new FileInputStream(keysPropsFile))
+            }
+            else {
+                throw new GradleException("Could not read keys.properties!")
+            }
+
+            def storePass = keysProps['STORE_PASSWORD']
+            def keyPass = keysProps['KEY_PASSWORD']
+
             storeFile file("C:/Users/Richard/dev/keystores/bjcp_key.jks")
-            storePassword "uHQpY2Q#jXBGexSN5uC6&G%8BcG"
+            storePassword storePass
             keyAlias "BjcpBeerStylesKey"
-            keyPassword "duq4bpSGZFqmfrrtfdPjVuCdEgR"
+            keyPassword keyPass
         }
 
     }
