@@ -1,5 +1,5 @@
-
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
 
 android {
     compileSdkVersion 28
@@ -9,21 +9,36 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    defaultConfig {
-        applicationId "io.github.rlshep.bjcp2015beerstyles"
-        minSdkVersion 14
-        targetSdkVersion 28
-        versionCode 62
-        versionName "1.1.5"
+    def versionPropsFile = file('version.properties')
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def name = versionProps['VERSION_NAME']
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+        versionProps['VERSION_CODE']=code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "io.github.rlshep.bjcp2015beerstyles"
+            versionName name
+            versionCode code
+            minSdkVersion 14
+            targetSdkVersion 28
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
     }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
     signingConfigs {
         release {
-            storeFile file("/dev/keystores/bjcp_key.jks")
-            storePassword "password1"
+            storeFile file("C:/Users/Richard/dev/keystores/bjcp_key.jks")
+            storePassword ""
             keyAlias "BjcpBeerStylesKey"
-            keyPassword "password2"
+            keyPassword ""
         }
 
     }
@@ -54,5 +69,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     androidTestImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+}
 
+play {
+    track = 'alpha'
+    serviceAccountEmail = ''
+    pk12File = file('')
 }
