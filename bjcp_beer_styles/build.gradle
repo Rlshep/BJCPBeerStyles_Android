@@ -1,0 +1,91 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
+
+android {
+    compileSdkVersion 28
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+        def name = versionProps['VERSION_NAME']
+        def code = versionProps['VERSION_CODE'].toInteger() + 1
+        versionProps['VERSION_CODE']=code.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "io.github.rlshep.bjcp2015beerstyles"
+            versionName name
+            versionCode code
+            minSdkVersion 14
+            targetSdkVersion 28
+            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        }
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+    signingConfigs {
+        release {
+            def keysPropsFile = file('C:/Users/Richard/dev/keystores/keys.properties')
+            def Properties keysProps = new Properties()
+
+            if (keysPropsFile.canRead()) {
+                keysProps.load(new FileInputStream(keysPropsFile))
+            }
+            else {
+                throw new GradleException("Could not read keys.properties!")
+            }
+
+            def storePass = keysProps['STORE_PASSWORD']
+            def keyPass = keysProps['KEY_PASSWORD']
+
+            storeFile file("C:/Users/Richard/dev/keystores/bjcp_key.jks")
+            storePassword storePass
+            keyAlias "BjcpBeerStylesKey"
+            keyPassword keyPass
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            debuggable true
+        }
+    }
+}
+
+dependencies {
+    implementation 'io.github.rlshep:BJCPBeerStyles_Core:1.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'commons-lang:commons-lang:2.6'
+    implementation 'com.android.support:support-v4:28.0.0'
+
+    // App's dependencies, including test
+    implementation 'com.android.support:support-annotations:28.0.0'
+
+    testImplementation 'junit:junit:4.12'
+
+    // Testing-only dependencies
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+}
+
+play {
+    track = 'alpha'
+    serviceAccountEmail = 'bjcpbeerstyles@api-7620542471319259434-751037.iam.gserviceaccount.com'
+    pk12File = file('C:/Users/Richard/dev/keystores/api-7620542471319259434-751037-78e602389150.p12')
+}
