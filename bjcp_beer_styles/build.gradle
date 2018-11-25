@@ -36,9 +36,9 @@ android {
     signingConfigs {
         release {
             storeFile file("C:/Users/Richard/dev/keystores/bjcp_key.jks")
-            storePassword ""
+            storePassword "uHQpY2Q#jXBGexSN5uC6&G%8BcG"
             keyAlias "BjcpBeerStylesKey"
-            keyPassword ""
+            keyPassword "duq4bpSGZFqmfrrtfdPjVuCdEgR"
         }
 
     }
@@ -73,6 +73,6 @@ dependencies {
 
 play {
     track = 'alpha'
-    serviceAccountEmail = ''
-    pk12File = file('')
+    serviceAccountEmail = 'bjcpbeerstyles@api-7620542471319259434-751037.iam.gserviceaccount.com'
+    pk12File = file('C:/Users/Richard/dev/keystores/api-7620542471319259434-751037-78e602389150.p12')
 }
