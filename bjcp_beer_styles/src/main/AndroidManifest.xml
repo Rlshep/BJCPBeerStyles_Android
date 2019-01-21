@@ -30,7 +30,7 @@
                 android:resource="@xml/searchable"/>
         </activity>
         <activity
-            android:name=".CategoryListActivity">
+            android:name=".CategoryListActivity"
             android:label="@string/title_activity_category_list">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
