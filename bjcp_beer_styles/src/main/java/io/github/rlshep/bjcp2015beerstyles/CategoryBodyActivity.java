@@ -7,7 +7,6 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -114,16 +113,17 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setSrm(VitalStatistics vitalStatistics, int i) {
-        getSrmImageView("imgSrmBegin", i).setImageResource(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "drawable", getPackageName()));
-        getSrmImageView("imgSrmBegin", i).setContentDescription(getString(R.string.beginSrm) + vitalStatistics.getSrmStart()); // For disabled accessibility.
-        getSrmImageView("imgSrmEnd", i).setImageResource(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "drawable", getPackageName()));
-        getSrmImageView("imgSrmEnd", i).setContentDescription(getString(R.string.endSrm) + vitalStatistics.getSrmEnd()); // For disabled accessibility.
+        TextView srmText = getSrmTextView("srmText", i);
+        TextView srmTextStart = getSrmTextView("srmTextStart", i);
+        TextView srmTextEnd = getSrmTextView("srmTextEnd", i);
 
-        getSrmTextView("srmText", i).setText(Html.fromHtml("<br><b>" + vitalStatistics.getHeader() + " SRM:</b>"));
+        srmText.setText(Html.fromHtml("<b>" + vitalStatistics.getHeader() + " " + getString(R.string.color_srm) + ": </b>" + vitalStatistics.getSrmStart() + " - " + vitalStatistics.getSrmEnd()));
+        srmTextStart.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "color", getPackageName())));
+        srmTextEnd.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "color", getPackageName())));
 
-        getSrmImageView("imgSrmBegin", i).setVisibility(View.VISIBLE);
-        getSrmImageView("imgSrmEnd", i).setVisibility(View.VISIBLE);
-        getSrmTextView("srmText", i).setVisibility(View.VISIBLE);
+        srmTextStart.setVisibility(View.VISIBLE);
+        srmTextEnd.setVisibility(View.VISIBLE);
+        srmTextEnd.setVisibility(View.VISIBLE);
     }
 
     private String getVitalStatistics(List<VitalStatistics> vitalStatisticses) {
@@ -151,10 +151,10 @@ public class CategoryBodyActivity extends BjcpActivity {
         return vitals;
     }
 
-    private ImageView getSrmImageView(String srm, int i) {
-        int id = getResources().getIdentifier(srm + i, "id", getPackageName());
-        return (ImageView) findViewById(id);
-    }
+//    private ImageView getSrmImageView(String srm, int i) {
+//        int id = getResources().getIdentifier(srm + i, "id", getPackageName());
+//        return (ImageView) findViewById(id);
+//    }
 
     private TextView getSrmTextView(String srm, int i) {
         int id = getResources().getIdentifier(srm + i, "id", getPackageName());
