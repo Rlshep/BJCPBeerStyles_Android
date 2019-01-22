@@ -5,8 +5,6 @@
     <string name="action_info">About</string>
     <string name="action_delete">Remove</string>
     <string name="action_select_all">Select All</string>
-    <string name="cat_tab_header">Categories</string>
-    <string name="on_tap_tab_header">Bookmarks</string>
     <string name="on_tap_success">"Successfully added to Bookmarks"</string>
     <string name="on_tap_delete">"Successfully removed from Bookmarks"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
