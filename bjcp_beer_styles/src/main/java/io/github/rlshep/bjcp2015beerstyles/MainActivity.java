@@ -1,10 +1,15 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.DynamicDrawableSpan;
+import android.text.style.ImageSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,11 +46,10 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         validateCorrectDatabaseVersion();
         keywords = getSearchKeywords();
 
-        CharSequence Titles[] = {getString(R.string.cat_tab_header), getString(R.string.on_tap_tab_header), "Color Chart"};
         setupToolbar(R.id.tool_bar, "", true, false);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles);
+        final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(adapter);
 
@@ -104,11 +108,11 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         // Set search text color
         SearchView.SearchAutoComplete searchAutoComplete =
-                (SearchView.SearchAutoComplete)searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+                (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
         searchAutoComplete.setTextColor(Color.WHITE);
 
         // Set adapter to get search suggestions.
-        adapter = new ArrayAdapter<String>(this,R.layout.find_view,keywords);
+        adapter = new ArrayAdapter<String>(this, R.layout.find_view, keywords);
         searchView.setAdapter(adapter);
 
         searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -175,6 +179,28 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
     private void validateCorrectDatabaseVersion() {
         if (!BjcpDataHelper.getInstance(this).isCorrectDatabaseVersion()) {
-            BjcpController.startCrashActivity(this,"Invalid database version.");
+            BjcpController.startCrashActivity(this, "Invalid database version.");
         }
-    }}
+    }
+
+    protected CharSequence[] getTabTitles() {
+        CharSequence titles[] =  new SpannableStringBuilder[3];
+
+        titles[0] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_list_white_48dp));
+        titles[1] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_star_white_48dp));
+        titles[2] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_palette_white_48dp));
+
+        return titles;
+    }
+
+    private SpannableStringBuilder createSpannableStringBuilder(Drawable drawable) {
+        SpannableStringBuilder sb = new SpannableStringBuilder("   ");
+
+        drawable.setBounds(5, 5, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        ImageSpan span = new ImageSpan(drawable, DynamicDrawableSpan.ALIGN_BASELINE);
+        sb.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return sb;
+    }
+
+}

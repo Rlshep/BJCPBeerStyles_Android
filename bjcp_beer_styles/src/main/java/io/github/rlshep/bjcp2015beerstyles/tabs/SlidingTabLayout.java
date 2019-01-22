@@ -314,5 +314,4 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
         }
     }
-
 }
