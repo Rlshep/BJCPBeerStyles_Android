@@ -161,8 +161,10 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         super.onRestart();
 
         // Associate searchable configuration with the SearchView
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        MenuItemCompat.collapseActionView(searchItem);
+        if (null != menu) {
+            MenuItem searchItem = menu.findItem(R.id.action_search);
+            MenuItemCompat.collapseActionView(searchItem);
+        }
     }
 
     private String[] getSearchKeywords() {

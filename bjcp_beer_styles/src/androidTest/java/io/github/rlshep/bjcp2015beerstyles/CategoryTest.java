@@ -28,7 +28,7 @@ public class CategoryTest {
     }
 
     @Test
-    public void testCategoryStrongAle() throws Exception {
+    public void testCategoryStrongAle() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong British Ale", 17)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(17).perform(click());
@@ -36,7 +36,7 @@ public class CategoryTest {
     }
 
     @Test
-    public void testCategoryIPA() throws Exception {
+    public void testCategoryIPA() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA", 21)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(21).perform(click());
@@ -44,12 +44,23 @@ public class CategoryTest {
     }
 
     @Test
-    public void testCategoryLocal() throws Exception {
+    public void testCategoryLocal() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Local Styles", 41)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(41).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Sour", 4)));
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New Zealand Pilsner", 5)));
+    }
+
+    @Test
+    public void testCategorySaison() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("pale SRM")));
+        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("dark SRM")));
     }
 
 }
