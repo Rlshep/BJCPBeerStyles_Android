@@ -1,7 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -15,7 +14,6 @@ import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BaseDataHelper extends SQLiteOpenHelper {
-    private static final String TAG = "LoadDatabase";
     private static final String DB_PATH = "/../databases/";
     private Activity dbContext;
     private SQLiteDatabase db;
@@ -32,6 +30,10 @@ public class BaseDataHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
     @Override
@@ -107,9 +109,7 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     private boolean isDatabaseCopyNeeded() {
         boolean needCopied = false;
 
-        if (this.db == null) {
-            needCopied = true;
-        } else if (BjcpConstants.DATABASE_VERSION != this.db.getVersion()) {
+        if (this.db == null || BjcpConstants.DATABASE_VERSION != this.db.getVersion()) {
             needCopied = true;
         }
 

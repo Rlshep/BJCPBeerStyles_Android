@@ -1,1 +1,3 @@
-Added new 2015 Provisional Styles: Burton Ale, New England IPA, New Zealand Pilsner, Catharina Sour.
+Bug #19 - Fixed intermittent crashing issue when restarting app.
+Added icons for tab identifiers.
+Increased size of SRM visual.

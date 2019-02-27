@@ -2,7 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles.db;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 
 import java.util.ArrayList;
@@ -79,11 +78,14 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
-                category = new Category(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_CATEGORY_CODE)), c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
+                category = new Category();
+                category.setId(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_ID)));
+                category.setCategoryCode(c.getString(c.getColumnIndex(BjcpContract.COLUMN_CATEGORY_CODE)));
+                category.setName(c.getString(c.getColumnIndex(BjcpContract.COLUMN_NAME)));
                 category.setOrderNumber(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ORDER)));
                 category.setParentId(c.getLong(c.getColumnIndex(BjcpContract.COLUMN_PARENT_ID)));
                 category.setBookmarked(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_BOOKMARKED)) > 0);
-                category.setRevision(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_REVISION)));
+                category.setRevision(c.getString(c.getColumnIndex(BjcpContract.COLUMN_REVISION)));
                 category.setLanguage((c.getString(c.getColumnIndex((BjcpContract.COLUMN_LANG)))));
                 categories.add(category);
 

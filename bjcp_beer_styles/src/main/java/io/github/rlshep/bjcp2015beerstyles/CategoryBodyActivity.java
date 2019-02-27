@@ -3,6 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -100,6 +101,7 @@ public class CategoryBodyActivity extends BjcpActivity {
 
         TextView sectionsTextView = findViewById(R.id.sectionsText);
         sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
+        sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
     }
 
     private String getSectionsBody(String categoryId) {
@@ -150,11 +152,6 @@ public class CategoryBodyActivity extends BjcpActivity {
 
         return vitals;
     }
-
-//    private ImageView getSrmImageView(String srm, int i) {
-//        int id = getResources().getIdentifier(srm + i, "id", getPackageName());
-//        return (ImageView) findViewById(id);
-//    }
 
     private TextView getSrmTextView(String srm, int i) {
         int id = getResources().getIdentifier(srm + i, "id", getPackageName());
