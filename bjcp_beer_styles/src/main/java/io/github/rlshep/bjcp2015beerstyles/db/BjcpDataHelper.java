@@ -18,17 +18,16 @@ public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
 
     private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + BjcpContract.TABLE_CATEGORY + " C ";
-    private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
+    private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
 
     protected BjcpDataHelper(Activity activity) {
+
         super(activity);
     }
 
     // Use the application context, which will ensure that you don't accidentally leak an Activity's context. See this article for more information: http://bit.ly/6LRzfx
     public static synchronized BjcpDataHelper getInstance(Activity activity) {
-        if (instance == null) {
-            instance = new BjcpDataHelper(activity);
-        }
+        instance = new BjcpDataHelper(activity);
 
         return instance;
     }
@@ -39,7 +38,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getAllCategories() {
-        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_PARENT_ID + " IS NULL ORDER BY " + BjcpContract.COLUMN_ORDER;
+        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_PARENT_ID + " IS NULL " + " AND " + BjcpContract.COLUMN_LANG + " = '" + getLanguage() + "'ORDER BY " + BjcpContract.COLUMN_ORDER;
         return getCategories(query);
     }
 
@@ -134,7 +133,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getBookmarkedCategories() {
-        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_BOOKMARKED + " = 1 ORDER BY " + BjcpContract.COLUMN_CATEGORY_CODE;
+        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + BjcpContract.COLUMN_BOOKMARKED + " = 1 AND " + BjcpContract.COLUMN_LANG + " = '" + getLanguage() + "' ORDER BY " + BjcpContract.COLUMN_CATEGORY_CODE;
 
         return getCategories(query);
     }
@@ -209,7 +208,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<String> searchSynonyms(String keyword) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchResult;
-        String query = "SELECT " + BjcpContract.COLUMN_RIGHT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE  " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND UPPER(" + BjcpContract.COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+        String query = "SELECT " + BjcpContract.COLUMN_RIGHT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE  " + BjcpContract.COLUMN_LANG + " = '" + getLanguage() + "' AND UPPER(" + BjcpContract.COLUMN_LEFT + ") = UPPER('" + keyword + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -229,7 +228,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + BjcpContract.COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
+        String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + getLanguage() + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + BjcpContract.COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -252,7 +251,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllSynonyms() {
         ArrayList<String> synonyms = new ArrayList<>();
-        final String query = "SELECT " + BjcpContract.COLUMN_LEFT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + Category.LANG_ENGLISH + "'";
+        final String query = "SELECT " + BjcpContract.COLUMN_LEFT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + getLanguage() + "'";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);

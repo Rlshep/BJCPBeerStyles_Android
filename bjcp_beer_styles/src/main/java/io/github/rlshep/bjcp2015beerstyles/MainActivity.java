@@ -93,6 +93,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+
     }
 
     @Override
@@ -204,5 +205,4 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         return sb;
     }
-
 }

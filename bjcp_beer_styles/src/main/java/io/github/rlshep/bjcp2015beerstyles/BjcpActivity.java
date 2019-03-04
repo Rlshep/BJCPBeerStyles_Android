@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 public abstract class BjcpActivity extends AppCompatActivity {
     protected void setupToolbar(int toolBarId, String title, boolean showIcon, boolean showUp) {
-        Toolbar toolbar = (Toolbar) findViewById(toolBarId);
+        Toolbar toolbar = findViewById(toolBarId);
 
         if (!StringUtils.isEmpty(title)) {
             toolbar.setTitle(title);

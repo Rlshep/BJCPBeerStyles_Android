@@ -31,4 +31,5 @@
     <string name="twitter_begin">Twitter:</string>
     <string name="color_header"><b>Color</b></string>
     <string name="color_srm"><b>SRM</b></string>
+    <string name="vitals">Vital Statistics</string>
 </resources>

@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SearchTest {
+public class SearchTest extends BJCPTest {
     public static final String STRING_TO_BE_TYPED = "Espresso";
     public static final String APOSTROPHE_TO_BE_TYPED = "Marston's";
     public static final String EXACT_TO_BE_TYPED = "Fuller's";
@@ -34,6 +34,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_sweet_stout() {
+        setLocale("en", "EN");
+
         // Search for Keyword Espresso
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());
@@ -46,6 +48,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_sweet_stout_apostrophe() {
+        setLocale("en", "EN");
+
         // Search for Keyword
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(APOSTROPHE_TO_BE_TYPED), closeSoftKeyboard());
@@ -58,6 +62,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_fullers_exact() {
+        setLocale("en", "EN");
+
         // Search for Keyword
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(EXACT_TO_BE_TYPED), closeSoftKeyboard());
@@ -69,6 +75,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_new_england_ipa() {
+        setLocale("en", "EN");
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
@@ -78,6 +86,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_hazy_ipa() {
+        setLocale("en", "EN");
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
@@ -87,6 +97,8 @@ public class SearchTest {
 
     @Test
     public void searchText_return_kolsch() {
+        setLocale("en", "EN");
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(KOLSCH), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
