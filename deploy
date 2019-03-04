@@ -1,0 +1,9 @@
+echo "If changing db "
+echo "-----------------------------------"
+echo "Change BjcpConstants.DATABASE_VERSION"
+
+echo "Change strings.xml about_version"
+echo "update version.properties"
+
+./gradlew assembleRelease
+./gradlew publishApkRelease

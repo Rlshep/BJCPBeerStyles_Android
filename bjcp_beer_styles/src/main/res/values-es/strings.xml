@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">BJCP 2015 Guía de Estilos de Cerveza</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="action_search_hint">Estilos de búsqueda</string>
+    <string name="action_info">Acerca de</string>
+    <string name="action_delete">Acerca de</string>
+    <string name="action_select_all">Seleccionar todo</string>
+    <string name="on_tap_success">"Agregado exitosamente a Marcadores"</string>
+    <string name="on_tap_delete">"Eliminado con éxito de Marcadores"</string>
+    <string name="on_tap_empty">"Mantenga presionado cualquier categoría o subcategoría para guardar aquí."</string>
+    <string name="title_activity_about">Acerca de</string>
+    <string name="about_version">BJCP 2015 Guía de Estilos de Cerveza v1.1.9</string>
+    <string name="about_bjcp_begin">Toda la información de la guía de estilo es Copyright © 2015, BJCP, Inc. </string>
+    <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
+    <string name="about_bjcp_end">Reproducido con permiso.</string>
+    <string name="about_author">Aplicación creada por el juez certificado BJCP Richard Sheppard.</string>
+    <string name="about_thanks_begin">Gracias a </string>
+    <string name="about_thanks_mid">Seth Kroger</string>
+    <string name="about_thanks_end"> para proporcionar el formato XML."</string>
+    <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
+    <string name="about_report_end">Repositorio Github."</string>
+    <string name="beginSrm">Comenzando S R M igual a </string>
+    <string name="endSrm">Finalizando S R M igual a </string>
+    <string name="title_activity_category_body">CategoryBodyActivity</string>
+    <string name="title_activity_category_list">CategoryListActivity</string>
+    <string name="title_activity_search_results">Resultados</string>
+    <string name="title_activity_search_results_small">para</string>
+    <string name="no_search_results">No se han encontrado resultados</string>
+    <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
+    <string name="title_activity_crash">Error en </string>
+    <string name="twitter_begin">Twitter:</string>
+    <string name="color_header"><b>Color</b></string>
+    <string name="color_srm"><b>SRM</b></string>
+    <string name="vitals">Estadísticas Vitales</string>
+</resources>
