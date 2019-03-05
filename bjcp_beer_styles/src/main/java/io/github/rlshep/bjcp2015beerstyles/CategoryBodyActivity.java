@@ -23,7 +23,8 @@ import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
 public class CategoryBodyActivity extends BjcpActivity {
-    private static final String VITAL_HEADER = "Vital Statistics";
+
+    private static final String VITAL_HEADER = "Vital Statistics"; //TODO: REMOVE & USE STRINGS
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";

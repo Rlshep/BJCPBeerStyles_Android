@@ -9,7 +9,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Locale;
 
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
@@ -153,11 +152,11 @@ public class BaseDataHelper extends SQLiteOpenHelper {
     }
     protected String getLanguage() {
         String language = "en";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Locale primaryLocale = dbContext.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            language = primaryLocale.getLanguage();
-        }
+//TODO: PUT BACK AFTER MERGE
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+//            Locale primaryLocale = dbContext.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
+//            language = primaryLocale.getLanguage();
+//        }
 
         return language;
     }
