@@ -111,7 +111,6 @@ public class BjcpDataHelper extends BaseDataHelper {
             section = new Section();
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
                 section.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                section.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
                 section.setBody(c.getString(c.getColumnIndex(BjcpContract.COLUMN_BODY)));
             }
             c.moveToNext();

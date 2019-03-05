@@ -108,7 +108,6 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String getSectionsBody(String categoryId) {
         String body = "";
         for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
-            body += "<big><b> " + section.getHeader() + "</b></big><br>";
             body += section.getBody() + "<br><br>";
         }
 
