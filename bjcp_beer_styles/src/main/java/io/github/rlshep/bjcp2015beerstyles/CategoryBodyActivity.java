@@ -24,7 +24,6 @@ import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 public class CategoryBodyActivity extends BjcpActivity {
 
-    private static final String VITAL_HEADER = "Vital Statistics"; //TODO: REMOVE & USE STRINGS
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";
@@ -108,7 +107,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String getSectionsBody(String categoryId) {
         String body = "";
         for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
-            body += section.getBody() + "<br><br>";
+            body += section.getBody();
         }
 
         return body;
@@ -130,10 +129,6 @@ public class CategoryBodyActivity extends BjcpActivity {
 
     private String getVitalStatistics(List<VitalStatistics> vitalStatisticses) {
         String vitals = "";
-
-        if (!vitalStatisticses.isEmpty()) {
-            vitals += "<big><b> " + VITAL_HEADER + "</b></big>";
-        }
 
         for (VitalStatistics vitalStatistics : vitalStatisticses) {
             if (null != vitalStatistics.getIbuStart()) {
