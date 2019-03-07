@@ -37,34 +37,13 @@ public class CategoryTest extends BJCPTest {
     }
 
     @Test
-    public void testCategoryStrongAle_es() {
-        setLocale("es", "ES");
-
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Ale Británica Fuerte", 17)));
-
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(17).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("British Strong Ale: Burton Ale", 2)));
-    }
-
-
-    @Test
     public void testCategoryIPA_en() {
         setLocale("en", "EN");
 
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA", 21)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(21).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Specialty IPA: New England IPA", 9)));
-    }
-
-    @Test
-    public void testCategoryIPA_es() {
-        setLocale("es", "ES");
-
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA", 21)));
-
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(21).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA Especialidad: IPA Nueva Inglaterra", 9)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Specialty IPA: New England IPA", 6)));
     }
 
     @Test
@@ -74,16 +53,6 @@ public class CategoryTest extends BJCPTest {
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(41).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Sour", 4)));
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New Zealand Pilsner", 5)));
-    }
-
-    @Test
-    public void testCategoryLocal_es() {
-        setLocale("es", "ES");
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Estilos Locales", 41)));
-
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(41).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Agrio", 4)));
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New Zealand Pilsner", 5)));
     }
 
@@ -100,28 +69,8 @@ public class CategoryTest extends BJCPTest {
     }
 
     @Test
-    public void testCategorySaison_es() {
-        setLocale("es", "ES");
-
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Ale Fuerte Belga", 25)));
-
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
-        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("Pálida SRM")));
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("Oscura SRM")));
-    }
-
-    @Test
     public void testCategoryMead_en() {
         setLocale("en", "EN");
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 37)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 39)));
     }
-
-    @Test
-    public void testCategoryMead_es() {
-        setLocale("es", "ES");
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Hidromiel Con Especias", 37)));
-    }
-
 }

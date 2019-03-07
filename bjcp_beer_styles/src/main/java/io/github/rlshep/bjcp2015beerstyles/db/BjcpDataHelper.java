@@ -13,6 +13,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
@@ -192,6 +193,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<SearchResult> search(String keyword) {
         List<SearchResult> searchResults = new ArrayList<>();
         List<String> keywords = searchSynonyms(keyword);
+        keywords.addAll(StringFormatter.convertSpecialCharacters(keyword));
 
         if (keywords.isEmpty()) {
             keywords.add(keyword);

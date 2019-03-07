@@ -2,16 +2,31 @@ package io.github.rlshep.bjcp2015beerstyles.formatters;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class StringFormatter {
-    private final static int MAX_TITLE_SIZE = 30;
+    public static final Map<Character, Character> specialCharacters = Collections.unmodifiableMap(
+            new HashMap<Character, Character>() {{
+                put('a', 'á');
+                put('a', 'ä');
+                put('e', 'è');
+                put('e', 'é');
+                put('o', 'ö');
+                put('o', 'ó');
+                put('u', 'ú');
+                put('u', 'ü');
+            }});
 
     public static String getHighlightedText(String text, String toHighlight) {
         String formatted;
 
         if (!StringUtils.isEmpty(toHighlight)) {
             formatted = getFormattedText(text, toHighlight);
-        }
-        else {
+        } else {
             formatted = text;
         }
 
@@ -34,8 +49,7 @@ public class StringFormatter {
                 formatted.append(subString);
                 formatted.append("</font>");
                 i += (queryLength - 1);
-            }
-            else {
+            } else {
                 formatted.append(text.charAt(i));
             }
             i++;
@@ -45,11 +59,20 @@ public class StringFormatter {
     }
 
     public static String addDoubleSingleQuotes(String searchedText) {
-        return searchedText.replaceAll("'","''");
+        return searchedText.replaceAll("'", "''");
     }
 
     public static String removeDoubleSingleQuotes(String searchedText) {
         return searchedText.replaceAll("''", "'");
     }
 
+    public static List<String> convertSpecialCharacters(String keyword) {
+        List<String> keywords = new ArrayList<>();
+
+        for (Character c : keyword.toCharArray()) {
+            //TODO: FINISH
+        }
+
+        return keywords;
+    }
 }
