@@ -9,7 +9,7 @@
     <string name="on_tap_delete">"Eliminado con éxito de Marcadores"</string>
     <string name="on_tap_empty">"Mantenga presionado cualquier categoría o subcategoría para guardar aquí."</string>
     <string name="title_activity_about">Acerca de</string>
-    <string name="about_version">BJCP 2015 Guía de Estilos de Cerveza v1.1.9</string>
+    <string name="about_version">BJCP 2015 Guía de Estilos de Cerveza v1.2.0</string>
     <string name="about_bjcp_begin">Toda la información de la guía de estilo es Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>
@@ -31,4 +31,17 @@
     <string name="twitter_begin">Twitter:</string>
     <string name="color_header"><b>Color</b></string>
     <string name="color_srm"><b>SRM</b></string>
+    <string name="color_straw"><b>Paja</b></string>
+    <string name="color_yellow"><b>Amarillo</b></string>
+    <string name="color_gold"><b>Oro</b></string>
+    <string name="color_amber"><b>Ámbar</b></string>
+    <string name="color_deep_amber"><b>Ámbar profundo/cobre ligero</b></string>
+    <string name="color_copper"><b>Cobre</b></string>
+    <string name="color_deep_copper"><b>Cobre profundo/marrón claro</b></string>
+    <string name="color_brown"><b>Marrón</b></string>
+    <string name="color_dark_brown"><b>Marrón oscuro</b></string>
+    <string name="color_very_dark_brown"><b>Muy oscuro marrón</b></string>
+    <string name="color_black"><b>Negro</b></string>
+    <string name="color_opague"><b>Negro, opaco</b></string>
+
 </resources>

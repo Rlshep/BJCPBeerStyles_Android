@@ -1,5 +1,5 @@
 echo "If changing db "
-echo "-----------------------------------"
+echo "-----------------------------------" 
 echo "Change BjcpConstants.DATABASE_VERSION"
 
 echo "Change strings.xml about_version"

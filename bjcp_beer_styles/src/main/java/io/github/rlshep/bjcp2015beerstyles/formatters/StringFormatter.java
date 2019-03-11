@@ -2,25 +2,7 @@ package io.github.rlshep.bjcp2015beerstyles.formatters;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class StringFormatter {
-    public static final Map<Character, Character> specialCharacters = Collections.unmodifiableMap(
-            new HashMap<Character, Character>() {{
-                put('a', 'á');
-                put('a', 'ä');
-                put('e', 'è');
-                put('e', 'é');
-                put('o', 'ö');
-                put('o', 'ó');
-                put('u', 'ú');
-                put('u', 'ü');
-            }});
-
     public static String getHighlightedText(String text, String toHighlight) {
         String formatted;
 
@@ -64,15 +46,5 @@ public class StringFormatter {
 
     public static String removeDoubleSingleQuotes(String searchedText) {
         return searchedText.replaceAll("''", "'");
-    }
-
-    public static List<String> convertSpecialCharacters(String keyword) {
-        List<String> keywords = new ArrayList<>();
-
-        for (Character c : keyword.toCharArray()) {
-            //TODO: FINISH
-        }
-
-        return keywords;
     }
 }

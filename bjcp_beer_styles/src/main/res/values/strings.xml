@@ -9,7 +9,7 @@
     <string name="on_tap_delete">"Successfully removed from Bookmarks"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="title_activity_about">About</string>
-    <string name="about_version">BJCP 2015 Beer Styles v1.1.9</string>
+    <string name="about_version">BJCP 2015 Beer Styles v1.2.0</string>
     <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
@@ -31,4 +31,16 @@
     <string name="twitter_begin">Twitter:</string>
     <string name="color_header"><b>Color</b></string>
     <string name="color_srm"><b>SRM</b></string>
+    <string name="color_straw"><b>Straw</b></string>
+    <string name="color_yellow"><b>Yellow</b></string>
+    <string name="color_gold"><b>Gold</b></string>
+    <string name="color_amber"><b>Amber</b></string>
+    <string name="color_deep_amber"><b>Deep amber/light copper</b></string>
+    <string name="color_copper"><b>Copper</b></string>
+    <string name="color_deep_copper"><b>Deep copper/light brown</b></string>
+    <string name="color_brown"><b>Brown</b></string>
+    <string name="color_dark_brown"><b>Dark Brown</b></string>
+    <string name="color_very_dark_brown"><b>Very Dark Brown</b></string>
+    <string name="color_black"><b>Black</b></string>
+    <string name="color_opague"><b>Black, opaque</b></string>
 </resources>

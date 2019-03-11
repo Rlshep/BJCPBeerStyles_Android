@@ -36,7 +36,7 @@
                 android:layout_height="fill_parent"
                 android:background="#fdd978"
                 android:padding="4dp"
-                android:text="Straw"
+                android:text="@string/color_straw"
                 android:textColor="@color/darkTextColor"/>
 
             <TextView
@@ -58,7 +58,7 @@
                 android:layout_height="fill_parent"
                 android:background="#fcc143"
                 android:padding="4dp"
-                android:text="Yellow"
+                android:text="@string/color_yellow"
                 android:textColor="@color/darkTextColor"/>
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_height="fill_parent"
                 android:background="#f5a800"
                 android:padding="4dp"
-                android:text="Gold"
+                android:text="@string/color_gold"
                 android:textColor="@color/darkTextColor"/>
 
             <TextView
@@ -102,7 +102,7 @@
                 android:layout_height="fill_parent"
                 android:background="#e38901"
                 android:padding="4dp"
-                android:text="Amber"
+                android:text="@string/color_amber"
                 android:textColor="@color/darkTextColor"/>
 
             <TextView
@@ -124,7 +124,7 @@
                 android:layout_height="fill_parent"
                 android:background="#bf5c01"
                 android:padding="4dp"
-                android:text="Deep amber/light copper"
+                android:text="@string/color_deep_amber"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -146,7 +146,7 @@
                 android:layout_height="fill_parent"
                 android:background="#ac4701"
                 android:padding="4dp"
-                android:text="Copper"
+                android:text="@string/color_copper"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -168,7 +168,7 @@
                 android:layout_height="fill_parent"
                 android:background="#a24001"
                 android:padding="4dp"
-                android:text="Deep copper/light brown"
+                android:text="@string/color_deep_copper"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -190,7 +190,7 @@
                 android:layout_height="fill_parent"
                 android:background="#8c2d01"
                 android:padding="4dp"
-                android:text="Brown"
+                android:text="@string/color_brown"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -212,7 +212,7 @@
                 android:layout_height="fill_parent"
                 android:background="#5b0d01"
                 android:padding="4dp"
-                android:text="Dark Brown"
+                android:text="@string/color_dark_brown"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -234,7 +234,7 @@
                 android:layout_height="fill_parent"
                 android:background="#440706"
                 android:padding="4dp"
-                android:text="Very Dark Brown"
+                android:text="@string/color_very_dark_brown"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -256,7 +256,7 @@
                 android:layout_height="fill_parent"
                 android:background="#3b0908"
                 android:padding="4dp"
-                android:text="Black"
+                android:text="@string/color_black"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
@@ -278,7 +278,7 @@
                 android:layout_height="fill_parent"
                 android:background="#35090a"
                 android:padding="4dp"
-                android:text="Black, opaque"
+                android:text="@string/color_opague"
                 android:textColor="@color/tabTextColor"/>
 
             <TextView
