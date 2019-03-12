@@ -33,11 +33,11 @@ public class CategoryListTab extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        BjcpDataHelper.getInstance(getActivity()).close();
+        BjcpDataHelper.getInstance((BjcpActivity)getActivity()).close();
     }
 
     private void setupCategoryListView(View view) {
-        ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), BjcpDataHelper.getInstance(getActivity()).getAllCategories());
+        ListAdapter categoryAdapter = new CategoriesListAdapter(getActivity(), BjcpDataHelper.getInstance((BjcpActivity)getActivity()).getAllCategories());
         ListView categoryListView = (ListView) view.findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
@@ -67,13 +67,13 @@ public class CategoryListTab extends Fragment {
     }
 
     private void addAllCategoriesToBookmarked(Category category) {
-        List<Category> categories = BjcpDataHelper.getInstance(getActivity()).getCategoriesByParent(category.getId());
+        List<Category> categories = BjcpDataHelper.getInstance((BjcpActivity)getActivity()).getCategoriesByParent(category.getId());
 
         for (Category cat : categories) {
             cat.setBookmarked(true);
         }
 
-        BjcpDataHelper.getInstance(getActivity()).updateCategoriesBookmarked(categories);
+        BjcpDataHelper.getInstance((BjcpActivity)getActivity()).updateCategoriesBookmarked(categories);
         Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 }

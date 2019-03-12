@@ -77,7 +77,7 @@ public class BookmarkedTab extends Fragment {
     @SuppressWarnings("unchecked")
     private void setListView() {
         List listItems = new ArrayList();
-        listItems.addAll(BjcpDataHelper.getInstance(getActivity()).getBookmarkedCategories());
+        listItems.addAll(BjcpDataHelper.getInstance((BjcpActivity)getActivity()).getBookmarkedCategories());
 
         if (listItems.isEmpty()) {
             listItems.add(getString(R.string.on_tap_empty));
@@ -120,7 +120,7 @@ public class BookmarkedTab extends Fragment {
         for (Integer selectedId : selectedIds) {
             Category category = (Category) listView.getItemAtPosition(selectedId);
             category.setBookmarked(false);
-            BjcpDataHelper.getInstance(getActivity()).updateCategoryBookmarked(category);
+            BjcpDataHelper.getInstance((BjcpActivity)getActivity()).updateCategoryBookmarked(category);
         }
 
         setListView();

@@ -1,6 +1,5 @@
 package io.github.rlshep.bjcp2015beerstyles.db;
 
-import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -9,17 +8,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Locale;
 
+import io.github.rlshep.bjcp2015beerstyles.BjcpActivity;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
+//TODO: FIX
+// I/chatty: uid=10424(u0_a424) FinalizerDaemon identical 42 lines
+//        W/SQLiteConnectionPool: A SQLiteConnection object for database '+data+user+0+io_github_rlshep_bjcp2015beerstyles+files+__+databases+BjcpBeerStyles_db' was leaked!  Please fix your application to end transactions in progress properly and to close the database when it is no longer needed.
 public class BaseDataHelper extends SQLiteOpenHelper {
     private static final String DB_PATH = "/../databases/";
-    private Activity dbContext;
+    protected BjcpActivity dbContext;
     private SQLiteDatabase db;
 
-    protected BaseDataHelper(Activity activity) {
+    protected BaseDataHelper(BjcpActivity activity) {
         super(activity, BjcpConstants.DATABASE_NAME, null, BjcpConstants.DATABASE_VERSION);
 
         this.dbContext = activity;
@@ -150,15 +152,5 @@ public class BaseDataHelper extends SQLiteOpenHelper {
         } catch (IOException e) {
             new ExceptionHandler(this.dbContext).uncaughtException(e);
         }
-    }
-    protected String getLanguage() {
-        String language = "en";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Locale primaryLocale = dbContext.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            language = primaryLocale.getLanguage();
-        }
-
-        return language;
     }
 }

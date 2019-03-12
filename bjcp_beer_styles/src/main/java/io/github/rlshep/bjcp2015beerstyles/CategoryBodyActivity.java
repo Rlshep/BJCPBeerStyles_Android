@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
@@ -18,6 +19,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.formatters.MetricFormatter;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
@@ -27,6 +29,8 @@ public class CategoryBodyActivity extends BjcpActivity {
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";
+    private static final String[] IMPERIAL_COUNTRIES = {"US", "MM", "LR"}; //Countries not using metric US, Burma, Liberia
+    private final List<String> imperialCountries = Arrays.asList(IMPERIAL_COUNTRIES);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +122,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         TextView srmTextStart = getSrmTextView("srmTextStart", i);
         TextView srmTextEnd = getSrmTextView("srmTextEnd", i);
 
-        srmText.setText(Html.fromHtml("<b>" + vitalStatistics.getHeader() + " " + getString(R.string.color_srm) + ": </b>" + vitalStatistics.getSrmStart() + " - " + vitalStatistics.getSrmEnd()));
+        srmText.setText(Html.fromHtml(getColorVerbiage(vitalStatistics)));
         srmTextStart.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "color", getPackageName())));
         srmTextEnd.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "color", getPackageName())));
 
@@ -135,19 +139,19 @@ public class CategoryBodyActivity extends BjcpActivity {
                 vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
             }
             if (null != vitalStatistics.getOgStart()) {
-                vitals += "<br><b>" + vitalStatistics.getHeader() + " OG:</b> " + vitalStatistics.getOgStart() + " - " + vitalStatistics.getOgEnd();
+                vitals += getOgVerbiage(vitalStatistics);
+            }
+            if (null != vitalStatistics.getFgStart()) {
+                vitals += getFgVerbiage(vitalStatistics);
             }
             if (null != vitalStatistics.getAbvStart()) {
                 vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
-            }
-            if (null != vitalStatistics.getFgStart()) {
-                vitals += "<br><b>" + vitalStatistics.getHeader() + " FG:</b> " + vitalStatistics.getFgStart() + " - " + vitalStatistics.getFgEnd();
             }
         }
 
         return vitals;
     }
-
+    
     private TextView getSrmTextView(String srm, int i) {
         int id = getResources().getIdentifier(srm + i, "id", getPackageName());
         return (TextView) findViewById(id);
@@ -173,5 +177,86 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String getEndSrm(VitalStatistics vitalStatistics) {
         double ceil = Math.ceil(Double.parseDouble(vitalStatistics.getSrmEnd()));
         return ((Integer) Double.valueOf(ceil).intValue()).toString();
+    }
+
+    //TODO: Add preferences check
+    private boolean isMetric() {
+        boolean metric = false;
+
+        if (!imperialCountries.contains(getCountry())) {
+          metric = true;
+        }
+
+        return metric;
+    }
+
+    private String getColorVerbiage(VitalStatistics vitalStatistics) {
+        StringBuilder colorVerbiage = new StringBuilder();
+        colorVerbiage.append("<b>");
+        colorVerbiage.append(vitalStatistics.getHeader());
+        colorVerbiage.append(" ");
+
+        if (isMetric()) {
+            colorVerbiage.append(getString(R.string.ebc));
+            colorVerbiage.append(": </b>");
+            colorVerbiage.append(MetricFormatter.getEBC(vitalStatistics.getSrmStart()));
+            colorVerbiage.append(" - ");
+            colorVerbiage.append(MetricFormatter.getEBC(vitalStatistics.getSrmEnd()));
+        } else {
+            colorVerbiage.append(getString(R.string.srm));
+            colorVerbiage.append(": </b>");
+            colorVerbiage.append(vitalStatistics.getSrmStart());
+            colorVerbiage.append(" - ");
+            colorVerbiage.append(vitalStatistics.getSrmEnd());
+        }
+
+        return colorVerbiage.toString();
+    }
+
+    private String getOgVerbiage(VitalStatistics vitalStatistics) {
+        StringBuilder ogVerbiage = new StringBuilder();
+        ogVerbiage.append("<br><b>");
+        ogVerbiage.append(vitalStatistics.getHeader());
+        ogVerbiage.append(" " );
+        ogVerbiage.append(getString(R.string.og));
+        ogVerbiage.append(":</b> ");
+                
+        if (isMetric()) {
+            ogVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getOgStart()));
+            ogVerbiage.append(getString(R.string.plato));
+            ogVerbiage.append(" - ");
+            ogVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getOgEnd()));
+            ogVerbiage.append(getString(R.string.plato));
+        } else {
+             ogVerbiage.append(vitalStatistics.getOgStart());
+             ogVerbiage.append(" - ");
+             ogVerbiage.append(vitalStatistics.getOgEnd());
+        }
+        
+        return ogVerbiage.toString();
+    }
+
+
+    private String getFgVerbiage(VitalStatistics vitalStatistics) {
+        StringBuilder fgVerbiage = new StringBuilder();
+        fgVerbiage.append("<br><b>");
+        fgVerbiage.append(vitalStatistics.getHeader());
+        fgVerbiage.append(" " );
+        fgVerbiage.append(getString(R.string.fg));
+        fgVerbiage.append(":</b> ");
+
+        if (isMetric()) {
+            fgVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getFgStart()));
+            fgVerbiage.append(getString(R.string.plato));
+            fgVerbiage.append(" - ");
+            fgVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getFgEnd()));
+            fgVerbiage.append(getString(R.string.plato));
+        } else {
+            fgVerbiage.append(vitalStatistics.getFgStart());
+            fgVerbiage.append(" - ");
+            fgVerbiage.append(vitalStatistics.getFgEnd());
+        }
+
+        return fgVerbiage.toString();
     }
 }

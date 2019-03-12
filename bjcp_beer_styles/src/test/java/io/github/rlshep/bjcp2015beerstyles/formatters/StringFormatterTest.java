@@ -15,11 +15,4 @@ public class StringFormatterTest {
         assert("Fuller's".equals(StringFormatter.removeDoubleSingleQuotes("Fuller's")));
         assert(!"Fuller''s".equals(StringFormatter.removeDoubleSingleQuotes("Fuller's")));
     }
-
-    @Test
-    public void  convertSpecialCharacters_returns_o() {
-        String actual = StringFormatter.convertSpecialCharacters("Kolsch");
-        assert(actual.contains("Kölsch"));
-        assert(actual.contains("Kólsch"));
-    }
 }
