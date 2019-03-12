@@ -17,7 +17,7 @@ android {
         versionProps.load(new FileInputStream(versionPropsFile))
         def name = versionProps['VERSION_NAME']
         def code = versionProps['VERSION_CODE'].toInteger() + 1
-        versionProps['VERSION_CODE']=code.toString()
+        versionProps['VERSION_CODE'] = code.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
 
         defaultConfig {
@@ -28,8 +28,7 @@ android {
             targetSdkVersion 28
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
-    }
-    else {
+    } else {
         throw new Exception("Could not read version.properties!")
     }
 
@@ -40,8 +39,7 @@ android {
 
             if (keysPropsFile.canRead()) {
                 keysProps.load(new FileInputStream(keysPropsFile))
-            }
-            else {
+            } else {
                 throw new Exception("Could not read keys.properties!")
             }
 
@@ -69,6 +67,9 @@ android {
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
 }
 
 dependencies {
@@ -80,6 +81,7 @@ dependencies {
     // App's dependencies, including test
     implementation 'com.android.support:support-annotations:28.0.0'
 
+    implementation 'com.android.support:support-vector-drawable:28.0.0'
     testImplementation 'junit:junit:4.12'
 
     // Testing-only dependencies
