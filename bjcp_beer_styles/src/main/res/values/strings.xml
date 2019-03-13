@@ -40,11 +40,16 @@
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
     <string name="plato">°P</string>
+    <string name="preference_file_key">bjcp_preferences</string>
+    <string name="settings_imperial">Imperial</string>
+    <string name="settings_metric">Metric</string>
+    <string name="settings_units">Units:</string>
     <string name="srm">SRM</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>
+    <string name="title_activity_crash">Error in </string>
     <string name="title_activity_search_results">Results</string>
     <string name="title_activity_search_results_small">for</string>
-    <string name="title_activity_crash">Error in </string>
+    <string name="title_activity_settings">Settings</string>
     <string name="twitter_begin">Twitter:</string>
 </resources>

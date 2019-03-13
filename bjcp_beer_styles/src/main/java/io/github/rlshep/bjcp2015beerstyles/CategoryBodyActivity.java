@@ -10,16 +10,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
+import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
-import io.github.rlshep.bjcp2015beerstyles.formatters.MetricFormatter;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
@@ -29,8 +28,6 @@ public class CategoryBodyActivity extends BjcpActivity {
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";
-    private static final String[] IMPERIAL_COUNTRIES = {"US", "MM", "LR"}; //Countries not using metric US, Burma, Liberia
-    private final List<String> imperialCountries = Arrays.asList(IMPERIAL_COUNTRIES);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,29 +176,18 @@ public class CategoryBodyActivity extends BjcpActivity {
         return ((Integer) Double.valueOf(ceil).intValue()).toString();
     }
 
-    //TODO: Add preferences check
-    private boolean isMetric() {
-        boolean metric = false;
-
-        if (!imperialCountries.contains(getCountry())) {
-          metric = true;
-        }
-
-        return metric;
-    }
-
     private String getColorVerbiage(VitalStatistics vitalStatistics) {
         StringBuilder colorVerbiage = new StringBuilder();
         colorVerbiage.append("<b>");
         colorVerbiage.append(vitalStatistics.getHeader());
         colorVerbiage.append(" ");
 
-        if (isMetric()) {
+        if (super.isMetric()) {
             colorVerbiage.append(getString(R.string.ebc));
             colorVerbiage.append(": </b>");
-            colorVerbiage.append(MetricFormatter.getEBC(vitalStatistics.getSrmStart()));
+            colorVerbiage.append(MetricConverter.getEBC(vitalStatistics.getSrmStart()));
             colorVerbiage.append(" - ");
-            colorVerbiage.append(MetricFormatter.getEBC(vitalStatistics.getSrmEnd()));
+            colorVerbiage.append(MetricConverter.getEBC(vitalStatistics.getSrmEnd()));
         } else {
             colorVerbiage.append(getString(R.string.srm));
             colorVerbiage.append(": </b>");
@@ -221,11 +207,11 @@ public class CategoryBodyActivity extends BjcpActivity {
         ogVerbiage.append(getString(R.string.og));
         ogVerbiage.append(":</b> ");
                 
-        if (isMetric()) {
-            ogVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getOgStart()));
+        if (super.isMetric()) {
+            ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgStart()));
             ogVerbiage.append(getString(R.string.plato));
             ogVerbiage.append(" - ");
-            ogVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getOgEnd()));
+            ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgEnd()));
             ogVerbiage.append(getString(R.string.plato));
         } else {
              ogVerbiage.append(vitalStatistics.getOgStart());
@@ -245,11 +231,11 @@ public class CategoryBodyActivity extends BjcpActivity {
         fgVerbiage.append(getString(R.string.fg));
         fgVerbiage.append(":</b> ");
 
-        if (isMetric()) {
-            fgVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getFgStart()));
+        if (super.isMetric()) {
+            fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgStart()));
             fgVerbiage.append(getString(R.string.plato));
             fgVerbiage.append(" - ");
-            fgVerbiage.append(MetricFormatter.getPlato(vitalStatistics.getFgEnd()));
+            fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgEnd()));
             fgVerbiage.append(getString(R.string.plato));
         } else {
             fgVerbiage.append(vitalStatistics.getFgStart());

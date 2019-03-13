@@ -25,4 +25,8 @@
           android:title="@string/action_info"
           yourapp:showAsAction="ifRoom"/>
 
+    <item android:id="@+id/action_settings"
+        android:icon="@drawable/outline_settings_white_36dp"
+        android:title="@string/title_activity_settings"
+        yourapp:showAsAction="ifRoom"/>
 </menu>

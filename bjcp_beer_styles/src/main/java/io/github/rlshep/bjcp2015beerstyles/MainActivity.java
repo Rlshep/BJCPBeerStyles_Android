@@ -1,5 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,12 +19,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
+import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
+import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
@@ -47,6 +53,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         keywords = getSearchKeywords();
 
         setupToolbar(R.id.tool_bar, "", true, false);
+        setupPreferences();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
@@ -136,6 +143,9 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             case R.id.action_info:
                 BjcpController.startAboutActivity(this);
                 return true;
+            case R.id.action_settings:
+                BjcpController.startSettingsActivity(this);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -187,7 +197,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     }
 
     protected CharSequence[] getTabTitles() {
-        CharSequence titles[] =  new SpannableStringBuilder[3];
+        CharSequence titles[] = new SpannableStringBuilder[3];
 
         titles[0] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_list_white_48dp));
         titles[1] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_star_white_48dp));
@@ -204,5 +214,17 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         sb.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return sb;
+    }
+
+
+    private void setupPreferences() {
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
+
+        if (StringUtils.isEmpty(unitsPref) && !MetricConverter.isCountryMetric(getCountry())) {
+            setUnitPreferences(BjcpConstants.IMPERIAL);
+        } else {
+            setUnitPreferences(BjcpConstants.METRIC);
+        }
     }
 }

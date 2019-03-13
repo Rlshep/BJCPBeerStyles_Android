@@ -51,6 +51,13 @@
                 android:value="io.github.rlshep.bjcp2015beerstyles.MainActivity" />
         </activity>
         <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.rlshep.bjcp2015beerstyles.MainActivity" />
+        </activity>
+        <activity
             android:name=".SearchResultsActivity"
             android:label="@string/title_activity_search_results">
             <intent-filter>

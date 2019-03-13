@@ -7,26 +7,6 @@
                  android:layout_width="fill_parent"
                  android:layout_height="fill_parent"
                  android:stretchColumns="*">
-
-        <!--<TableRow-->
-        <!--android:layout_weight="1">-->
-
-        <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:background="@color/ColorPrimary"-->
-        <!--android:text="@string/color_header"-->
-        <!-- android:padding="4dp"                 android:textColor="@color/tabTextColor"/>-->
-
-        <!--<TextView-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--android:background="@color/ColorPrimary"-->
-        <!--android:gravity="right"-->
-        <!--android:text="@string/color_srm"-->
-        <!-- android:padding="4dp"                 android:textColor="@color/tabTextColor"/>-->
-        <!--</TableRow>-->
-
         <TableRow
             android:layout_weight="1"
             android:gravity="center">
@@ -45,8 +25,9 @@
                 android:background="#fdd978"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="2"
-                android:textColor="@color/darkTextColor"/>
+                android:text="SRM 2"
+                android:textColor="@color/darkTextColor"
+                android:id="@+id/color_amt_1"/>
         </TableRow>
 
         <TableRow
@@ -67,8 +48,9 @@
                 android:background="#fcc143"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="4"
-                android:textColor="@color/darkTextColor"/>
+                android:text="SRM 4"
+                android:textColor="@color/darkTextColor"
+                android:id="@+id/color_amt_2"/>
         </TableRow>
 
         <TableRow
@@ -89,8 +71,9 @@
                 android:background="#f5a800"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="6"
-                android:textColor="@color/darkTextColor"/>
+                android:text="SRM 6"
+                android:textColor="@color/darkTextColor"
+                android:id="@+id/color_amt_3"/>
         </TableRow>
 
         <TableRow
@@ -111,8 +94,9 @@
                 android:background="#e38901"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="9"
-                android:textColor="@color/darkTextColor"/>
+                android:text="SRM 9"
+                android:textColor="@color/darkTextColor"
+                android:id="@+id/color_amt_4"/>
         </TableRow>
 
         <TableRow
@@ -133,8 +117,9 @@
                 android:background="#bf5c01"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="14"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 14"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_5"/>
         </TableRow>
 
         <TableRow
@@ -155,8 +140,9 @@
                 android:background="#ac4701"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="17"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 17"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_6"/>
         </TableRow>
 
         <TableRow
@@ -177,8 +163,9 @@
                 android:background="#a24001"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="18"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 18"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_7"/>
         </TableRow>
 
         <TableRow
@@ -199,8 +186,9 @@
                 android:background="#8c2d01"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="22"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 22"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_8"/>
         </TableRow>
 
         <TableRow
@@ -221,8 +209,9 @@
                 android:background="#5b0d01"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="30"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 30"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_9"/>
         </TableRow>
 
         <TableRow
@@ -243,8 +232,9 @@
                 android:background="#440706"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="35"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 35"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_10"/>
         </TableRow>
 
         <TableRow
@@ -265,8 +255,9 @@
                 android:background="#3b0908"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="37"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 37"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_11"/>
         </TableRow>
 
         <TableRow
@@ -287,8 +278,9 @@
                 android:background="#35090a"
                 android:gravity="right"
                 android:padding="4dp"
-                android:text="40"
-                android:textColor="@color/tabTextColor"/>
+                android:text="SRM 40"
+                android:textColor="@color/tabTextColor"
+                android:id="@+id/color_amt_12"/>
         </TableRow>
     </TableLayout>
 

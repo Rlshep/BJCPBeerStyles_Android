@@ -5,9 +5,10 @@ import android.content.Intent;
 
 import io.github.rlshep.bjcp2015beerstyles.AboutActivity;
 import io.github.rlshep.bjcp2015beerstyles.CategoryBodyActivity;
+import io.github.rlshep.bjcp2015beerstyles.CategoryListActivity;
 import io.github.rlshep.bjcp2015beerstyles.CrashActivity;
 import io.github.rlshep.bjcp2015beerstyles.SearchResultsActivity;
-import io.github.rlshep.bjcp2015beerstyles.CategoryListActivity;
+import io.github.rlshep.bjcp2015beerstyles.SettingsActivity;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
@@ -57,5 +58,9 @@ public class BjcpController {
         Intent intent = new Intent(activity, CrashActivity.class);
         intent.putExtra(ExceptionHandler.EXTRA_ERROR, error.toString());
         activity.startActivity(intent);
+    }
+
+    public static void startSettingsActivity(Activity activity) {
+        activity.startActivity(new Intent(activity, SettingsActivity.class));
     }
 }

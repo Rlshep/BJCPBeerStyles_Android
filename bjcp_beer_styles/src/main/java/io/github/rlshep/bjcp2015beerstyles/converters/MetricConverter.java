@@ -1,20 +1,26 @@
-package io.github.rlshep.bjcp2015beerstyles.formatters;
+package io.github.rlshep.bjcp2015beerstyles.converters;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.List;
 
-public class MetricFormatter {
+public class MetricConverter {
     private static final double SRM = 1.97;
     private static final double EBC_A = 616.868;
     private static final double EBC_B = 1111.14;
     private static final double EBC_C = 630.272;
     private static final double EBC_D = 135.997;
+    private static final String[] IMPERIAL_COUNTRIES = {"US", "MM", "LR"}; //Countries not using metric US, Burma, Liberia
+    private static final List<String> imperialCountries = Arrays.asList(IMPERIAL_COUNTRIES);
 
     //EBC = SRM × 1.97
     public static int getEBC(String inSRM) {
         int srm = 0;
 
         try {
-            srm = (int)Math.round(new Integer(inSRM) * SRM);
+            srm = (int) Math.round(new Integer(inSRM) * SRM);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -23,7 +29,7 @@ public class MetricFormatter {
     }
 
     // (-1 * 616.868) + (1111.14 * SG) – (630.272 * SG^2) + (135.997 * SG^3)
-    public static double getPlato(String inGravity) {
+    public static String getPlato(String inGravity) {
         DecimalFormat df = new DecimalFormat("#.#");
         double plato = 0.0;
 
@@ -34,6 +40,16 @@ public class MetricFormatter {
             System.out.println(e);
         }
 
-        return Double.valueOf(df.format(plato));
+        return df.format(plato);
+    }
+
+    public static boolean isCountryMetric(String country) {
+        boolean metric = true;
+
+        if (StringUtils.isNotEmpty(country)) {
+            metric = !imperialCountries.contains(country.toUpperCase());
+        }
+
+        return metric;
     }
 }
