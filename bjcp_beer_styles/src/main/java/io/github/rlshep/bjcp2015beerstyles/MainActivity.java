@@ -221,10 +221,12 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
 
-        if (StringUtils.isEmpty(unitsPref) && !MetricConverter.isCountryMetric(getCountry())) {
-            setUnitPreferences(BjcpConstants.IMPERIAL);
-        } else {
-            setUnitPreferences(BjcpConstants.METRIC);
+        if (StringUtils.isEmpty(unitsPref)) {
+            if (MetricConverter.isCountryMetric(getCountry())) {
+                setUnitPreferences(BjcpConstants.METRIC);
+            } else {
+                setUnitPreferences(BjcpConstants.IMPERIAL);
+            }
         }
     }
 }
