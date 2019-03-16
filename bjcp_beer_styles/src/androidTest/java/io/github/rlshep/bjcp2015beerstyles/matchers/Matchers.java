@@ -1,4 +1,4 @@
-package io.github.rlshep.bjcp2015beerstyles;
+package io.github.rlshep.bjcp2015beerstyles.matchers;
 
 import android.view.View;
 import android.widget.EditText;

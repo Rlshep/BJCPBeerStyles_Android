@@ -28,6 +28,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
+                android:id="@+id/settingUnit"
                 android:text="@string/settings_units"
                 android:textColor="@color/darkTextColor" />
 

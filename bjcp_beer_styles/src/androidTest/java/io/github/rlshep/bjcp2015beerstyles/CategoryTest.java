@@ -8,6 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
+
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -28,7 +30,6 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryStrongAle_en() {
-        setLocale("en", "EN");
 
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong British Ale", 17)));
 
@@ -38,7 +39,6 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryIPA_en() {
-        setLocale("en", "EN");
 
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA", 21)));
 
@@ -48,7 +48,6 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryLocal() {
-        setLocale("en", "EN");
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Local Styles", 41)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(41).perform(click());
@@ -58,7 +57,6 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategorySaison() {
-        setLocale("en", "EN");
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
@@ -70,7 +68,6 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryMead_en() {
-        setLocale("en", "EN");
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 39)));
     }
 }

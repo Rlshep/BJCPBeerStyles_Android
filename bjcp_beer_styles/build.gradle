@@ -20,7 +20,7 @@ android {
         versionProps['VERSION_CODE'] = code.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
 
-        defaultConfig {
+            defaultConfig {
             applicationId "io.github.rlshep.bjcp2015beerstyles"
             versionName name
             versionCode code
