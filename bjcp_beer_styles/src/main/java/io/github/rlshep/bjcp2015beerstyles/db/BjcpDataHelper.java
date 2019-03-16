@@ -14,10 +14,12 @@ import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_CATEGORY;
+
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
 
-    private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + BjcpContract.TABLE_CATEGORY + " C ";
+    private static final String CATEGORY_SELECT = "SELECT " + BjcpContract.COLUMN_ID + ", " + BjcpContract.COLUMN_CATEGORY_CODE + ", " + BjcpContract.COLUMN_NAME + ", " + BjcpContract.COLUMN_ORDER + ", " + BjcpContract.COLUMN_PARENT_ID + "," + BjcpContract.COLUMN_BOOKMARKED + "," + BjcpContract.COLUMN_REVISION + "," + BjcpContract.COLUMN_LANG + " FROM " + TABLE_CATEGORY + " C ";
     private static final String CATEGORY_TOP_WHERE = " WHERE " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
 
     protected BjcpDataHelper(BjcpActivity activity) {
@@ -152,16 +154,16 @@ public class BjcpDataHelper extends BaseDataHelper {
 
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
                 vitalStatistics.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                vitalStatistics.setOgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_START)));
-                vitalStatistics.setOgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_OG_END)));
-                vitalStatistics.setFgStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_START)));
-                vitalStatistics.setFgEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_FG_END)));
-                vitalStatistics.setIbuStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_START)));
-                vitalStatistics.setIbuEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_IBU_END)));
-                vitalStatistics.setSrmStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_START)));
-                vitalStatistics.setSrmEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_SRM_END)));
-                vitalStatistics.setAbvStart(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_START)));
-                vitalStatistics.setAbvEnd(c.getString(c.getColumnIndex(BjcpContract.COLUMN_ABV_END)));
+                vitalStatistics.setOgStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_START))).toString());
+                vitalStatistics.setOgEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_END))).toString());
+                vitalStatistics.setFgStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_START))).toString());
+                vitalStatistics.setFgEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_END))).toString());
+                vitalStatistics.setIbuStart(new Integer(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_START))).toString());
+                vitalStatistics.setIbuEnd(new Integer(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_END))).toString());
+                vitalStatistics.setSrmStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_START))).toString());
+                vitalStatistics.setSrmEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_END))).toString());
+                vitalStatistics.setAbvStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_START))).toString());
+                vitalStatistics.setAbvEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_END))).toString());
                 vitalStatistics.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
             }
             c.moveToNext();
@@ -185,7 +187,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         for (Category category : categories) {
             cv.put(BjcpContract.COLUMN_BOOKMARKED, (category.isBookmarked() ? 1 : 0));
-            getWrite().update(BjcpContract.TABLE_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + category.getId()), null);
+            getWrite().update(TABLE_CATEGORY, cv, (BjcpContract.COLUMN_ID + " = " + category.getId()), null);
         }
     }
 
@@ -228,9 +230,9 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
+
         String query = "SELECT " + BjcpContract.COLUMN_RESULT_ID + ", " + BjcpContract.COLUMN_TABLE_NAME + " FROM " + BjcpContract.TABLE_FTS_SEARCH + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + this.dbContext.getLanguage() + "' AND " + BjcpContract.COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + BjcpContract.COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + BjcpContract.COLUMN_RESULT_ID;
 
-        //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
@@ -269,7 +271,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllCategoryNames() {
         ArrayList<String> names = new ArrayList<>();
-        final String query = "SELECT " + BjcpContract.COLUMN_NAME + " FROM " + BjcpContract.TABLE_CATEGORY + " ORDER BY " + BjcpContract.COLUMN_NAME;
+        final String query = "SELECT " + BjcpContract.COLUMN_NAME + " FROM " + TABLE_CATEGORY + " ORDER BY " + BjcpContract.COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -289,5 +291,27 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public boolean isCorrectDatabaseVersion() {
         return (BjcpConstants.DATABASE_VERSION == getRead().getVersion());
+    }
+
+    public List<SearchResult> searchVitals(VitalStatistics vitalStatistics) {
+        SearchResult searchResult;
+        List<SearchResult> searchResults = new ArrayList<>();
+        String query = "SELECT " + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_VITALS + " WHERE " + BjcpContract.COLUMN_OG_START + ">=" + vitalStatistics.getOgStart() + " AND " + BjcpContract.COLUMN_OG_END + "<=" + vitalStatistics.getOgEnd() + " AND " + BjcpContract.COLUMN_FG_START + ">=" + vitalStatistics.getFgStart() + " AND " + BjcpContract.COLUMN_FG_END + "<=" + vitalStatistics.getFgEnd() + " AND " + BjcpContract.COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND " + BjcpContract.COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND " + BjcpContract.COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND " + BjcpContract.COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND " + BjcpContract.COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND " + BjcpContract.COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd();
+
+        Cursor c = getRead().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)) != null) {
+                searchResult = new SearchResult();
+                searchResult.setResultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)));
+                searchResult.setTableName(TABLE_CATEGORY);
+
+                searchResults.add(searchResult);
+            }
+        }
+
+        c.close();
+
+        return searchResults;
     }
 }

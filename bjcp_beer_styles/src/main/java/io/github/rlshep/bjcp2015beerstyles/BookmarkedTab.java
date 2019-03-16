@@ -35,7 +35,7 @@ public class BookmarkedTab extends Fragment {
     }
 
     @Override
-    // TODO: Come up with better way to reload when tapped items change than reloading every time.
+    // Reload when tapped items change than reloading every time.
     public void onResume() {
         super.onResume();
         setListView();

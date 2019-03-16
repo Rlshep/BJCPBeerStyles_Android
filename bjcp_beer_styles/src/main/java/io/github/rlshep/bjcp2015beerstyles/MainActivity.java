@@ -39,6 +39,7 @@ import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
 public class MainActivity extends BjcpActivity implements SearchView.OnQueryTextListener {
     private static final int BOOKMARKED_TAB = 1;
     private static final int COLOR_TAB = 2;
+    private static final int FILTER_TAB = 3;
     private static final int MAX_SEARCH_CHARS = 3;
 
     private String[] keywords;
@@ -88,6 +89,11 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
                     }
                 } else if (COLOR_TAB == position) {
                     ColorTableTab fragment = (ColorTableTab) adapter.instantiateItem(pager, position);
+                    if (fragment != null) {
+                        fragment.onResume();
+                    }
+                } else if (FILTER_TAB == position) {
+                    FilterTab fragment = (FilterTab) adapter.instantiateItem(pager, position);
                     if (fragment != null) {
                         fragment.onResume();
                     }
