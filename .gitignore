@@ -6,6 +6,7 @@
 .DS_Store
 /build
 /captures
+/gradle
 *.bak
 bjcp_beer_styles/src/main/res/drawable-mdpi/Thumbs.db
 bjcp_beer_styles/src/main/res/drawable-hdpi/Thumbs.db
