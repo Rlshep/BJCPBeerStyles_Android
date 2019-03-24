@@ -45,8 +45,13 @@ public class BjcpController {
     }
 
     public static void startSearchResultsActivity(Activity activity, String keyword) {
+        startSearchResultsActivity(activity, keyword, "");
+    }
+
+    public static void startSearchResultsActivity(Activity activity, String keyword, String query) {
         Intent i = new Intent(activity, SearchResultsActivity.class);
         i.putExtra("SEARCHED_TEXT", keyword);
+        i.putExtra("VITALS_QUERY", query);
         activity.startActivity(i);
     }
 
@@ -56,7 +61,7 @@ public class BjcpController {
 
     public static void startCrashActivity(Activity activity, String error) {
         Intent intent = new Intent(activity, CrashActivity.class);
-        intent.putExtra(ExceptionHandler.EXTRA_ERROR, error.toString());
+        intent.putExtra(ExceptionHandler.EXTRA_ERROR, error);
         activity.startActivity(intent);
     }
 

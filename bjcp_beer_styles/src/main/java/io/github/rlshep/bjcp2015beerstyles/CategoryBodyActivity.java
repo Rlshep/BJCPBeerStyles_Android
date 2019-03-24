@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
@@ -41,7 +43,12 @@ public class CategoryBodyActivity extends BjcpActivity {
             String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             setupToolbar(R.id.scbToolbar, title, false, true);
             categoryId = extras.getString("CATEGORY_ID");
-            searchedText = StringFormatter.removeDoubleSingleQuotes(extras.getString("SEARCHED_TEXT"));
+
+            if (StringUtils.isEmpty(extras.getString("SEARCHED_TEXT"))) {
+                searchedText = "";
+            } else {
+                searchedText = StringFormatter.removeDoubleSingleQuotes(extras.getString("SEARCHED_TEXT"));
+            }
         }
 
         setBody(searchedText);

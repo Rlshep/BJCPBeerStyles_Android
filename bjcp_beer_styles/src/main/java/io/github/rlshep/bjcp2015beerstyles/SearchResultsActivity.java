@@ -7,6 +7,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +24,7 @@ import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class SearchResultsActivity extends BjcpActivity {
     protected String searchedText = "";
+    protected String vitalsQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +32,19 @@ public class SearchResultsActivity extends BjcpActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_search_results);
         Bundle extras = getIntent().getExtras();
+        String title = getString(R.string.title_activity_search_results);
 
         if (extras != null) {
             searchedText = extras.getString("SEARCHED_TEXT");
+            vitalsQuery = extras.getString("VITALS_QUERY");
         }
 
-        String title = getString(R.string.title_activity_search_results) + " " + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'";
+        if (!StringUtils.isEmpty(searchedText)) {
+             title +=  " " + getString(R.string.title_activity_search_results_small) + " '" + searchedText + "'";
+        }
+
         setupToolbar(R.id.srToolbar, title, false, true);
-        setListView(BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText)));
+        setListView(getSearchResults());
     }
 
     private void setListView(List<SearchResult> searchResults) {
@@ -101,7 +109,7 @@ public class SearchResultsActivity extends BjcpActivity {
         Collections.sort(categories);
 
         for (Category category : categories) {
-            if (category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
+            if (!StringUtils.isEmpty(searchedText) && category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
                 sorted.add(category);
             } else if (category.getCategoryCode().startsWith("I")) {
                 catIntros.add(category);
@@ -117,5 +125,17 @@ public class SearchResultsActivity extends BjcpActivity {
         sorted.addAll(catAppendixes);
 
         return sorted;
+    }
+
+    private List<SearchResult> getSearchResults() {
+        List<SearchResult> searchResults;
+
+        if (StringUtils.isEmpty(vitalsQuery)) {
+            searchResults = BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText));
+        }  else {
+            searchResults = BjcpDataHelper.getInstance(this).searchVitals(vitalsQuery);
+        }
+
+        return searchResults;
     }
 }

@@ -46,7 +46,6 @@ public class CategoriesListAdapter extends ArrayAdapter {
             Section section = (Section) item;
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
-//TODO: FIX
             rowText.setTextIsSelectable(true);
         }
         if (item instanceof Category) {
@@ -56,7 +55,6 @@ public class CategoriesListAdapter extends ArrayAdapter {
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);
-//TODO: FIX
             rowText.setTextIsSelectable(true);
         }
 

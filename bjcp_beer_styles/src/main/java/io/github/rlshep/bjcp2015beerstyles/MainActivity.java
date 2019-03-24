@@ -204,11 +204,12 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     }
 
     protected CharSequence[] getTabTitles() {
-        CharSequence titles[] = new SpannableStringBuilder[3];
+        CharSequence titles[] = new SpannableStringBuilder[4];
 
         titles[0] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_list_white_48dp));
         titles[1] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_star_white_48dp));
         titles[2] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_palette_white_48dp));
+        titles[3] = createSpannableStringBuilder(this.getApplicationContext().getResources().getDrawable(R.drawable.outline_filter_list_white_48dp));
 
         return titles;
     }

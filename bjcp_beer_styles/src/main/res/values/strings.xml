@@ -41,9 +41,11 @@
     <string name="og">OG</string>
     <string name="plato">°P</string>
     <string name="preference_file_key">bjcp_preferences</string>
+    <string name="reset">Reset</string>
     <string name="settings_imperial">Imperial</string>
     <string name="settings_metric">Metric</string>
     <string name="settings_units">Units:</string>
+    <string name="search">Search</string>
     <string name="srm">SRM</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

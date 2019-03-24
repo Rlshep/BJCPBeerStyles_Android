@@ -293,15 +293,18 @@ public class BjcpDataHelper extends BaseDataHelper {
         return (BjcpConstants.DATABASE_VERSION == getRead().getVersion());
     }
 
-    public List<SearchResult> searchVitals(VitalStatistics vitalStatistics) {
+    public String getSearchVitalStatisticsQuery(VitalStatistics vitalStatistics) {
+        return "SELECT V." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_VITALS + " V JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = V." + BjcpContract.COLUMN_CAT_ID + " WHERE V." + BjcpContract.COLUMN_OG_START + ">=" + vitalStatistics.getOgStart() + " AND V." + BjcpContract.COLUMN_OG_END + "<=" + vitalStatistics.getOgEnd() + " AND V." + BjcpContract.COLUMN_FG_START + ">=" + vitalStatistics.getFgStart() + " AND V." + BjcpContract.COLUMN_FG_END + "<=" + vitalStatistics.getFgEnd() + " AND V." + BjcpContract.COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + BjcpContract.COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + BjcpContract.COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + BjcpContract.COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + BjcpContract.COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + BjcpContract.COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + BjcpContract.COLUMN_LANG + " = '" + this.dbContext.getLanguage() + "' ORDER BY C." + BjcpContract.COLUMN_ORDER;
+    }
+
+    public List<SearchResult> searchVitals(String query) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT " + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_VITALS + " WHERE " + BjcpContract.COLUMN_OG_START + ">=" + vitalStatistics.getOgStart() + " AND " + BjcpContract.COLUMN_OG_END + "<=" + vitalStatistics.getOgEnd() + " AND " + BjcpContract.COLUMN_FG_START + ">=" + vitalStatistics.getFgStart() + " AND " + BjcpContract.COLUMN_FG_END + "<=" + vitalStatistics.getFgEnd() + " AND " + BjcpContract.COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND " + BjcpContract.COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND " + BjcpContract.COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND " + BjcpContract.COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND " + BjcpContract.COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND " + BjcpContract.COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd();
 
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_RESULT_ID)) != null) {
+            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)) != null) {
                 searchResult = new SearchResult();
                 searchResult.setResultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)));
                 searchResult.setTableName(TABLE_CATEGORY);
