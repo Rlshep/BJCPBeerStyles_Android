@@ -32,6 +32,7 @@ import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
 
@@ -225,9 +226,10 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private void setupPreferences() {
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
+        LocaleHelper lh = new LocaleHelper();
 
         if (StringUtils.isEmpty(unitsPref)) {
-            if (MetricConverter.isCountryMetric(getCountry())) {
+            if (MetricConverter.isCountryMetric(lh.getCountry(this))) {
                 setUnitPreferences(BjcpConstants.METRIC);
             } else {
                 setUnitPreferences(BjcpConstants.IMPERIAL);

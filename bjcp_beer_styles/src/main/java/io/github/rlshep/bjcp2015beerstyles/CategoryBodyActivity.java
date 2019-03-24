@@ -1,5 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Html;
@@ -182,7 +183,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         colorVerbiage.append(vitalStatistics.getHeader());
         colorVerbiage.append(" ");
 
-        if (super.isMetric()) {
+        if (MetricConverter.isMetric(this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE))) {
             colorVerbiage.append(getString(R.string.ebc));
             colorVerbiage.append(": </b>");
             colorVerbiage.append(MetricConverter.getEBC(vitalStatistics.getSrmStart()));
@@ -207,7 +208,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         ogVerbiage.append(getString(R.string.og));
         ogVerbiage.append(":</b> ");
                 
-        if (super.isMetric()) {
+        if (MetricConverter.isMetric(this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE))) {
             ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgStart()));
             ogVerbiage.append(getString(R.string.plato));
             ogVerbiage.append(" - ");
@@ -231,7 +232,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         fgVerbiage.append(getString(R.string.fg));
         fgVerbiage.append(":</b> ");
 
-        if (super.isMetric()) {
+        if (MetricConverter.isMetric(this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE))) {
             fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgStart()));
             fgVerbiage.append(getString(R.string.plato));
             fgVerbiage.append(" - ");
