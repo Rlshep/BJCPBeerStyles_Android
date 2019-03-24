@@ -7,8 +7,6 @@ import android.support.v7.widget.Toolbar;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.Locale;
-
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 
 public abstract class BjcpActivity extends AppCompatActivity {
@@ -30,41 +28,6 @@ public abstract class BjcpActivity extends AppCompatActivity {
         }
     }
 
-    public String getLanguage() {
-        String language = "en";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Locale primaryLocale = this.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            language = primaryLocale.getLanguage();
-        }
-
-        return language;
-    }
-
-
-    public String getCountry() {
-        String country = "US";
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Locale primaryLocale = this.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            country = primaryLocale.getCountry();
-        }
-
-        return country;
-    }
-
-
-    protected boolean isMetric() {
-        boolean metric = false;
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
-
-        if (!StringUtils.isEmpty(unitsPref) && BjcpConstants.METRIC.equals(unitsPref)) {
-            metric = true;
-        }
-
-        return metric;
-    }
 
     protected void setUnitPreferences(String unit) {
         SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);

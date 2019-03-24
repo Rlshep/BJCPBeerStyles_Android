@@ -13,9 +13,6 @@ import io.github.rlshep.bjcp2015beerstyles.BjcpActivity;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
-//TODO: FIX
-// I/chatty: uid=10424(u0_a424) FinalizerDaemon identical 42 lines
-//        W/SQLiteConnectionPool: A SQLiteConnection object for database '+data+user+0+io_github_rlshep_bjcp2015beerstyles+files+__+databases+BjcpBeerStyles_db' was leaked!  Please fix your application to end transactions in progress properly and to close the database when it is no longer needed.
 public class BaseDataHelper extends SQLiteOpenHelper {
     private static final String DB_PATH = "/../databases/";
     protected BjcpActivity dbContext;
