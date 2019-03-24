@@ -36,6 +36,8 @@ public abstract class BjcpActivity extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Locale primaryLocale = this.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
             language = primaryLocale.getLanguage();
+        } else if (BjcpConstants.allowedLanguages.contains(Locale.getDefault().getLanguage())) {
+            language = Locale.getDefault().getLanguage();
         }
 
         return language;
@@ -43,11 +45,13 @@ public abstract class BjcpActivity extends AppCompatActivity {
 
 
     public String getCountry() {
-        String country = "US";
+        String country;
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             Locale primaryLocale = this.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
             country = primaryLocale.getCountry();
+        } else {
+            country = Locale.getDefault().getCountry();
         }
 
         return country;
