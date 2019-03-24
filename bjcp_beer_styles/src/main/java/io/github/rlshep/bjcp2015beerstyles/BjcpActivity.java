@@ -2,6 +2,9 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.LocaleList;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -34,10 +37,30 @@ public abstract class BjcpActivity extends AppCompatActivity {
         String language = "en";
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            Locale primaryLocale = this.getApplicationContext().getResources().getConfiguration().getLocales().get(0);
-            language = primaryLocale.getLanguage();
+            language = getLanguageFromMultipleLocales();
         } else if (BjcpConstants.allowedLanguages.contains(Locale.getDefault().getLanguage())) {
             language = Locale.getDefault().getLanguage();
+        }
+
+        return language;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String getLanguageFromMultipleLocales() {
+        String language = "en";
+        int i = 0;
+        boolean found = false;
+        LocaleList locales = this.getApplicationContext().getResources().getConfiguration().getLocales();
+
+        while (!found && i < locales.size()) {
+            String localeLanguage = locales.get(i).getLanguage();
+
+            if (BjcpConstants.allowedLanguages.contains(localeLanguage)) {
+                language = localeLanguage;
+                found = true;
+            }
+
+            i++;
         }
 
         return language;
