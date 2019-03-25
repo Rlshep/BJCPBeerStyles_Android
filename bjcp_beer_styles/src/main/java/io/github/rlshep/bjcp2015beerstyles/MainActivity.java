@@ -70,7 +70,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
+                return getResources().getColor(R.color.pressed_color);
             }
         });
 

@@ -9,12 +9,13 @@
     <string name="about_thanks_end"> para proporcionar el formato XML."</string>
     <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
     <string name="about_report_end">Repositorio Github."</string>
-    <string name="app_name">BJCP 2015 Guía de Estilos de Cerveza</string>
+    <string name="ABV">ABV</string>
     <string name="action_settings">Ajustes</string>
     <string name="action_search_hint">Estilos de búsqueda</string>
     <string name="action_info">Acerca de</string>
     <string name="action_delete">Acerca de</string>
     <string name="action_select_all">Seleccionar todo</string>
+    <string name="app_name">BJCP 2015 Guía de Estilos de Cerveza</string>
     <string name="beginSrm">Comenzando S R M igual a </string>
     <string name="color_straw"><b>Paja</b></string>
     <string name="color_yellow"><b>Amarillo</b></string>
@@ -32,6 +33,7 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Finalizando S R M igual a </string>
     <string name="fg">FG</string>
+    <string name="ibu">IBU</string>
     <string name="no_search_results">No se han encontrado resultados</string>
     <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
     <string name="og">OG</string>
