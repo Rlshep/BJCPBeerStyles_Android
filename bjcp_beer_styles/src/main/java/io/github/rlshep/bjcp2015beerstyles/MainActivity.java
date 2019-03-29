@@ -2,7 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -121,11 +120,12 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         MenuItem searchItem = menu.findItem(R.id.action_search);
         final ArrayAdapterSearchView searchView = (ArrayAdapterSearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
+        searchView.setBackgroundColor(getResources().getColor(R.color.pressed_color));
 
         // Set search text color
         SearchView.SearchAutoComplete searchAutoComplete =
                 (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        searchAutoComplete.setTextColor(Color.WHITE);
+        //searchAutoComplete.setTextColor(Color.WHITE);
 
         // Set adapter to get search suggestions.
         adapter = new ArrayAdapter<String>(this, R.layout.find_view, keywords);

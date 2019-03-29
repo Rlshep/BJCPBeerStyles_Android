@@ -6,7 +6,7 @@
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:gravity="center"
         android:stretchColumns="*">
 
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                app:mrb_connectingLineColor="@color/selectorColor"
+                app:mrb_connectingLineColor="@color/ibuLineColor"
                 app:mrb_pinColor="@color/pinColor"
                 app:mrb_pinMaxFont="15sp"
                 app:mrb_pinMinFont="12sp"
@@ -35,100 +35,24 @@
                 app:mrb_rangeBar="true"
                 app:mrb_rangeBarPaddingBottom="30dp"
                 app:mrb_rangeBar_rounded="true"
-                app:mrb_selectorBoundaryColor="@color/pressed_color"
+                app:mrb_selectorBoundaryColor="@color/white"
                 app:mrb_selectorBoundarySize="2dp"
-                app:mrb_selectorColor="@color/selectorColor"
+                app:mrb_selectorColor="@color/ibuLineColor"
                 app:mrb_selectorSize="10dp"
                 app:mrb_temporaryPins="true"
-                app:mrb_tickColor="@color/darkTextColor"
+                app:mrb_tickBottomLabels="@array/ticks_labels_ibu"
+                app:mrb_tickColor="@color/ibuLineColor"
                 app:mrb_tickDefaultLabel="label"
                 app:mrb_tickEnd="100"
                 app:mrb_tickHeight="4dp"
                 app:mrb_tickInterval="10"
                 app:mrb_tickStart="1" />
+
             <!--
                         app:mrb_tickLabelColor="@color/ColorPrimary"
                         app:mrb_tickLabelSelectedColor="@color/ColorPrimary"
                         app:mrb_tickLabelSize="4sp"
             -->
-            <!--app:mrb_tickBottomLabels="@array/ticks_labels"-->
-            <!--app:mrb_tickTopLabels="@array/ticks_labels"-->
-            <!--app:mrb_connectingLineColors="@array/connecting_colors"-->
-        </TableRow>
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_gravity="center"
-                android:text="@string/og"
-                android:textColor="@color/darkTextColor"
-                android:textStyle="bold" />
-
-            <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/rangebar_og"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                app:mrb_connectingLineColor="@color/selectorColor"
-                app:mrb_pinColor="@color/pinColor"
-                app:mrb_pinMaxFont="15sp"
-                app:mrb_pinMinFont="12sp"
-                app:mrb_pinRadius="14dp"
-                app:mrb_pinTextColor="@color/tabTextColor"
-                app:mrb_rangeBar="true"
-                app:mrb_rangeBarPaddingBottom="30dp"
-                app:mrb_rangeBar_rounded="true"
-                app:mrb_selectorBoundaryColor="@color/pressed_color"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_selectorColor="@color/selectorColor"
-                app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
-                app:mrb_tickColor="@color/darkTextColor"
-                app:mrb_tickDefaultLabel="label"
-                app:mrb_tickStart="1"
-                app:mrb_tickEnd="100"
-                app:mrb_tickHeight="4dp"
-                app:mrb_tickInterval="10"/>
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_gravity="center"
-                android:text="@string/fg"
-                android:textColor="@color/darkTextColor"
-                android:textStyle="bold" />
-
-            <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/rangebar_fg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:layout_marginRight="20dp"
-                app:mrb_connectingLineColor="@color/selectorColor"
-                app:mrb_pinColor="@color/pinColor"
-                app:mrb_pinMaxFont="15sp"
-                app:mrb_pinMinFont="12sp"
-                app:mrb_pinRadius="14dp"
-                app:mrb_pinTextColor="@color/tabTextColor"
-                app:mrb_rangeBar="true"
-                app:mrb_rangeBarPaddingBottom="30dp"
-                app:mrb_rangeBar_rounded="true"
-                app:mrb_selectorBoundaryColor="@color/pressed_color"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_selectorColor="@color/selectorColor"
-                app:mrb_selectorSize="10dp"
-                app:mrb_temporaryPins="true"
-                app:mrb_tickColor="@color/darkTextColor"
-                app:mrb_tickDefaultLabel="label"
-                app:mrb_tickStart="1"
-                app:mrb_tickEnd="100"
-                app:mrb_tickHeight="4dp"
-                app:mrb_tickInterval="10"/>
         </TableRow>
 
         <TableRow>
@@ -145,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                app:mrb_connectingLineColor="@color/selectorColor"
+                app:mrb_connectingLineColor="@color/abvLineColor"
                 app:mrb_pinColor="@color/pinColor"
                 app:mrb_pinMaxFont="15sp"
                 app:mrb_pinMinFont="12sp"
@@ -154,17 +78,18 @@
                 app:mrb_rangeBar="true"
                 app:mrb_rangeBarPaddingBottom="30dp"
                 app:mrb_rangeBar_rounded="true"
-                app:mrb_selectorBoundaryColor="@color/pressed_color"
+                app:mrb_selectorBoundaryColor="@color/white"
                 app:mrb_selectorBoundarySize="2dp"
-                app:mrb_selectorColor="@color/selectorColor"
+                app:mrb_selectorColor="@color/abvLineColor"
                 app:mrb_selectorSize="10dp"
                 app:mrb_temporaryPins="true"
-                app:mrb_tickColor="@color/darkTextColor"
+                app:mrb_tickBottomLabels="@array/ticks_labels_abv"
+                app:mrb_tickColor="@color/abvLineColor"
                 app:mrb_tickDefaultLabel="label"
-                app:mrb_tickStart="1"
-                app:mrb_tickEnd="100"
+                app:mrb_tickEnd="10"
                 app:mrb_tickHeight="4dp"
-                app:mrb_tickInterval="10"/>
+                app:mrb_tickInterval="1"
+                app:mrb_tickStart="0" />
         </TableRow>
 
         <TableRow>
@@ -180,7 +105,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
-                app:mrb_connectingLineColor="@color/selectorColor"
                 app:mrb_pinColor="@color/pinColor"
                 app:mrb_pinMaxFont="15sp"
                 app:mrb_pinMinFont="12sp"
@@ -189,44 +113,18 @@
                 app:mrb_rangeBar="true"
                 app:mrb_rangeBarPaddingBottom="30dp"
                 app:mrb_rangeBar_rounded="true"
-                app:mrb_selectorBoundaryColor="@color/pressed_color"
-                app:mrb_selectorBoundarySize="2dp"
-                app:mrb_selectorColor="@color/selectorColor"
+                app:mrb_selectorColorLeft="@color/srm_2"
+                app:mrb_selectorColorRight="@color/srm_40"
                 app:mrb_selectorSize="10dp"
                 app:mrb_temporaryPins="true"
+                app:mrb_tickBottomLabels="@array/ticks_labels_srm"
                 app:mrb_tickColor="@color/darkTextColor"
+                app:mrb_connectingLineColors="@array/connecting_colors_srm"
                 app:mrb_tickDefaultLabel="label"
-                app:mrb_tickStart="1"
                 app:mrb_tickEnd="40"
                 app:mrb_tickHeight="4dp"
-                app:mrb_tickInterval="5"/>
-        </TableRow>
-    </TableLayout>
-
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:gravity="center">
-
-        <TableRow android:layout_width="fill_parent">
-
-            <TextView
-                android:id="@+id/rangeBarColorStart"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="#fcc143" />
-
-            <TextView
-                android:id="@+id/rangeBarColorEnd"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:background="#35090a" />
+                app:mrb_tickInterval="4"
+                app:mrb_tickStart="2" />
         </TableRow>
     </TableLayout>
 

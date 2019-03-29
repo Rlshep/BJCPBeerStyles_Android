@@ -1,0 +1,52 @@
+<resources>
+    <string-array name="ticks_labels_ibu">
+        <item>1</item>
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>100</item>
+    </string-array>
+    <string-array name="ticks_labels_abv">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="ticks_labels_srm">
+        <item>2</item>
+        <item>6</item>
+        <item>10</item>
+        <item>14</item>
+        <item>18</item>
+        <item>22</item>
+        <item>26</item>
+        <item>30</item>
+        <item>34</item>
+        <item>40</item>
+    </string-array>
+    <string-array name="connecting_colors_srm">
+        <item>#f8a700</item>
+        <item>#de7c00</item>
+        <item>#c35901</item>
+        <item>#a63e00</item>
+        <item>#8f2a00</item>
+        <item>#771900</item>
+        <item>#5e0c00</item>
+        <item>#4b0505</item>
+        <item>#3f0708</item>
+        <item>#36080a</item>
+    </string-array>
+
+</resources>

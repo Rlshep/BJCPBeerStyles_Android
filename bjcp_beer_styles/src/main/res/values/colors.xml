@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ColorPrimary">#197519</color>
-    <color name="pressed_color">#A3C8A3</color>
+    <!--<color name="ColorPrimary">#197519</color>-->
+    <!--<color name="pressed_color">#A3C8A3</color>-->
+    <!--<color name="selectorColor">#8dc250</color>-->
+    <!--<color name="pinColor">#FE7F2D</color>-->
+    <color name="ColorPrimary">#76b41c</color>
+    <color name="pressed_color">#dfffb1</color>
     <color name="tabTextColor">#FFFFFF</color>
     <color name="darkTextColor">#000000</color>
-    <color name="selectorColor">#8dc250</color>
-    <color name="pinColor">#FE7F2D</color>
+    <color name="pinColor">#ff461e</color>
+    <color name="ibuLineColor">#97d15c</color>
+    <color name="abvLineColor">#3bbde3</color>
+    <color name="white">#FFFFFF</color>
     <color name="srm_1">#ffe699</color>
     <color name="srm_2">#ffd978</color>
     <color name="srm_3">#ffca5a</color>
