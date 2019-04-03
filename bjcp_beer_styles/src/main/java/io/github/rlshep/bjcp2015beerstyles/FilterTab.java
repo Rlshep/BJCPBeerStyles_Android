@@ -34,18 +34,18 @@ public class FilterTab extends Fragment {
             private VitalStatistics getSearchVitalStatistics() {
                 VitalStatistics vitalStatistics = new VitalStatistics();
 
-                vitalStatistics.setAbvStart("0.0");
-                vitalStatistics.setAbvEnd("15.0");
-                vitalStatistics.setOgStart("1.050");
-                vitalStatistics.setOgEnd("1.200");
-                vitalStatistics.setFgStart("0.900");
-                vitalStatistics.setFgEnd("1.030");
-                vitalStatistics.setAbvStart("5.0");
-                vitalStatistics.setAbvEnd("10");
-                vitalStatistics.setIbuStart("10");
-                vitalStatistics.setIbuEnd("70");
-                vitalStatistics.setSrmStart("0");
-                vitalStatistics.setSrmEnd("35");
+                vitalStatistics.setAbvStart(0.0);
+                vitalStatistics.setAbvEnd(15.0);
+                vitalStatistics.setOgStart(1.050);
+                vitalStatistics.setOgEnd(1.200);
+                vitalStatistics.setFgStart(0.900);
+                vitalStatistics.setFgEnd(1.030);
+                vitalStatistics.setAbvStart(5.0);
+                vitalStatistics.setAbvEnd(10);
+                vitalStatistics.setIbuStart(10);
+                vitalStatistics.setIbuEnd(70);
+                vitalStatistics.setSrmStart(0);
+                vitalStatistics.setSrmEnd(35);
 
                 return vitalStatistics;
             }

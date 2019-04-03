@@ -156,16 +156,16 @@ public class BjcpDataHelper extends BaseDataHelper {
 
             if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_ID)) != null) {
                 vitalStatistics.setId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_ID)));
-                vitalStatistics.setOgStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_START))).toString());
-                vitalStatistics.setOgEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_END))).toString());
-                vitalStatistics.setFgStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_START))).toString());
-                vitalStatistics.setFgEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_END))).toString());
-                vitalStatistics.setIbuStart(new Integer(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_START))).toString());
-                vitalStatistics.setIbuEnd(new Integer(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_END))).toString());
-                vitalStatistics.setSrmStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_START))).toString());
-                vitalStatistics.setSrmEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_END))).toString());
-                vitalStatistics.setAbvStart(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_START))).toString());
-                vitalStatistics.setAbvEnd(new Double(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_END))).toString());
+                vitalStatistics.setOgStart(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_START)));
+                vitalStatistics.setOgEnd(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_OG_END)));
+                vitalStatistics.setFgStart(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_START)));
+                vitalStatistics.setFgEnd(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_FG_END)));
+                vitalStatistics.setIbuStart(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_START)));
+                vitalStatistics.setIbuEnd(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_IBU_END)));
+                vitalStatistics.setSrmStart(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_START)));
+                vitalStatistics.setSrmEnd(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_SRM_END)));
+                vitalStatistics.setAbvStart(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_START)));
+                vitalStatistics.setAbvEnd(c.getDouble(c.getColumnIndex(BjcpContract.COLUMN_ABV_END)));
                 vitalStatistics.setHeader(c.getString(c.getColumnIndex(BjcpContract.COLUMN_HEADER)));
             }
             c.moveToNext();

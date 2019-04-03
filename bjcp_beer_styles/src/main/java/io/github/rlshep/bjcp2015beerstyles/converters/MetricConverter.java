@@ -20,29 +20,15 @@ public class MetricConverter {
     private static final List<String> imperialCountries = Arrays.asList(IMPERIAL_COUNTRIES);
 
     //EBC = SRM × 1.97
-    public static int getEBC(String inSRM) {
-        int srm = 0;
-
-        try {
-            srm = (int) Math.round(new Integer(inSRM) * SRM);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-
-        return srm;
+    public static int getEBC(double inSRM) {
+        return (int) Math.round(inSRM * SRM);
     }
 
     // (-1 * 616.868) + (1111.14 * SG) – (630.272 * SG^2) + (135.997 * SG^3)
-    public static String getPlato(String inGravity) {
+    public static String getPlato(double gravity) {
         DecimalFormat df = new DecimalFormat("#.#");
-        double plato = 0.0;
 
-        try {
-            Double gravity = new Double(inGravity);
-            plato = ((EBC_A * -1) + (EBC_B * gravity) - (EBC_C * Math.pow(gravity, 2)) + (EBC_D * Math.pow(gravity, 3)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+        double plato = ((EBC_A * -1) + (EBC_B * gravity) - (EBC_C * Math.pow(gravity, 2)) + (EBC_D * Math.pow(gravity, 3)));
 
         return df.format(plato);
     }

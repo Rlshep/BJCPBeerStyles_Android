@@ -1,5 +1,6 @@
-package io.github.rlshep.bjcp2015beerstyles;
+package io.github.rlshep.bjcp2015beerstyles.es;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -8,6 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.rlshep.bjcp2015beerstyles.BJCPTest;
+import io.github.rlshep.bjcp2015beerstyles.MainActivity;
+import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -29,7 +33,7 @@ public class ColorChartMetricTest extends BJCPTest {
 
     @Test
     public void testColorChartUS() {
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(longClick());
+        onData(anything()).inAdapterView(ViewMatchers.withId(R.id.categoryListView)).atPosition(0).perform(longClick());
         onView(withId(R.id.pager)).perform(swipeLeft());    // Bookmarks
         onView(withId(R.id.pager)).perform(swipeLeft());    // Color Chart
 

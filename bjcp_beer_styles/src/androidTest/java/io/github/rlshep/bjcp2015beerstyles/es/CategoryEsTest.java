@@ -1,5 +1,6 @@
-package io.github.rlshep.bjcp2015beerstyles;
+package io.github.rlshep.bjcp2015beerstyles.es;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -8,6 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.rlshep.bjcp2015beerstyles.BJCPTest;
+import io.github.rlshep.bjcp2015beerstyles.MainActivity;
+import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -27,7 +31,7 @@ public class CategoryEsTest extends BJCPTest {
 
     @Test
     public void testCategoryCount() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasCountEqualTo(43)));
+        onView(ViewMatchers.withId(R.id.categoryListView)).check(matches(Matchers.hasCountEqualTo(43)));
     }
 
     @Test

@@ -98,7 +98,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         int i = 1;
 
         for (VitalStatistics vitalStatistics : vitalStatisticses) {
-            if (null != vitalStatistics.getSrmStart()) {
+            if (0 < vitalStatistics.getSrmStart()) {
                 setSrm(vitalStatistics, i);
                 i++;
             }
@@ -140,16 +140,16 @@ public class CategoryBodyActivity extends BjcpActivity {
         String vitals = "";
 
         for (VitalStatistics vitalStatistics : vitalStatisticses) {
-            if (null != vitalStatistics.getIbuStart()) {
+            if (0 < vitalStatistics.getIbuStart()) {
                 vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
             }
-            if (null != vitalStatistics.getOgStart()) {
+            if (0 < vitalStatistics.getOgStart()) {
                 vitals += getOgVerbiage(vitalStatistics);
             }
-            if (null != vitalStatistics.getFgStart()) {
+            if (0 < vitalStatistics.getFgStart()) {
                 vitals += getFgVerbiage(vitalStatistics);
             }
-            if (null != vitalStatistics.getAbvStart()) {
+            if (0 < vitalStatistics.getAbvStart()) {
                 vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
             }
         }
@@ -175,13 +175,11 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private String getStartSrm(VitalStatistics vitalStatistics) {
-        double floor = Math.floor(Double.parseDouble(vitalStatistics.getSrmStart()));
-        return ((Integer) Double.valueOf(floor).intValue()).toString();
+        return ((Integer) Double.valueOf(Math.floor(vitalStatistics.getSrmStart())).intValue()).toString();
     }
 
     private String getEndSrm(VitalStatistics vitalStatistics) {
-        double ceil = Math.ceil(Double.parseDouble(vitalStatistics.getSrmEnd()));
-        return ((Integer) Double.valueOf(ceil).intValue()).toString();
+        return ((Integer) Double.valueOf(Math.ceil(vitalStatistics.getSrmEnd())).intValue()).toString();
     }
 
     private String getColorVerbiage(VitalStatistics vitalStatistics) {
