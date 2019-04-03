@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
+                app:mrb_barWeight="6dp"
                 app:mrb_connectingLineColor="@color/ibuLineColor"
                 app:mrb_pinColor="@color/pinColor"
                 app:mrb_pinMaxFont="15sp"
@@ -38,21 +39,15 @@
                 app:mrb_selectorBoundaryColor="@color/white"
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/ibuLineColor"
-                app:mrb_selectorSize="10dp"
+                app:mrb_selectorSize="12dp"
                 app:mrb_temporaryPins="true"
                 app:mrb_tickBottomLabels="@array/ticks_labels_ibu"
                 app:mrb_tickColor="@color/ibuLineColor"
                 app:mrb_tickDefaultLabel="label"
                 app:mrb_tickEnd="100"
-                app:mrb_tickHeight="4dp"
+                app:mrb_tickHeight="7dp"
                 app:mrb_tickInterval="10"
                 app:mrb_tickStart="1" />
-
-            <!--
-                        app:mrb_tickLabelColor="@color/ColorPrimary"
-                        app:mrb_tickLabelSelectedColor="@color/ColorPrimary"
-                        app:mrb_tickLabelSize="4sp"
-            -->
         </TableRow>
 
         <TableRow>
@@ -69,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
+                app:mrb_barWeight="6dp"
                 app:mrb_connectingLineColor="@color/abvLineColor"
                 app:mrb_pinColor="@color/pinColor"
                 app:mrb_pinMaxFont="15sp"
@@ -81,13 +77,13 @@
                 app:mrb_selectorBoundaryColor="@color/white"
                 app:mrb_selectorBoundarySize="2dp"
                 app:mrb_selectorColor="@color/abvLineColor"
-                app:mrb_selectorSize="10dp"
+                app:mrb_selectorSize="12dp"
                 app:mrb_temporaryPins="true"
                 app:mrb_tickBottomLabels="@array/ticks_labels_abv"
                 app:mrb_tickColor="@color/abvLineColor"
                 app:mrb_tickDefaultLabel="label"
                 app:mrb_tickEnd="10"
-                app:mrb_tickHeight="4dp"
+                app:mrb_tickHeight="7dp"
                 app:mrb_tickInterval="1"
                 app:mrb_tickStart="0" />
         </TableRow>
@@ -115,14 +111,15 @@
                 app:mrb_rangeBar_rounded="true"
                 app:mrb_selectorColorLeft="@color/srm_2"
                 app:mrb_selectorColorRight="@color/srm_40"
-                app:mrb_selectorSize="10dp"
+                app:mrb_selectorSize="12dp"
                 app:mrb_temporaryPins="true"
                 app:mrb_tickBottomLabels="@array/ticks_labels_srm"
                 app:mrb_tickColors="@array/ticks_color_srm"
                 app:mrb_connectingLineColors="@array/connecting_colors_srm"
+                app:mrb_connectingLineWeight="6dp"
                 app:mrb_tickDefaultLabel="label"
                 app:mrb_tickEnd="40"
-                app:mrb_tickHeight="4dp"
+                app:mrb_tickHeight="7dp"
                 app:mrb_tickInterval="4"
                 app:mrb_tickStart="2" />
         </TableRow>
