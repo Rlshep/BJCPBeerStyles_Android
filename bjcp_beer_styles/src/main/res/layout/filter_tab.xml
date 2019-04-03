@@ -118,7 +118,7 @@
                 app:mrb_selectorSize="10dp"
                 app:mrb_temporaryPins="true"
                 app:mrb_tickBottomLabels="@array/ticks_labels_srm"
-                app:mrb_tickColor="@color/darkTextColor"
+                app:mrb_tickColors="@array/ticks_color_srm"
                 app:mrb_connectingLineColors="@array/connecting_colors_srm"
                 app:mrb_tickDefaultLabel="label"
                 app:mrb_tickEnd="40"
