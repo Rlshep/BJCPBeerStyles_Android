@@ -1,6 +1,6 @@
 <resources>
     <string-array name="ticks_labels_ibu">
-        <item>1</item>
+        <item>0</item>
         <item>10</item>
         <item>20</item>
         <item>30</item>
@@ -9,6 +9,7 @@
         <item>60</item>
         <item>70</item>
         <item>80</item>
+        <item>90</item>
         <item>100</item>
     </string-array>
     <string-array name="ticks_labels_abv">
@@ -26,15 +27,16 @@
     </string-array>
     <string-array name="ticks_labels_srm">
         <item>1</item>
-        <item>4</item>
-        <item>6</item>
+        <item>5</item>
         <item>9</item>
-        <item>14</item>
-        <item>18</item>
-        <item>22</item>
-        <item>30</item>
-        <item>35</item>
-        <item>40</item>
+        <item>13</item>
+        <item>17</item>
+        <item>21</item>
+        <item>25</item>
+        <item>29</item>
+        <item>33</item>
+        <item>37</item>
+        <item>41</item>
     </string-array>
     <string-array name="connecting_colors_srm">
         <item>#ffd978</item>
@@ -49,14 +51,15 @@
     </string-array>
     <string-array name="ticks_color_srm">
         <item>#ffe699</item>
-        <item>#ffbf43</item>
-        <item>#f8a700</item>
+        <item>#fcb124</item>
         <item>#e68500</item>
-        <item>#c35901</item>
-        <item>#a63e00</item>
-        <item>#8f2a00</item>
-        <item>#5e0c00</item>
-        <item>#460606</item>
+        <item>#ca6200</item>
+        <item>#b04500</item>
+        <item>#962d00</item>
+        <item>#7c1a01</item>
+        <item>#660d00</item>
+        <item>#530908</item>
+        <item>#3f0708</item>
         <item>#36080a</item>
     </string-array>
 </resources>

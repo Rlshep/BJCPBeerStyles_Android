@@ -47,7 +47,7 @@
                 app:mrb_tickEnd="100"
                 app:mrb_tickHeight="7dp"
                 app:mrb_tickInterval="10"
-                app:mrb_tickStart="1" />
+                app:mrb_tickStart="0" />
         </TableRow>
 
         <TableRow>
@@ -97,6 +97,7 @@
                 android:textStyle="bold" />
 
             <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/rangebar_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -118,10 +119,10 @@
                 app:mrb_connectingLineColors="@array/connecting_colors_srm"
                 app:mrb_connectingLineWeight="6dp"
                 app:mrb_tickDefaultLabel="label"
-                app:mrb_tickEnd="40"
+                app:mrb_tickEnd="41"
                 app:mrb_tickHeight="7dp"
                 app:mrb_tickInterval="4"
-                app:mrb_tickStart="2" />
+                app:mrb_tickStart="1" />
         </TableRow>
     </TableLayout>
 
