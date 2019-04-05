@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +15,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <TextView
+            android:layout_gravity="center"
+            android:text="Search"
+            android:textColor="@color/darkTextColor"
+            android:textStyle="bold"
+            app:actionViewClass="io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView"/>
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/abvLineColor">
+            </EditText>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <TextView
+                android:id="@+id/ibu_text"
                 android:layout_gravity="center"
                 android:text="@string/ibu"
                 android:textColor="@color/darkTextColor"
@@ -53,6 +75,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/abv_text"
                 android:layout_gravity="center"
                 android:text="@string/ABV"
                 android:textColor="@color/darkTextColor"
@@ -91,6 +114,7 @@
         <TableRow>
 
             <TextView
+                android:id="@+id/color_text"
                 android:layout_gravity="center"
                 android:text="@string/srm"
                 android:textColor="@color/darkTextColor"

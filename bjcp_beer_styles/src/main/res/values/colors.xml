@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="ColorPrimary">#197519</color>-->
-    <!--<color name="pressed_color">#A3C8A3</color>-->
-    <!--<color name="selectorColor">#8dc250</color>-->
-    <!--<color name="pinColor">#FE7F2D</color>-->
     <color name="ColorPrimary">#76b41c</color>
     <color name="pressed_color">#dfffb1</color>
     <color name="tabTextColor">#FFFFFF</color>

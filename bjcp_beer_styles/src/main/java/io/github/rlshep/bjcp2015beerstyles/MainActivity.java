@@ -32,6 +32,7 @@ import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.SearchHelper;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
 
@@ -42,8 +43,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private static final int FILTER_TAB = 3;
     private static final int MAX_SEARCH_CHARS = 3;
 
-    private String[] keywords;
-    private ArrayAdapter<String> adapter;
+    public String[] searchSuggestions;
+    private ArrayAdapter<String> searchSuggestionAdapter;
     private Menu menu;
 
     @Override
@@ -52,7 +53,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
         validateCorrectDatabaseVersion();
-        keywords = getSearchKeywords();
+        searchSuggestions = new SearchHelper().getSearchSuggestions(this);
 
         setupToolbar(R.id.tool_bar, "", true, false);
         setupPreferences();
@@ -122,20 +123,15 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         searchView.setOnQueryTextListener(this);
         searchView.setBackgroundColor(getResources().getColor(R.color.pressed_color));
 
-        // Set search text color
-        SearchView.SearchAutoComplete searchAutoComplete =
-                (SearchView.SearchAutoComplete) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
-        //searchAutoComplete.setTextColor(Color.WHITE);
-
         // Set adapter to get search suggestions.
-        adapter = new ArrayAdapter<String>(this, R.layout.find_view, keywords);
-        searchView.setAdapter(adapter);
+        searchSuggestionAdapter = new ArrayAdapter<String>(this, R.layout.find_view, searchSuggestions);
+        searchView.setAdapter(searchSuggestionAdapter);
 
         searchView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchView.setText(adapter.getItem(position).toString());
-                onQueryTextSubmit(adapter.getItem(position).toString());
+                searchView.setText(searchSuggestionAdapter.getItem(position).toString());
+                onQueryTextSubmit(searchSuggestionAdapter.getItem(position).toString());
             }
         });
 
@@ -186,7 +182,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         }
     }
 
-    private String[] getSearchKeywords() {
+    private String[] getSearchSuggestions() {
         BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance(this);
         List<String> searchKeywords = new ArrayList<>();
 
