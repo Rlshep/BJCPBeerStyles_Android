@@ -23,11 +23,13 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class SearchResultsActivity extends BjcpActivity {
-    protected String searchedText = "";
-    protected String vitalsQuery = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String searchedText = "";
+        String vitalsQuery = "";
+
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_search_results);
@@ -44,10 +46,10 @@ public class SearchResultsActivity extends BjcpActivity {
         }
 
         setupToolbar(R.id.srToolbar, title, false, true);
-        setListView(getSearchResults());
+        setListView(getSearchResults(searchedText, vitalsQuery), searchedText);
     }
 
-    private void setListView(List<SearchResult> searchResults) {
+    private void setListView(List<SearchResult> searchResults, String searchedText) {
         List<Long> categoryIds = new ArrayList<>();
 
         for (SearchResult searchResult : searchResults) {
@@ -58,12 +60,12 @@ public class SearchResultsActivity extends BjcpActivity {
             }
         }
 
-        setListViewCategories(BjcpDataHelper.getInstance(this).getCategoriesByIds(categoryIds));
+        setListViewCategories(BjcpDataHelper.getInstance(this).getCategoriesByIds(categoryIds), searchedText);
     }
 
     @SuppressWarnings("unchecked")
-    private void setListViewCategories(List<Category> categories) {
-        List listItems = getFullList(categories);
+    private void setListViewCategories(List<Category> categories, String searchedText) {
+        List listItems = getFullList(categories, searchedText);
 
         ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listItems);
         ListView listView = (ListView) this.findViewById(R.id.searchResults);
@@ -86,13 +88,13 @@ public class SearchResultsActivity extends BjcpActivity {
         });
     }
 
-    private List getFullList(List<Category> categories) {
+    private List getFullList(List<Category> categories, String searchedText) {
         List listItems = new ArrayList();
 
         if (categories.isEmpty()) {
             listItems.add(getString(R.string.no_search_results));
         } else {
-            listItems.addAll(sortByPriority(categories));
+            listItems.addAll(sortByPriority(categories, searchedText));
         }
 
         return listItems;
@@ -100,7 +102,7 @@ public class SearchResultsActivity extends BjcpActivity {
 
     // Bringing categories and subcategories who have the search criteria in the name to the top.
     @SuppressWarnings("unchecked")
-    private List sortByPriority(List<Category> categories) {
+    private List sortByPriority(List<Category> categories, String searchedText) {
         List<Category> sorted = new ArrayList<>();
         List<Category> catRemaining = new ArrayList<>();
         List<Category> catIntros = new ArrayList<>();
@@ -127,15 +129,32 @@ public class SearchResultsActivity extends BjcpActivity {
         return sorted;
     }
 
-    private List<SearchResult> getSearchResults() {
-        List<SearchResult> searchResults;
+    private List<SearchResult> getSearchResults(String searchedText, String vitalsQuery) {
+        List<SearchResult> searchResults = new ArrayList<>();
 
-        if (StringUtils.isEmpty(vitalsQuery)) {
+        if (!StringUtils.isEmpty(searchedText) && !StringUtils.isEmpty(vitalsQuery)) {  // Only what is in both keyword and vitals
+            List<SearchResult> keywordResults = BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText));
+            List<SearchResult> vitalsResults = BjcpDataHelper.getInstance(this).searchVitals(vitalsQuery);
+
+            searchResults = intersection(keywordResults, vitalsResults);
+        } else if (!StringUtils.isEmpty(searchedText)) {    // Only keyword
             searchResults = BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText));
-        }  else {
+        } else {     // Only vitals
             searchResults = BjcpDataHelper.getInstance(this).searchVitals(vitalsQuery);
         }
 
         return searchResults;
+    }
+
+    public <T> List<T> intersection(List<T> list1, List<T> list2) {
+        List<T> list = new ArrayList<T>();
+
+        for (T t : list1) {
+            if(list2.contains(t)) {
+                list.add(t);
+            }
+        }
+
+        return list;
     }
 }

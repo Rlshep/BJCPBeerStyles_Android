@@ -21,5 +21,4 @@ public class SearchHelper {
         return stringArray;
     }
 
-
 }

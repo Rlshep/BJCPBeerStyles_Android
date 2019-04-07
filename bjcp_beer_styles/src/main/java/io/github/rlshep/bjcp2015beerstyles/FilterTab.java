@@ -1,17 +1,20 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 import com.appyvet.materialrangebar.RangeBar;
 
@@ -20,9 +23,8 @@ import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.helpers.SearchHelper;
-import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
 
-//implements SearchView.OnQueryTextListener
+
 public class FilterTab extends Fragment {
 
     private VitalStatistics vitalStatistics = new VitalStatistics();
@@ -33,9 +35,11 @@ public class FilterTab extends Fragment {
         View view = inflater.inflate(R.layout.filter_tab, container, false);
 
         initVitalStatistics();
-        setupSearch(view);
+        setupSearchText(view);
         setupRangeBars(view);
         setupButtons(view);
+        setupUI(view);
+        setupColors(view);
 
         return view;
     }
@@ -49,21 +53,12 @@ public class FilterTab extends Fragment {
         vitalStatistics.setSrmEnd(40);
     }
 
-    private void setupSearch(View view) {
-        ArrayAdapterSearchView filterSearch = view.findViewById(R.id.filterSearch);
-        String[] searchSuggestions = new SearchHelper().getSearchSuggestions((BjcpActivity)getActivity());
-
-        // Set adapter to get search suggestions.
-        searchSuggestionAdapter = new ArrayAdapter<String>(getActivity(), R.layout.find_view, searchSuggestions);
-        filterSearch.setAdapter(searchSuggestionAdapter);
-
-        filterSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                filterSearch.setText(searchSuggestionAdapter.getItem(position).toString());
-//                onQueryTextSubmit(searchSuggestionAdapter.getItem(position).toString());
-            }
-        });
+    private void setupSearchText(View view) {
+        // Get a reference to the AutoCompleteTextView in the layout
+        AutoCompleteTextView textView = view.findViewById(R.id.editSearch);
+        String[] searchSuggestions = new SearchHelper().getSearchSuggestions((BjcpActivity)getActivity());  // Get the string array
+        searchSuggestionAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, searchSuggestions);
+        textView.setAdapter(searchSuggestionAdapter);
     }
 
     private void setupRangeBars(View view) {
@@ -110,15 +105,9 @@ public class FilterTab extends Fragment {
             @Override
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
-                SharedPreferences sharedPreferences = (view.getContext()).getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
-                if (MetricConverter.isMetric(sharedPreferences)) {
-                    vitalStatistics.setSrmStart(MetricConverter.getSRM(Double.parseDouble(leftPinValue)));
-                    vitalStatistics.setSrmEnd(MetricConverter.getSRM(Double.parseDouble(rightPinValue)));
-                } else {
-                    vitalStatistics.setSrmStart(Double.parseDouble(leftPinValue));
-                    vitalStatistics.setSrmEnd(Double.parseDouble(rightPinValue));
-                }
+                vitalStatistics.setSrmStart(Double.parseDouble(leftPinValue));
+                vitalStatistics.setSrmEnd(Double.parseDouble(rightPinValue));
             }
 
             @Override
@@ -139,14 +128,12 @@ public class FilterTab extends Fragment {
         RangeBar rangebarIbu = v.findViewById(R.id.rangebar_ibu);
         RangeBar rangebarAbv = v.findViewById(R.id.rangebar_abv);
         RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
-        EditText editSearch = v.findViewById(R.id.editSearch);
+        AutoCompleteTextView editSearch = v.findViewById(R.id.editSearch);
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance((BjcpActivity) getActivity());
-
-                //TODO: ADD SEARCH
-                BjcpController.startSearchResultsActivity(getActivity(), "", bjcpDataHelper.getSearchVitalStatisticsQuery(vitalStatistics));
+                BjcpController.startSearchResultsActivity(getActivity(), editSearch.getText().toString(), bjcpDataHelper.getSearchVitalStatisticsQuery(vitalStatistics));
             }
         });
 
@@ -160,5 +147,52 @@ public class FilterTab extends Fragment {
                 editSearch.setText("");
             }
         });
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof AutoCompleteTextView)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    private void setupColors(View v) {
+        SharedPreferences sharedPreferences = (v.getContext()).getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        TextView colorText = v.findViewById(R.id.color_text);
+        RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
+
+        if (MetricConverter.isMetric(sharedPreferences)) {
+            String[] colorLabels = getResources().getStringArray(R.array.ticks_labels_srm);
+
+            for (int i=0; i<colorLabels.length; i++) {
+                System.out.println(i + " orig=" + colorLabels[i] + ", converted=" + MetricConverter.getEBC(Double.parseDouble(colorLabels[i])));
+                colorLabels[i] = (new Integer((int)MetricConverter.getEBC(Double.parseDouble(colorLabels[i])))).toString();
+            }
+
+            colorText.setText(R.string.ebc);
+            rangebarColor.setTickBottomLabels(colorLabels);
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+
+        if (null != activity && null != activity.getCurrentFocus()) {
+            inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
     }
 }

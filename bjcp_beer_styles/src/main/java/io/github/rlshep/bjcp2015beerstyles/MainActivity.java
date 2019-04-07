@@ -21,10 +21,6 @@ import android.widget.Toast;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
@@ -41,7 +37,6 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private static final int BOOKMARKED_TAB = 1;
     private static final int COLOR_TAB = 2;
     private static final int FILTER_TAB = 3;
-    private static final int MAX_SEARCH_CHARS = 3;
 
     public String[] searchSuggestions;
     private ArrayAdapter<String> searchSuggestionAdapter;
@@ -157,7 +152,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextSubmit(String keyword) {
-        if (MAX_SEARCH_CHARS <= keyword.length()) {
+        if (BjcpConstants.MAX_SEARCH_CHARS <= keyword.length()) {
             BjcpController.startSearchResultsActivity(this, keyword);
         } else {
             Toast.makeText(this.getApplicationContext(), R.string.not_enough_chars, Toast.LENGTH_SHORT).show();
@@ -180,18 +175,6 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             MenuItem searchItem = menu.findItem(R.id.action_search);
             MenuItemCompat.collapseActionView(searchItem);
         }
-    }
-
-    private String[] getSearchSuggestions() {
-        BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance(this);
-        List<String> searchKeywords = new ArrayList<>();
-
-        searchKeywords.addAll(bjcpDataHelper.getAllCategoryNames());
-        searchKeywords.addAll(bjcpDataHelper.getAllSynonyms());
-
-        String[] stringArray = Arrays.copyOf(searchKeywords.toArray(), searchKeywords.toArray().length, String[].class);
-
-        return stringArray;
     }
 
     private void validateCorrectDatabaseVersion() {

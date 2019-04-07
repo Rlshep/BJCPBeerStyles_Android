@@ -175,7 +175,5 @@
     <orderEntry type="library" scope="TEST" name="Gradle: org.mockito:mockito-android:2.25.1@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: net.bytebuddy:byte-buddy-android:1.9.7@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:support-media-compat:28.0.0@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.appyvet:materialrangebar:1.4.5@aar" level="project" />
-    <orderEntry type="library" name="Gradle: com.appyvet:materialrangebar:1.4.5@aar" level="project" />
   </component>
 </module>
