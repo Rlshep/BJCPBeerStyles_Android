@@ -10,6 +10,10 @@
     <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
     <string name="about_report_end">Repositorio Github."</string>
     <string name="ABV">ABV</string>
+    <string name="accessibility_advance_search">Búsqueda Avanzada</string>
+    <string name="accessibility_categories">Categorías</string>
+    <string name="accessibility_favorites">Favoritos</string>
+    <string name="accessibility_color_chart">Catálogo de colores</string>
     <string name="action_settings">Ajustes</string>
     <string name="action_search_hint">Estilos de búsqueda</string>
     <string name="action_info">Acerca de</string>
