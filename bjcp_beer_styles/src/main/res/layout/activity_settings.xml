@@ -14,7 +14,8 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TableRow
             android:layout_width="fill_parent"
@@ -28,29 +29,68 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
-                android:id="@+id/settingUnit"
-                android:text="@string/settings_units"
-                android:textColor="@color/darkTextColor" />
+                android:id="@+id/settingGravity"
+                android:text="@string/settings_gravity"
+                android:textColor="@color/darkTextColor"
+                android:textStyle="bold"/>
 
             <RadioGroup
-                android:id="@+id/radioGroupUnits"
+                android:id="@+id/radioGroupGravity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/imperial"
+                    android:id="@+id/settings_specific_gravity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/settings_imperial" />
+                    android:padding="10dp"
+                    android:text="@string/settings_specific_gravity" />
 
                 <RadioButton
-                    android:id="@+id/metric"
+                    android:id="@+id/settings_plato"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="@string/settings_metric" />
+                    android:padding="10dp"
+                    android:text="@string/settings_plato" />
+            </RadioGroup>
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/settingColor"
+                android:text="@string/settings_color"
+                android:textColor="@color/darkTextColor"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroupColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/settings_srm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/srm" />
+
+                <RadioButton
+                    android:id="@+id/settings_ebc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="@string/ebc" />
             </RadioGroup>
         </TableRow>
     </LinearLayout>

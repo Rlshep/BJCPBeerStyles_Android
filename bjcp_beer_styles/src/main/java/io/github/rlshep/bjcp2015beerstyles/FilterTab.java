@@ -1,8 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +20,7 @@ import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.SearchHelper;
 
 
@@ -171,15 +170,14 @@ public class FilterTab extends Fragment {
     }
 
     private void setupColors(View v) {
-        SharedPreferences sharedPreferences = (v.getContext()).getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         TextView colorText = v.findViewById(R.id.color_text);
         RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
+        PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
 
-        if (MetricConverter.isMetric(sharedPreferences)) {
+        if (preferencesHelper.isEBC()) {
             String[] colorLabels = getResources().getStringArray(R.array.ticks_labels_srm);
 
             for (int i=0; i<colorLabels.length; i++) {
-                System.out.println(i + " orig=" + colorLabels[i] + ", converted=" + MetricConverter.getEBC(Double.parseDouble(colorLabels[i])));
                 colorLabels[i] = (new Integer((int)MetricConverter.getEBC(Double.parseDouble(colorLabels[i])))).toString();
             }
 

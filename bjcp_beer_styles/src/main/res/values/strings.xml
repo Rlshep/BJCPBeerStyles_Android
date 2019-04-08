@@ -45,11 +45,12 @@
     <string name="on_tap_delete">"Successfully removed from Bookmarks"</string>
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="plato">°P</string>
-    <string name="preference_file_key">bjcp_preferences</string>
     <string name="reset">Reset</string>
-    <string name="settings_imperial">Imperial</string>
-    <string name="settings_metric">Metric</string>
-    <string name="settings_units">Units:</string>
+    <string name="settings_color">Color:</string>
+    <string name="settings_gravity">Gravity:</string>
+    <string name="settings_language">Language:</string>
+    <string name="settings_plato">Plato</string>
+    <string name="settings_specific_gravity">SG</string>
     <string name="search">Search</string>
     <string name="srm">SRM</string>
     <string name="title_activity_about">About</string>

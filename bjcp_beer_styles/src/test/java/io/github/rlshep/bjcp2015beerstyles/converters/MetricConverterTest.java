@@ -46,4 +46,5 @@ public class MetricConverterTest {
         assert(MetricConverter.isCountryMetric(""));
         assert(MetricConverter.isCountryMetric(null));
     }
+
 }

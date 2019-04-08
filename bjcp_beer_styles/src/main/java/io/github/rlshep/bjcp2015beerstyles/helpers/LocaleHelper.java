@@ -7,14 +7,17 @@ import android.support.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
-
-import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DEFAULT_COUNTRY;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DEFAULT_LANGUAGE;
 
 public class LocaleHelper {
+
+    public static final String[] ALLOWED_LANGUAGES = {"en", "es"};
+    public static final List allowedLanguages = Arrays.asList(ALLOWED_LANGUAGES);
 
     public String getLanguage(final Context c) {
         String language = DEFAULT_LANGUAGE;
@@ -23,7 +26,7 @@ public class LocaleHelper {
             if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 LocaleList locales = c.getResources().getConfiguration().getLocales();
                 language = getLanguageFromMultipleLocales(locales);
-            } else if (BjcpConstants.allowedLanguages.contains(Locale.getDefault().getLanguage())) {
+            } else if (allowedLanguages.contains(Locale.getDefault().getLanguage())) {
                 language = Locale.getDefault().getLanguage();
             }
         } catch (Exception e) {
@@ -42,7 +45,7 @@ public class LocaleHelper {
         while (!found && i < locales.size()) {
             String localeLanguage = locales.get(i).getLanguage();
 
-            if (BjcpConstants.allowedLanguages.contains(localeLanguage)) {
+            if (allowedLanguages.contains(localeLanguage)) {
                 language = localeLanguage;
                 found = true;
             }

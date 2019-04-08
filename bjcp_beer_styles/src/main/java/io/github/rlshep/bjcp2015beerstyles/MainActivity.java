@@ -1,7 +1,5 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -19,15 +17,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import org.apache.commons.lang.StringUtils;
-
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
-import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
-import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.SearchHelper;
 import io.github.rlshep.bjcp2015beerstyles.tabs.SlidingTabLayout;
 import io.github.rlshep.bjcp2015beerstyles.view.ArrayAdapterSearchView;
@@ -49,9 +44,10 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         setContentView(R.layout.activity_main);
         validateCorrectDatabaseVersion();
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
+        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
 
         setupToolbar(R.id.tool_bar, "", true, false);
-        setupPreferences();
+        preferencesHelper.setupPreferences();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
@@ -206,20 +202,5 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         }
 
         return sb;
-    }
-
-
-    private void setupPreferences() {
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
-        LocaleHelper lh = new LocaleHelper();
-
-        if (StringUtils.isEmpty(unitsPref)) {
-            if (MetricConverter.isCountryMetric(lh.getCountry(this))) {
-                setUnitPreferences(BjcpConstants.METRIC);
-            } else {
-                setUnitPreferences(BjcpConstants.IMPERIAL);
-            }
-        }
     }
 }

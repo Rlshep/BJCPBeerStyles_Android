@@ -45,12 +45,13 @@
     <string name="on_tap_delete">"Eliminado con éxito de Marcadores"</string>
     <string name="on_tap_empty">"Mantenga presionado cualquier categoría o subcategoría para guardar aquí."</string>
     <string name="plato">°P</string>
-    <string name="preference_file_key">bjcp_preferences</string>
     <string name="reset">Reiniciar</string>
     <string name="search">Buscar</string>
-    <string name="settings_imperial">Imperial</string>
-    <string name="settings_metric">Metricas</string>
-    <string name="settings_units">Unidades:</string>
+    <string name="settings_color">Color:</string>
+    <string name="settings_gravity">Gravedad:</string>
+    <string name="settings_language">Idioma:</string>
+    <string name="settings_plato">Plato</string>
+    <string name="settings_specific_gravity">SG</string>
     <string name="srm">SRM</string>
     <string name="title_activity_about">Acerca de</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>

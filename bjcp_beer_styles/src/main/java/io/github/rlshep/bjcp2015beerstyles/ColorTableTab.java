@@ -1,7 +1,5 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 public class ColorTableTab extends Fragment {
 
@@ -32,9 +31,9 @@ public class ColorTableTab extends Fragment {
     }
 
     private void setupTextValues(View v) {
-        SharedPreferences sharedPreferences = (v.getContext()).getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
 
-        if (MetricConverter.isMetric(sharedPreferences)) {
+        if (preferencesHelper.isEBC()) {
             ((TextView)v.findViewById(R.id.color_amt_1)).setText("EBC " + MetricConverter.getEBC(2));
             ((TextView)v.findViewById(R.id.color_amt_2)).setText("EBC " + MetricConverter.getEBC(4));
             ((TextView)v.findViewById(R.id.color_amt_3)).setText("EBC " + MetricConverter.getEBC(6));

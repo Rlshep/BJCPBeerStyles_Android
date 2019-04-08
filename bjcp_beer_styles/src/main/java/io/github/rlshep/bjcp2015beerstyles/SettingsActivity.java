@@ -1,15 +1,14 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 
-import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 public class SettingsActivity extends BjcpActivity {
+    private PreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +16,7 @@ public class SettingsActivity extends BjcpActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_settings);
 
+        preferencesHelper = new PreferencesHelper(this);
         setupToolbar(R.id.scbToolbar, getString(R.string.title_activity_settings), true, true);
 
         initializeRadioButtons();
@@ -24,37 +24,49 @@ public class SettingsActivity extends BjcpActivity {
     }
 
     private void initializeRadioButtons() {
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String unitsPref = sharedPref.getString(BjcpConstants.UNIT, null); // getting String
-        RadioButton metric = findViewById(R.id.metric);
-        RadioButton imperial = findViewById(R.id.imperial);
+        RadioButton specificGravity = findViewById(R.id.settings_specific_gravity);
+        RadioButton plato = findViewById(R.id.settings_plato);
+        RadioButton srm = findViewById(R.id.settings_srm);
+        RadioButton ebc = findViewById(R.id.settings_ebc);
 
-        if (BjcpConstants.METRIC.equals(unitsPref)) {
-            metric.setChecked(true);
-            imperial.setChecked(false);
-        } else {
-            metric.setChecked(false);
-            imperial.setChecked(true);
-        }
+        specificGravity.setChecked(!preferencesHelper.isPlato());
+        plato.setChecked(preferencesHelper.isPlato());
+        srm.setChecked(!preferencesHelper.isEBC());
+        ebc.setChecked(preferencesHelper.isEBC());
     }
 
     public void addListenerOnButton() {
-        RadioButton metric = findViewById(R.id.metric);
-        RadioButton imperial = findViewById(R.id.imperial);
+        RadioButton specificGravity = findViewById(R.id.settings_specific_gravity);
+        RadioButton plato = findViewById(R.id.settings_plato);
+        RadioButton srm = findViewById(R.id.settings_srm);
+        RadioButton ebc = findViewById(R.id.settings_ebc);
 
-        metric.setOnClickListener(new View.OnClickListener() {
+        specificGravity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUnitPreferences(BjcpConstants.METRIC);
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_GRAVITY, PreferencesHelper.GRAVITY_SPECIFIC);
             }
         });
 
-        imperial.setOnClickListener(new View.OnClickListener() {
+        plato.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUnitPreferences(BjcpConstants.IMPERIAL);
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_GRAVITY, PreferencesHelper.GRAVITY_PLATO);
             }
         });
 
+        srm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_COLOR, PreferencesHelper.COLOR_SRM);
+            }
+        });
+
+        ebc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_COLOR, PreferencesHelper.COLOR_EBC);
+            }
+        });
     }
 }
