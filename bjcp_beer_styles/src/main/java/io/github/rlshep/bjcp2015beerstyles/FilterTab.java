@@ -28,10 +28,11 @@ public class FilterTab extends Fragment {
 
     private VitalStatistics vitalStatistics = new VitalStatistics();
     private ArrayAdapter<String> searchSuggestionAdapter;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.filter_tab, container, false);
+        view = inflater.inflate(R.layout.filter_tab, container, false);
 
         initVitalStatistics();
         setupSearchText(view);
@@ -41,6 +42,15 @@ public class FilterTab extends Fragment {
         setupColors(view);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (null != view) {
+            setupColors(view);
+        }
     }
 
     private void initVitalStatistics() {
@@ -173,17 +183,19 @@ public class FilterTab extends Fragment {
         TextView colorText = v.findViewById(R.id.color_text);
         RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
         PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
+        String[] colorLabels = getResources().getStringArray(R.array.ticks_labels_srm);
 
         if (preferencesHelper.isEBC()) {
-            String[] colorLabels = getResources().getStringArray(R.array.ticks_labels_srm);
-
             for (int i=0; i<colorLabels.length; i++) {
                 colorLabels[i] = (new Integer((int)MetricConverter.getEBC(Double.parseDouble(colorLabels[i])))).toString();
             }
 
             colorText.setText(R.string.ebc);
-            rangebarColor.setTickBottomLabels(colorLabels);
+        } else {
+            colorText.setText(R.string.srm);
         }
+
+        rangebarColor.setTickBottomLabels(colorLabels);
     }
 
     public static void hideSoftKeyboard(Activity activity) {

@@ -20,6 +20,10 @@ public class MetricConverter {
         return (int) Math.round(inSRM * SRM);
     }
 
+    public static double getEBC(String inSRM) {
+        return getEBC((new Double(inSRM)).doubleValue());
+    }
+
     //SRM = EBC / 1.97
     public static double getSRM(double inEBC) {
         return (int) Math.round(inEBC / SRM);

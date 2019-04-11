@@ -45,6 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
                     android:text="@string/settings_specific_gravity" />
 
                 <RadioButton
@@ -52,6 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
                     android:text="@string/settings_plato" />
             </RadioGroup>
         </TableRow>
@@ -83,6 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
                     android:text="@string/srm" />
 
                 <RadioButton
@@ -90,6 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
                     android:text="@string/ebc" />
             </RadioGroup>
         </TableRow>
