@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -60,19 +61,23 @@ public class CategoryBodyActivity extends BjcpActivity {
 
     @Override
     public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
-        boolean eventReturn;
-        boolean eventConsumed = gestureDetector.onTouchEvent(event);
+        boolean eventReturn = true;
 
-        if (eventConsumed) {
-            if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
-                changeCategory(-1);
-            } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
-                changeCategory(1);
+        try {
+            boolean eventConsumed = gestureDetector.onTouchEvent(event);
+
+            if (eventConsumed) {
+                if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
+                    changeCategory(-1);
+                } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
+                    changeCategory(1);
+                }
+            } else {
+                eventReturn = super.dispatchTouchEvent(event);
             }
-
-            eventReturn = true;
-        } else {
-            eventReturn = super.dispatchTouchEvent(event);
+        } catch (IndexOutOfBoundsException e) {
+            // I don't know why this is happening. setSpan out of index.
+            Log.e("CategoryBodyActivity", e.getMessage());
         }
 
         return eventReturn;
@@ -158,7 +163,7 @@ public class CategoryBodyActivity extends BjcpActivity {
 
         return vitals;
     }
-    
+
     private TextView getSrmTextView(String srm, int i) {
         int id = getResources().getIdentifier(srm + i, "id", getPackageName());
         return (TextView) findViewById(id);
@@ -211,10 +216,10 @@ public class CategoryBodyActivity extends BjcpActivity {
         StringBuilder ogVerbiage = new StringBuilder();
         ogVerbiage.append("<br><b>");
         ogVerbiage.append(vitalStatistics.getHeader());
-        ogVerbiage.append(" " );
+        ogVerbiage.append(" ");
         ogVerbiage.append(getString(R.string.og));
         ogVerbiage.append(":</b> ");
-                
+
         if (preferencesHelper.isPlato()) {
             ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgStart()));
             ogVerbiage.append(getString(R.string.plato));
@@ -222,11 +227,11 @@ public class CategoryBodyActivity extends BjcpActivity {
             ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgEnd()));
             ogVerbiage.append(getString(R.string.plato));
         } else {
-             ogVerbiage.append(vitalStatistics.getOgStart());
-             ogVerbiage.append(" - ");
-             ogVerbiage.append(vitalStatistics.getOgEnd());
+            ogVerbiage.append(vitalStatistics.getOgStart());
+            ogVerbiage.append(" - ");
+            ogVerbiage.append(vitalStatistics.getOgEnd());
         }
-        
+
         return ogVerbiage.toString();
     }
 
@@ -235,7 +240,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         StringBuilder fgVerbiage = new StringBuilder();
         fgVerbiage.append("<br><b>");
         fgVerbiage.append(vitalStatistics.getHeader());
-        fgVerbiage.append(" " );
+        fgVerbiage.append(" ");
         fgVerbiage.append(getString(R.string.fg));
         fgVerbiage.append(":</b> ");
 
