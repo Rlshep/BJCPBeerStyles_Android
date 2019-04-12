@@ -34,5 +34,6 @@ public class ColorChartTest extends BJCPTest {
         onView(withId(R.id.pager)).perform(swipeLeft());    // Color Chart
 
         onView(withId(R.id.color_amt_1)).check(matches(Matchers.hasValueEqualTo("SRM")));
+        onView(withId(R.id.color_amt_12)).check(matches(Matchers.hasValueEqualTo("40")));
     }
 }

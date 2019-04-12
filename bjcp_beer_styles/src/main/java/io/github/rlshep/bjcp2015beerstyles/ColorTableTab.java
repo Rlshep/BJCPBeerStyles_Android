@@ -42,32 +42,33 @@ public class ColorTableTab extends Fragment {
 
     private void setupTextValues(View v) {
         PreferencesHelper preferencesHelper = new PreferencesHelper(getActivity());
-        String[] colorLabels = getResources().getStringArray(R.array.ticks_labels_srm);
 
         if (preferencesHelper.isEBC()) {
-            ((TextView)v.findViewById(R.id.color_amt_1)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[0]));
-            ((TextView)v.findViewById(R.id.color_amt_2)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[1]));
-            ((TextView)v.findViewById(R.id.color_amt_3)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[2]));
-            ((TextView)v.findViewById(R.id.color_amt_4)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[3]));
-            ((TextView)v.findViewById(R.id.color_amt_5)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[4]));
-            ((TextView)v.findViewById(R.id.color_amt_6)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[5]));
-            ((TextView)v.findViewById(R.id.color_amt_7)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[6]));
-            ((TextView)v.findViewById(R.id.color_amt_8)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[7]));
-            ((TextView)v.findViewById(R.id.color_amt_9)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[8]));
-            ((TextView)v.findViewById(R.id.color_amt_10)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[9]));
-            ((TextView)v.findViewById(R.id.color_amt_11)).setText(getString(R.string.ebc)  + " " + (int)MetricConverter.getEBC(colorLabels[10]));
+            ((TextView)v.findViewById(R.id.color_amt_1)).setText(getString(R.string.ebc) + " " + MetricConverter.getEBC(2));
+            ((TextView)v.findViewById(R.id.color_amt_2)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(4));
+            ((TextView)v.findViewById(R.id.color_amt_3)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(6));
+            ((TextView)v.findViewById(R.id.color_amt_4)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(9));
+            ((TextView)v.findViewById(R.id.color_amt_5)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(14));
+            ((TextView)v.findViewById(R.id.color_amt_6)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(17));
+            ((TextView)v.findViewById(R.id.color_amt_7)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(18));
+            ((TextView)v.findViewById(R.id.color_amt_8)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(22));
+            ((TextView)v.findViewById(R.id.color_amt_9)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(30));
+            ((TextView)v.findViewById(R.id.color_amt_10)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(35));
+            ((TextView)v.findViewById(R.id.color_amt_11)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(37));
+            ((TextView)v.findViewById(R.id.color_amt_12)).setText(getString(R.string.ebc) + " "+ MetricConverter.getEBC(40));
         } else {
-            ((TextView)v.findViewById(R.id.color_amt_1)).setText(getString(R.string.srm)  + " " + colorLabels[0]);
-            ((TextView)v.findViewById(R.id.color_amt_2)).setText(getString(R.string.srm)  + " " + colorLabels[1]);
-            ((TextView)v.findViewById(R.id.color_amt_3)).setText(getString(R.string.srm)  + " " + colorLabels[2]);
-            ((TextView)v.findViewById(R.id.color_amt_4)).setText(getString(R.string.srm)  + " " + colorLabels[3]);
-            ((TextView)v.findViewById(R.id.color_amt_5)).setText(getString(R.string.srm)  + " " + colorLabels[4]);
-            ((TextView)v.findViewById(R.id.color_amt_6)).setText(getString(R.string.srm)  + " " + colorLabels[5]);
-            ((TextView)v.findViewById(R.id.color_amt_7)).setText(getString(R.string.srm)  + " " + colorLabels[6]);
-            ((TextView)v.findViewById(R.id.color_amt_8)).setText(getString(R.string.srm)  + " " + colorLabels[7]);
-            ((TextView)v.findViewById(R.id.color_amt_9)).setText(getString(R.string.srm)  + " " + colorLabels[8]);
-            ((TextView)v.findViewById(R.id.color_amt_10)).setText(getString(R.string.srm)  + " " + colorLabels[9]);
-            ((TextView)v.findViewById(R.id.color_amt_11)).setText(getString(R.string.srm)  + " " + colorLabels[10]);
+            ((TextView)v.findViewById(R.id.color_amt_1)).setText(getString(R.string.srm)  + " 2" );
+            ((TextView)v.findViewById(R.id.color_amt_2)).setText(getString(R.string.srm)  + " 4");
+            ((TextView)v.findViewById(R.id.color_amt_3)).setText(getString(R.string.srm)  + " 6");
+            ((TextView)v.findViewById(R.id.color_amt_4)).setText(getString(R.string.srm)  + " 9");
+            ((TextView)v.findViewById(R.id.color_amt_5)).setText(getString(R.string.srm)  + " 14");
+            ((TextView)v.findViewById(R.id.color_amt_6)).setText(getString(R.string.srm)  + " 17");
+            ((TextView)v.findViewById(R.id.color_amt_7)).setText(getString(R.string.srm)  + " 18");
+            ((TextView)v.findViewById(R.id.color_amt_8)).setText(getString(R.string.srm)  + " 22");
+            ((TextView)v.findViewById(R.id.color_amt_9)).setText(getString(R.string.srm)  + " 30");
+            ((TextView)v.findViewById(R.id.color_amt_10)).setText(getString(R.string.srm)  + " 35");
+            ((TextView)v.findViewById(R.id.color_amt_11)).setText(getString(R.string.srm)  + " 37");
+            ((TextView)v.findViewById(R.id.color_amt_12)).setText(getString(R.string.srm) + " 40");
         }
     }
 }

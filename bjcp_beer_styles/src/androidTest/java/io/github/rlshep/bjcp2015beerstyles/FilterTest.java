@@ -35,16 +35,4 @@ public class FilterTest extends BJCPTest {
         onView(withId(R.id.abv_text)).check(matches(Matchers.hasValueEqualTo("ABV")));
         onView(withId(R.id.color_text)).check(matches(Matchers.hasValueEqualTo("SRM")));
     }
-//
-//    @Test
-//    public void testReset() {
-//        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(longClick());
-//        onView(withId(R.id.pager)).perform(swipeLeft());    // Bookmarks
-//        onView(withId(R.id.pager)).perform(swipeLeft());    // Color Chart
-//        onView(withId(R.id.pager)).perform(swipeLeft());    // Filter
-//
-//        onView(withId(R.id.rangebar_ibu)).perform(swipeRight());
-//
-//        onView(withId(R.id.filterReset)).perform(click());
-//    }
 }
