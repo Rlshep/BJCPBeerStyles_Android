@@ -111,7 +111,8 @@ public class SearchResultsActivity extends BjcpActivity {
         Collections.sort(categories);
 
         for (Category category : categories) {
-            if (!StringUtils.isEmpty(searchedText) && category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
+            if (!StringUtils.isEmpty(searchedText)
+                    && category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
                 sorted.add(category);
             } else if (category.getCategoryCode().startsWith("I")) {
                 catIntros.add(category);
@@ -130,7 +131,7 @@ public class SearchResultsActivity extends BjcpActivity {
     }
 
     private List<SearchResult> getSearchResults(String searchedText, String vitalsQuery) {
-        List<SearchResult> searchResults = new ArrayList<>();
+        List<SearchResult> searchResults;
 
         if (!StringUtils.isEmpty(searchedText) && !StringUtils.isEmpty(vitalsQuery)) {  // Only what is in both keyword and vitals
             List<SearchResult> keywordResults = BjcpDataHelper.getInstance(this).search(StringFormatter.addDoubleSingleQuotes(searchedText));
