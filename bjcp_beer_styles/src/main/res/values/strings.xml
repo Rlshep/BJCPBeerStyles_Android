@@ -37,6 +37,7 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Ending S R M equal to </string>
     <string name="fg">FG</string>
+    <string name="header_vitals">Vital Statistics</string>
     <string name="ibu">IBU</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>

@@ -36,9 +36,8 @@ public class SearchEsTest extends BJCPTest {
     public static final String KOLSCH = "Kolsch";
     public static final String KOLSCH_ACTUAL = "Kölsch";
     public static final String PREPRO = "Pre-Prohibicion";
-    public static final String PREPRO_EN = "Pre-Prohibition";
     public static final String PREPRO_ACTUAL = "Pre-Prohibición";
-
+    public static final String TRADITIONAL = "estilo-tradicional";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
@@ -152,5 +151,14 @@ public class SearchEsTest extends BJCPTest {
         // Click on first result Sweet Stout
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(ESPRESSO)));
+    }
+
+    @Test
+    public void searchText_return_tag() {
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(TRADITIONAL), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(1).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(TRADITIONAL)));
     }
 }

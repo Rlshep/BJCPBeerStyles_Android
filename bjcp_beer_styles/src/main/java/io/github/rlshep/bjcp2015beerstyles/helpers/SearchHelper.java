@@ -14,6 +14,7 @@ public class SearchHelper {
 
         searchKeywords.addAll(bjcpDataHelper.getAllCategoryNames());
         searchKeywords.addAll(bjcpDataHelper.getAllSynonyms());
+        searchKeywords.addAll(bjcpDataHelper.getAllTags());
 
         String[] stringArray = Arrays.copyOf(searchKeywords.toArray(), searchKeywords.toArray().length, String[].class);
 

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
@@ -20,6 +22,7 @@ import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
+import io.github.rlshep.bjcp2015beerstyles.domain.Tag;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
@@ -30,9 +33,12 @@ import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 public class CategoryBodyActivity extends BjcpActivity {
 
     private static final String SRM_PREFIX = "srm_";
+    private static final String DELIM = ", ";
     private GestureDetector gestureDetector;
     private String categoryId = "";
     private PreferencesHelper preferencesHelper;
+    private NumberFormat gravityFormatter = new DecimalFormat("#0.000");
+    private NumberFormat platoFormatter = new DecimalFormat("#0.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,10 +119,13 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setMainText(String searchedText, List<VitalStatistics> vitalStatisticses) {
-        String text = getSectionsBody(categoryId) + getVitalStatistics(vitalStatisticses);
+        StringBuilder text = new StringBuilder();
+        text.append(getSectionsBody(categoryId));
+        text.append(getTags(categoryId));
+        text.append(getVitalStatistics(vitalStatisticses));
 
         TextView sectionsTextView = findViewById(R.id.sectionsText);
-        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text, searchedText)));
+        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text.toString(), searchedText)));
         sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
     }
 
@@ -124,6 +133,21 @@ public class CategoryBodyActivity extends BjcpActivity {
         String body = "";
         for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
             body += section.getBody();
+        }
+
+        return body;
+    }
+
+    private String getTags(String categoryId) {
+        String body = "";
+        List<Tag> tags = BjcpDataHelper.getInstance(this).getTags(categoryId);
+
+        for (int i=0; i<tags.size(); i++) {
+            body += tags.get(i).getTag();
+
+            if (i != (tags.size() - 1)) {
+                body += DELIM;
+            }
         }
 
         return body;
@@ -144,24 +168,40 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private String getVitalStatistics(List<VitalStatistics> vitalStatisticses) {
-        String vitals = "";
+        StringBuilder vitals = new StringBuilder();
+
+        if (0 < vitalStatisticses.size()) {
+            vitals.append("<br/><br/><big><b>");
+            vitals.append(getString(R.string.header_vitals));
+            vitals.append("</b></big>");
+        }
 
         for (VitalStatistics vitalStatistics : vitalStatisticses) {
             if (0 < vitalStatistics.getIbuStart()) {
-                vitals += "<br><b>" + vitalStatistics.getHeader() + " IBUs:</b> " + vitalStatistics.getIbuStart() + " - " + vitalStatistics.getIbuEnd();
+                vitals.append("<br><b>");
+                vitals.append(vitalStatistics.getHeader());
+                vitals.append(" IBUs:</b> ");
+                vitals.append(vitalStatistics.getIbuStart());
+                vitals.append(" - ");
+                vitals.append(vitalStatistics.getIbuEnd());
             }
             if (0 < vitalStatistics.getOgStart()) {
-                vitals += getOgVerbiage(vitalStatistics);
+                vitals.append(getOgVerbiage(vitalStatistics));
             }
             if (0 < vitalStatistics.getFgStart()) {
-                vitals += getFgVerbiage(vitalStatistics);
+                vitals.append(getFgVerbiage(vitalStatistics));
             }
             if (0 < vitalStatistics.getAbvStart()) {
-                vitals += "<br><b>" + vitalStatistics.getHeader() + " ABV:</b> " + vitalStatistics.getAbvStart() + " - " + vitalStatistics.getAbvEnd();
+                vitals.append("<br><b>");
+                vitals.append(vitalStatistics.getHeader());
+                vitals.append(" ABV:</b> ");
+                vitals.append(vitalStatistics.getAbvStart());
+                vitals.append(" - ");
+                vitals.append(vitalStatistics.getAbvEnd());
             }
         }
 
-        return vitals;
+        return vitals.toString();
     }
 
     private TextView getSrmTextView(String srm, int i) {
@@ -227,9 +267,9 @@ public class CategoryBodyActivity extends BjcpActivity {
             ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgEnd()));
             ogVerbiage.append(getString(R.string.plato));
         } else {
-            ogVerbiage.append(vitalStatistics.getOgStart());
+            ogVerbiage.append(gravityFormatter.format(vitalStatistics.getOgStart()));
             ogVerbiage.append(" - ");
-            ogVerbiage.append(vitalStatistics.getOgEnd());
+            ogVerbiage.append(gravityFormatter.format(vitalStatistics.getOgEnd()));
         }
 
         return ogVerbiage.toString();
@@ -251,9 +291,9 @@ public class CategoryBodyActivity extends BjcpActivity {
             fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgEnd()));
             fgVerbiage.append(getString(R.string.plato));
         } else {
-            fgVerbiage.append(vitalStatistics.getFgStart());
+            fgVerbiage.append(gravityFormatter.format(vitalStatistics.getFgStart()));
             fgVerbiage.append(" - ");
-            fgVerbiage.append(vitalStatistics.getFgEnd());
+            fgVerbiage.append(gravityFormatter.format(vitalStatistics.getFgEnd()));
         }
 
         return fgVerbiage.toString();

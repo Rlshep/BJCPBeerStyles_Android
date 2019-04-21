@@ -37,6 +37,7 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Finalizando S R M igual a </string>
     <string name="fg">FG</string>
+    <string name="header_vitals">Estadísticas Vitales</string>
     <string name="ibu">IBU</string>
     <string name="no_search_results">No se han encontrado resultados</string>
     <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
