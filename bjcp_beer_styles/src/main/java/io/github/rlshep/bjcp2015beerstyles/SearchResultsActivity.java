@@ -56,7 +56,7 @@ public class SearchResultsActivity extends BjcpActivity {
             searchedText = searchResult.getQuery();
 
             if (BjcpContract.TABLE_CATEGORY.equalsIgnoreCase(searchResult.getTableName())) {
-                categoryIds.add(searchResult.getResultId());
+               categoryIds.add(searchResult.getResultId());
             }
         }
 

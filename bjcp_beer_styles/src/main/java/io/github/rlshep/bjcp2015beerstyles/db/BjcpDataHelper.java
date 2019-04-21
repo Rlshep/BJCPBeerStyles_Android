@@ -15,7 +15,8 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
 
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_CATEGORY;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.*;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.*;
 
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
@@ -105,7 +106,7 @@ public class BjcpDataHelper extends BaseDataHelper {
         List<Section> sections = new ArrayList<Section>();
         Section section;
 
-        String query = "SELECT S." + BjcpContract.COLUMN_ID + ", S." + BjcpContract.COLUMN_BODY + ", S." + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_SECTION + " S WHERE S." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId + " ORDER BY S." + BjcpContract.COLUMN_ORDER;
+        String query = "SELECT S." + BjcpContract.COLUMN_ID + ", S." + BjcpContract.COLUMN_BODY + ", S." + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_SECTION + " S WHERE S." + COLUMN_CAT_ID + " = " + categoryId + " ORDER BY S." + BjcpContract.COLUMN_ORDER;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -145,7 +146,7 @@ public class BjcpDataHelper extends BaseDataHelper {
         List<VitalStatistics> vitalStatisticses = new ArrayList<>();
         VitalStatistics vitalStatistics;
 
-        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + ", " + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + BjcpContract.COLUMN_CAT_ID + " = " + categoryId;
+        String query = "SELECT V." + BjcpContract.COLUMN_ID + ", V." + BjcpContract.COLUMN_OG_START + ", V." + BjcpContract.COLUMN_OG_END + ", V." + BjcpContract.COLUMN_FG_START + ", V." + BjcpContract.COLUMN_FG_END + ", V." + BjcpContract.COLUMN_IBU_START + ", V." + BjcpContract.COLUMN_IBU_END + ", V." + BjcpContract.COLUMN_SRM_START + ", V." + BjcpContract.COLUMN_SRM_END + ", V." + BjcpContract.COLUMN_ABV_START + ", V." + BjcpContract.COLUMN_ABV_END + ", " + BjcpContract.COLUMN_HEADER + " FROM " + BjcpContract.TABLE_VITALS + " V WHERE V." + COLUMN_CAT_ID + " = " + categoryId;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -203,6 +204,10 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         for (String k : keywords) {
             searchResults.addAll(searchStyles(k));
+
+            if (!DEFAULT_LANGUAGE.equals(lh.getLanguage(this.dbContext))) {
+                searchResults.addAll(searchStylesDefaultLanguage(k));
+            }
         }
 
         return searchResults;
@@ -252,6 +257,28 @@ public class BjcpDataHelper extends BaseDataHelper {
         return searchResults;
     }
 
+    private List<SearchResult> searchStylesDefaultLanguage(String keyword) {
+        SearchResult searchResult;
+        List<SearchResult> searchResults = new ArrayList<>();
+        String query = "SELECT C2." + COLUMN_ID + ", FS." + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " FS JOIN " + TABLE_CATEGORY + " C1 ON C1." + COLUMN_ID + " = FS." + COLUMN_RESULT_ID + " JOIN " + TABLE_CATEGORY + " C2 ON C2." + COLUMN_CATEGORY_CODE + " = C1." + COLUMN_CATEGORY_CODE + " AND C2." + COLUMN_LANG + " = '" + lh.getLanguage(this.dbContext) + "' WHERE FS." + COLUMN_LANG + " = '" + DEFAULT_LANGUAGE + "' AND FS." + COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND FS." + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY C2." + COLUMN_ID;
+
+        Cursor c = getRead().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
+                searchResult = new SearchResult();
+                searchResult.setResultId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+                searchResult.setTableName(c.getString(c.getColumnIndex(COLUMN_TABLE_NAME)));
+                searchResult.setQuery(keyword);
+
+                searchResults.add(searchResult);
+            }
+        }
+
+        c.close();
+
+        return searchResults;
+    }
     public List<String> getAllSynonyms() {
         ArrayList<String> synonyms = new ArrayList<>();
         final String query = "SELECT " + BjcpContract.COLUMN_LEFT + " FROM " + BjcpContract.TABLE_SYNONYMS + " WHERE " + BjcpContract.COLUMN_LANG + " = '" + lh.getLanguage(this.dbContext) + "'";
@@ -295,7 +322,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public String getSearchVitalStatisticsQuery(VitalStatistics vitalStatistics) {
-        return "SELECT V." + BjcpContract.COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_VITALS + " V JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = V." + BjcpContract.COLUMN_CAT_ID + " WHERE V." + BjcpContract.COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + BjcpContract.COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + BjcpContract.COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + BjcpContract.COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + BjcpContract.COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + BjcpContract.COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + BjcpContract.COLUMN_LANG + " = '" + lh.getLanguage(this.dbContext) + "' ORDER BY C." + BjcpContract.COLUMN_ORDER;
+        return "SELECT V." + COLUMN_CAT_ID + " FROM " + BjcpContract.TABLE_VITALS + " V JOIN " + BjcpContract.TABLE_CATEGORY + " C ON C." + BjcpContract.COLUMN_ID + " = V." + COLUMN_CAT_ID + " WHERE V." + BjcpContract.COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + BjcpContract.COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + BjcpContract.COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + BjcpContract.COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + BjcpContract.COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + BjcpContract.COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + BjcpContract.COLUMN_LANG + " = '" + lh.getLanguage(this.dbContext) + "' ORDER BY C." + BjcpContract.COLUMN_ORDER;
     }
 
     public List<SearchResult> searchVitals(String query) {
@@ -305,9 +332,9 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)) != null) {
+            if (c.getString(c.getColumnIndex(COLUMN_CAT_ID)) != null) {
                 searchResult = new SearchResult();
-                searchResult.setResultId(c.getInt(c.getColumnIndex(BjcpContract.COLUMN_CAT_ID)));
+                searchResult.setResultId(c.getInt(c.getColumnIndex(COLUMN_CAT_ID)));
                 searchResult.setTableName(TABLE_CATEGORY);
 
                 searchResults.add(searchResult);

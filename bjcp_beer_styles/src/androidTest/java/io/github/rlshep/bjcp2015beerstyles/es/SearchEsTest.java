@@ -26,14 +26,17 @@ import static org.hamcrest.CoreMatchers.anything;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SearchEsTest extends BJCPTest {
-    public static final String EXPRESSO = "expreso";
+    public static final String ESPRESSO = "expreso";
+    public static final String ESPRESSO_EN = "Espresso";
     public static final String APOSTROPHE_TO_BE_TYPED = "Marston's";
     public static final String EXACT_TO_BE_TYPED = "Fuller's";
     public static final String NEW_ENGLAND_IPA = "IPA Nueva Inglaterra";
+    public static final String NEW_ENGLAND_IPA_EN = "New England IPA";
     public static final String NEW_ENGLAND_IPA_SYNONYM = "IPA Brumoso";
     public static final String KOLSCH = "Kolsch";
     public static final String KOLSCH_ACTUAL = "Kölsch";
     public static final String PREPRO = "Pre-Prohibicion";
+    public static final String PREPRO_EN = "Pre-Prohibition";
     public static final String PREPRO_ACTUAL = "Pre-Prohibición";
 
 
@@ -46,12 +49,12 @@ public class SearchEsTest extends BJCPTest {
 
         // Search for Keyword Espresso
         onView(withId(R.id.action_search)).perform(click());
-        onView(withId(R.id.search_src_text)).perform(typeText(EXPRESSO), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(typeText(ESPRESSO), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(EXPRESSO)));
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(ESPRESSO)));
     }
 
     @Test
@@ -93,6 +96,17 @@ public class SearchEsTest extends BJCPTest {
     }
 
     @Test
+    public void searchText_return_new_england_ipa_en() {
+        setLocale("es", "ES");
+
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_EN), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
+    }
+
+    @Test
     public void searchText_return_hazy_ipa() {
         setLocale("es", "ES");
 
@@ -125,4 +139,18 @@ public class SearchEsTest extends BJCPTest {
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(PREPRO_ACTUAL)));
     }
 
+
+    @Test
+    public void searchText_return_English_search_returns_spanish() {
+        setLocale("es", "ES");
+
+        // Search for Keyword Espresso
+        onView(withId(R.id.action_search)).perform(click());
+        onView(withId(R.id.search_src_text)).perform(typeText(ESPRESSO_EN), closeSoftKeyboard());
+        onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+
+        // Click on first result Sweet Stout
+        onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(ESPRESSO)));
+    }
 }
