@@ -330,7 +330,16 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllCategoryNames() {
         ArrayList<String> names = new ArrayList<>();
-        final String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " ORDER BY " + COLUMN_NAME;
+        String language = lh.getLanguage(this.dbContext);
+
+        String query = "SELECT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " IN ('" + language + "'";
+
+        if (!DEFAULT_LANGUAGE.equals(language)) {
+            query += ", '" + DEFAULT_LANGUAGE + "'";
+        } else {
+
+        }
+        query += ") ORDER BY " + COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);

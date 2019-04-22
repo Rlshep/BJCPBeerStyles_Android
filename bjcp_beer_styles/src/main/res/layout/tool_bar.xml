@@ -8,4 +8,5 @@
     app:titleTextColor="@android:color/white"
     app:titleTextAppearance="@style/ToolbarTitle"
     app:editTextColor="@android:color/white"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    app:theme="@style/ToolbarTheme"/>

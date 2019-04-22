@@ -1,4 +1,4 @@
-package io.github.rlshep.bjcp2015beerstyles;
+package io.github.rlshep.bjcp2015beerstyles.en;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.filters.LargeTest;
@@ -9,6 +9,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.rlshep.bjcp2015beerstyles.BJCPTest;
+import io.github.rlshep.bjcp2015beerstyles.MainActivity;
+import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
 import static android.support.test.espresso.Espresso.onData;
