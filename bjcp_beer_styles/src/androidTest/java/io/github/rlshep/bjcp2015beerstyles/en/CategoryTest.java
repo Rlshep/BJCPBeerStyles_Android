@@ -73,4 +73,17 @@ public class CategoryTest extends BJCPTest {
     public void testCategoryMead_en() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 39)));
     }
+
+    @Test
+    public void testKellerBier() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Amber Bitter European Beer", 7)));
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(7).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier", 3)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Pale Kellerbier", 4)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Amber Kellerbier", 5)));
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sommerbier")));
+    }
 }

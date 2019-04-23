@@ -77,4 +77,17 @@ public class CategoryEsTest extends BJCPTest {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Hidromiel Con Especias", 40)));
     }
 
+
+    @Test
+    public void testKellerBier() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cerveza Amarga Ámbar Europea", 7)));
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(7).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier", 3)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Kellerbier Pálida", 4)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Kellerbier Ámbar", 5)));
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sommerbier")));
+    }
 }

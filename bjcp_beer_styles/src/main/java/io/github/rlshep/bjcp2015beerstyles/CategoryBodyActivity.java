@@ -38,7 +38,6 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String categoryId = "";
     private PreferencesHelper preferencesHelper;
     private NumberFormat gravityFormatter = new DecimalFormat("#0.000");
-    private NumberFormat platoFormatter = new DecimalFormat("#0.0");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
