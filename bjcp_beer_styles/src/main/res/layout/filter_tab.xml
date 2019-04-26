@@ -141,7 +141,7 @@
                 app:mrb_rangeBarPaddingBottom="30dp"
                 app:mrb_rangeBar_rounded="true"
                 app:mrb_leftSelectorColor="@color/srm_2"
-                app:mrb_rightSelectorColor="@color/srm_40"
+                app:mrb_rightSelectorColor="@color/srm_41"
                 app:mrb_selectorSize="12dp"
                 app:mrb_temporaryPins="true"
                 app:mrb_tickBottomLabels="@array/ticks_labels_srm"
