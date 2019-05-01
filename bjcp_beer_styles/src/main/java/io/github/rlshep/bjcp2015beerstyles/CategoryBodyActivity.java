@@ -66,7 +66,7 @@ public class CategoryBodyActivity extends BjcpActivity {
 
     @Override
     public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
-        boolean eventReturn = true;
+        boolean eventReturn = false;
 
         try {
             boolean eventConsumed = gestureDetector.onTouchEvent(event);
