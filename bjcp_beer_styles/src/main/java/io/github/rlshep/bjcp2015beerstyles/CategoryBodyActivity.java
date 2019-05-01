@@ -80,7 +80,7 @@ public class CategoryBodyActivity extends BjcpActivity {
             } else {
                 eventReturn = super.dispatchTouchEvent(event);
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             // I don't know why this is happening. setSpan out of index.
             Log.e("CategoryBodyActivity", e.getMessage());
         }

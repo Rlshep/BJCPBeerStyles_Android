@@ -3,6 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -93,26 +94,33 @@ public class CategoryListActivity extends BjcpActivity {
 
     @Override
     public boolean dispatchTouchEvent(@NonNull MotionEvent event) {
-        boolean eventReturn;
-        boolean eventConsumed = gestureDetector.onTouchEvent(event);
-        TextView rowText = (TextView) findViewById(R.id.catSectionText);
+        boolean eventReturn = false;
 
-        if (eventConsumed) {
-            if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
-                changeCategory(-1);
-            } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
-                changeCategory(1);
-            }
+        try {
+            boolean eventConsumed = gestureDetector.onTouchEvent(event);
+            TextView rowText = (TextView) findViewById(R.id.catSectionText);
 
-            eventReturn = true;
-        } else if (rowText.isSelected()) {
-            if (event.equals(MotionEvent.ACTION_DOWN)) {
+            if (eventConsumed) {
+                if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
+                    changeCategory(-1);
+                } else if (GestureListener.SWIPE_RIGHT.equals(GestureListener.currentGesture)) {
+                    changeCategory(1);
+                }
+
                 eventReturn = true;
-            } else {
-                eventReturn = false;
+            } else if (rowText.isSelected()) {
+                if (event.equals(MotionEvent.ACTION_DOWN)) {
+                    eventReturn = true;
+                } else {
+                    eventReturn = false;
+                }
+            }else {
+                eventReturn = super.dispatchTouchEvent(event);
             }
-        }else {
-            eventReturn = super.dispatchTouchEvent(event);
+
+        } catch (Exception e) {
+            // I don't know why this is happening. setSpan out of index.
+            Log.e("CategoryListActivity", e.getMessage());
         }
 
         return eventReturn;
