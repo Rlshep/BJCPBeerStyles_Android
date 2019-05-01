@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.*;
+
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
     public static final String UNIT = "unit";
@@ -24,6 +26,7 @@ public class PreferencesHelper {
 
     private SharedPreferences sharedPref;
     private Activity activity;
+    private LocaleHelper lh = new LocaleHelper();
 
     public PreferencesHelper(Activity a) {
         this.activity = a;
@@ -32,7 +35,7 @@ public class PreferencesHelper {
 
     public void setupPreferences() {
         String unitsPref = sharedPref.getString(UNIT, null); // old generic preference
-        LocaleHelper lh = new LocaleHelper();
+
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
         String languagePref = sharedPref.getString(LANGUAGE, null);
 
@@ -86,6 +89,10 @@ public class PreferencesHelper {
     }
 
     public String getLanguage() {
-        return sharedPref.getString(LANGUAGE, null);
+        if (SPANISH.equals(lh.getLanguage(activity))) {
+            return sharedPref.getString(LANGUAGE, null);
+        } else {
+            return lh.getLanguage(activity);
+        }
     }
 }
