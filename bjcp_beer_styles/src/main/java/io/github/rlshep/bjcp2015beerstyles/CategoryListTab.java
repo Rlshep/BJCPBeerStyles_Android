@@ -20,10 +20,11 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 
 public class CategoryListTab extends Fragment {
+    private View v;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.category_list_tab, container, false);
+        v = inflater.inflate(R.layout.category_list_tab, container, false);
 
         setupCategoryListView(v);
 
@@ -34,6 +35,15 @@ public class CategoryListTab extends Fragment {
     public void onStop() {
         super.onStop();
         BjcpDataHelper.getInstance((BjcpActivity)getActivity()).close();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (null != v) {
+            setupCategoryListView(v);
+        }
     }
 
     private void setupCategoryListView(View view) {

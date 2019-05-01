@@ -53,6 +53,7 @@
     <string name="settings_language">Idioma:</string>
     <string name="settings_plato">Plato</string>
     <string name="settings_specific_gravity">SG</string>
+    <string name="settings_title">Títulos en ingles:</string>
     <string name="srm">SRM</string>
     <string name="title_activity_about">Acerca de</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>

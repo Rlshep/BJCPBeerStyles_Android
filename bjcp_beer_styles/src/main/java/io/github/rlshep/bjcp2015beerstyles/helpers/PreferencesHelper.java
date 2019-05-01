@@ -20,6 +20,7 @@ public class PreferencesHelper {
     public static final String GRAVITY_SPECIFIC = "specific";
     public static final String COLOR_SRM = "srm";
     public static final String COLOR_EBC = "ebc";
+    public static final String LANGUAGE = "language";
 
     private SharedPreferences sharedPref;
     private Activity activity;
@@ -33,6 +34,7 @@ public class PreferencesHelper {
         String unitsPref = sharedPref.getString(UNIT, null); // old generic preference
         LocaleHelper lh = new LocaleHelper();
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
+        String languagePref = sharedPref.getString(LANGUAGE, null);
 
         if (StringUtils.isEmpty(unitsPref) && StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry(activity))) {
@@ -50,6 +52,10 @@ public class PreferencesHelper {
             setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
             setPreferences(UNIT_COLOR, COLOR_SRM);
             setPreferences(UNIT, null);     //invalidate
+        }
+
+        if (StringUtils.isEmpty(languagePref)) {
+            setPreferences(LANGUAGE, lh.getLanguage(activity));
         }
     }
 
@@ -77,5 +83,9 @@ public class PreferencesHelper {
         }
 
         return equal;
+    }
+
+    public String getLanguage() {
+        return sharedPref.getString(LANGUAGE, null);
     }
 }
