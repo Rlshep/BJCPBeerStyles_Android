@@ -63,12 +63,11 @@ public class SearchResultsActivity extends BjcpActivity {
         setListViewCategories(BjcpDataHelper.getInstance(this).getCategoriesByIds(categoryIds), searchedText);
     }
 
-    @SuppressWarnings("unchecked")
     private void setListViewCategories(List<Category> categories, String searchedText) {
         List listItems = getFullList(categories, searchedText);
 
         ListAdapter subCategoryAdapter = new CategoriesListAdapter(this, listItems);
-        ListView listView = (ListView) this.findViewById(R.id.searchResults);
+        ListView listView = this.findViewById(R.id.searchResults);
         listView.setAdapter(subCategoryAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -101,7 +100,6 @@ public class SearchResultsActivity extends BjcpActivity {
     }
 
     // Bringing categories and subcategories who have the search criteria in the name to the top.
-    @SuppressWarnings("unchecked")
     private List sortByPriority(List<Category> categories, String searchedText) {
         List<Category> sorted = new ArrayList<>();
         List<Category> catRemaining = new ArrayList<>();

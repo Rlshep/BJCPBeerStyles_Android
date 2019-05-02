@@ -123,8 +123,8 @@ public class FilterTab extends Fragment {
 
             @Override
             public void onTouchEnded(RangeBar rb) {
-                rb.setSelectorColorLeft(rb.getTickColor(rb.getLeftIndex()));
-                rb.setSelectorColorRight(rb.getTickColor(rb.getRightIndex()));
+                rb.setLeftSelectorColor(rb.getTickColor(rb.getLeftIndex()));
+                rb.setRightSelectorColor(rb.getTickColor(rb.getRightIndex()));
             }
 
             @Override
