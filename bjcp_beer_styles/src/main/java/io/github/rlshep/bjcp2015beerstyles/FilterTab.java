@@ -29,6 +29,8 @@ public class FilterTab extends Fragment {
     private VitalStatistics vitalStatistics = new VitalStatistics();
     private ArrayAdapter<String> searchSuggestionAdapter;
     private View view;
+    private static final double MAX_ABV = 100.0;
+    private static final int MAX_IBU = 200;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -141,6 +143,8 @@ public class FilterTab extends Fragment {
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                updateMaxVitals();
+
                 BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance((BjcpActivity) getActivity());
                 BjcpController.startSearchResultsActivity(getActivity(), editSearch.getText().toString(), bjcpDataHelper.getSearchVitalStatisticsQuery(vitalStatistics));
             }
@@ -203,6 +207,22 @@ public class FilterTab extends Fragment {
 
         if (null != activity && null != activity.getCurrentFocus()) {
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
+     * Adjust search vitals account for higher values than range bar allows.
+     */
+    private void updateMaxVitals() {
+        RangeBar rangeBarIbu = view.findViewById(R.id.rangebar_ibu);
+        RangeBar rangeBarAbv = view.findViewById(R.id.rangebar_abv);
+
+        if (vitalStatistics.getIbuEnd() == Math.round(rangeBarIbu.getTickEnd())) {
+            vitalStatistics.setIbuEnd(MAX_IBU);
+        }
+
+        if (vitalStatistics.getAbvEnd() == Math.round(rangeBarAbv.getTickEnd())) {
+            vitalStatistics.setAbvEnd(MAX_ABV);
         }
     }
 }
