@@ -31,6 +31,7 @@ public class FilterTab extends Fragment {
     private View view;
     private static final double MAX_ABV = 100.0;
     private static final int MAX_IBU = 200;
+    private static final int MAX_SRM = 41;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,11 +58,11 @@ public class FilterTab extends Fragment {
 
     private void initVitalStatistics() {
         vitalStatistics.setAbvStart(0.0);
-        vitalStatistics.setAbvEnd(10);
+        vitalStatistics.setAbvEnd(MAX_ABV);
         vitalStatistics.setIbuStart(0);
-        vitalStatistics.setIbuEnd(100);
-        vitalStatistics.setSrmStart(0);
-        vitalStatistics.setSrmEnd(40);
+        vitalStatistics.setIbuEnd(MAX_IBU);
+        vitalStatistics.setSrmStart(0.0);
+        vitalStatistics.setSrmEnd(MAX_SRM);
     }
 
     private void setupSearchText(View view) {
@@ -216,6 +217,7 @@ public class FilterTab extends Fragment {
     private void updateMaxVitals() {
         RangeBar rangeBarIbu = view.findViewById(R.id.rangebar_ibu);
         RangeBar rangeBarAbv = view.findViewById(R.id.rangebar_abv);
+        RangeBar rangeBarColor = view.findViewById(R.id.rangebar_color);
 
         if (vitalStatistics.getIbuEnd() == Math.round(rangeBarIbu.getTickEnd())) {
             vitalStatistics.setIbuEnd(MAX_IBU);
@@ -223,6 +225,10 @@ public class FilterTab extends Fragment {
 
         if (vitalStatistics.getAbvEnd() == Math.round(rangeBarAbv.getTickEnd())) {
             vitalStatistics.setAbvEnd(MAX_ABV);
+        }
+
+        if (vitalStatistics.getSrmStart() == Math.round(rangeBarColor.getTickStart())) {
+            vitalStatistics.setSrmStart(0.0);
         }
     }
 }
