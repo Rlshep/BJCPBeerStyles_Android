@@ -36,7 +36,7 @@ public class CategoryEsTest extends BJCPTest {
 
     @Test
     public void testCategoryStrongAle_es() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Ale Británica Fuerte", 17)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong British Ale", 17)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(17).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("British Strong Ale: Burton Ale", 2)));
@@ -48,21 +48,21 @@ public class CategoryEsTest extends BJCPTest {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA", 21)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(21).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("IPA Especialidad: IPA Nueva Inglaterra", 8)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Specialty IPA: New England IPA", 8)));
     }
 
     @Test
     public void testCategoryLocal_es() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Estilos Locales", 35)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Local Styles", 35)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(35).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Agrio", 4)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Sour", 4)));
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New Zealand Pilsner", 5)));
     }
 
     @Test
     public void testCategorySaison_es() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Ale Fuerte Belga", 25)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
@@ -74,18 +74,18 @@ public class CategoryEsTest extends BJCPTest {
 
     @Test
     public void testCategoryMead_es() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Hidromiel Con Especias", 40)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 40)));
     }
 
 
     @Test
     public void testKellerBier() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cerveza Amarga Ámbar Europea", 7)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Amber Bitter European Beer", 7)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(7).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier", 3)));
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Kellerbier Pálida", 4)));
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Kellerbier Ámbar", 5)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Pale Kellerbier", 4)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Kellerbier: Amber Kellerbier", 5)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sommerbier")));

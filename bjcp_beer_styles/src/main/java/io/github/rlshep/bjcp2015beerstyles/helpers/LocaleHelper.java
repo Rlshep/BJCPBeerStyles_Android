@@ -14,8 +14,13 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DEFAUL
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.allowedLanguages;
 
 public class LocaleHelper {
+    private Context c;
 
-    public String getLanguage(final Context c) {
+    public LocaleHelper(final Context context) {
+        this.c = context;
+    }
+
+    public String getLanguage() {
         String language = DEFAULT_LANGUAGE;
 
         try {
@@ -52,7 +57,7 @@ public class LocaleHelper {
         return language;
     }
 
-    public String getCountry(final Context c) {
+    public String getCountry() {
         String country = DEFAULT_COUNTRY;
 
         try {

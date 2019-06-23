@@ -29,6 +29,7 @@ public class CategoryListActivity extends BjcpActivity {
     private GestureDetector gestureDetector;
     private String categoryId = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

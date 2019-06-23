@@ -2,6 +2,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -23,7 +24,7 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 
 public class SearchResultsActivity extends BjcpActivity {
-
+    private Parcelable state = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +48,14 @@ public class SearchResultsActivity extends BjcpActivity {
 
         setupToolbar(R.id.srToolbar, title, false, true);
         setListView(getSearchResults(searchedText, vitalsQuery), searchedText);
+    }
+
+    @Override
+    public void onPause() {
+        // Save ListView state @ onPause
+        ListView listView = this.findViewById(R.id.searchResults);
+        state = listView.onSaveInstanceState();
+        super.onPause();
     }
 
     private void setListView(List<SearchResult> searchResults, String searchedText) {
@@ -85,6 +94,11 @@ public class SearchResultsActivity extends BjcpActivity {
                 }
             }
         });
+
+        // Restore previous state (including selected item index and scroll position)
+        if(state != null) {
+            listView.onRestoreInstanceState(state);
+        }
     }
 
     private List getFullList(List<Category> categories, String searchedText) {

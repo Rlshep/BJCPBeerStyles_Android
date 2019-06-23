@@ -2,6 +2,7 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 
 public class CategoryListTab extends Fragment {
     private View v;
+    private Parcelable state = null;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -29,6 +32,14 @@ public class CategoryListTab extends Fragment {
         setupCategoryListView(v);
 
         return v;
+    }
+
+    @Override
+    public void onPause() {
+        // Save ListView state @ onPause
+        ListView categoryListView = v.findViewById(R.id.categoryListView);
+        state = categoryListView.onSaveInstanceState();
+        super.onPause();
     }
 
     @Override
@@ -74,6 +85,11 @@ public class CategoryListTab extends Fragment {
                 return consumed;
             }
         });
+
+        // Restore previous state (including selected item index and scroll position)
+        if(state != null) {
+            categoryListView.onRestoreInstanceState(state);
+        }
     }
 
     private void addAllCategoriesToBookmarked(Category category) {

@@ -8,8 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.*;
-
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
     public static final String UNIT = "unit";
@@ -26,21 +24,21 @@ public class PreferencesHelper {
 
     private SharedPreferences sharedPref;
     private Activity activity;
-    private LocaleHelper lh = new LocaleHelper();
+    private LocaleHelper lh;
 
     public PreferencesHelper(Activity a) {
         this.activity = a;
         this.sharedPref = a.getSharedPreferences(PREFERENCE_FILE_KEY, Context.MODE_PRIVATE);
+        this.lh = new LocaleHelper(this.activity);
     }
 
     public void setupPreferences() {
         String unitsPref = sharedPref.getString(UNIT, null); // old generic preference
 
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
-        String languagePref = sharedPref.getString(LANGUAGE, null);
 
         if (StringUtils.isEmpty(unitsPref) && StringUtils.isEmpty(gravityPref)) {       //First time in
-            if (MetricConverter.isCountryMetric(lh.getCountry(activity))) {
+            if (MetricConverter.isCountryMetric(lh.getCountry())) {
                 setPreferences(UNIT_GRAVITY, GRAVITY_PLATO);
                 setPreferences(UNIT_COLOR, COLOR_EBC);
             } else {
@@ -55,10 +53,6 @@ public class PreferencesHelper {
             setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
             setPreferences(UNIT_COLOR, COLOR_SRM);
             setPreferences(UNIT, null);     //invalidate
-        }
-
-        if (StringUtils.isEmpty(languagePref)) {
-            setPreferences(LANGUAGE, lh.getLanguage(activity));
         }
     }
 
@@ -86,13 +80,5 @@ public class PreferencesHelper {
         }
 
         return equal;
-    }
-
-    public String getLanguage() {
-        if (SPANISH.equals(lh.getLanguage(activity))) {
-            return sharedPref.getString(LANGUAGE, null);
-        } else {
-            return lh.getLanguage(activity);
-        }
     }
 }

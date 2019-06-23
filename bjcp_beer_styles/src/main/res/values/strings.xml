@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">BJCP 2015 Beer Styles v1.2.4</string>
+    <string name="about_version">BJCP 2015 Beer Styles v1.2.5</string>
     <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
