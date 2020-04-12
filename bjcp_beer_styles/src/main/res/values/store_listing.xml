@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title">BJCP 2015 Beer Styles</string>
+    <string name="short_description">A quick reference application to the BJCP 2015 Beer Style Guidelines.</string>
+    <string name="full_description">
+        Application Features
+        &bull;Updated BJCP 2015 Style Guidelines.
+        &bull;Full search capability.
+        &bull;In-line SRM color images.
+        &bull;Ability to bookmark style categories and sub-categories.
+        &bull;Easy swipe navigation between categories and sub-categories.
+        &bull;No ads.
+        &bull;Full Introductions and appendices.
+        &bull;Standalone SRM color chart.
+        &bull;Mead and Cider style guidelines
+
+The 2015 BJCP Style Guidelines are a major revision from the 2008 edition. The goals of the new edition are to better address world beer styles as found in their local markets, keep pace with emerging craft beer market trends, describe historical beers now finding a following, better describe the sensory characteristics of modern brewing ingredients, take advantage of new research and references, and help competition organizers better manage the complexity of their events.
+
+Many new styles have been added, and some existing styles have been divided into multiple categories or simply renamed. The groupings of styles into categories has a new philosophy that groups styles with similar judging characteristics rather than a common heritage or family name. Do not assume that the same primary characteristic (e.g., color, strength, balance, dominant flavor, country of origin) was used to determine each category grouping; the reasoning was more variable and nuanced. Some changes have been made to allow us to be more agile in making future revisions. Finally, we have provided some additional guidance on how to use the guidelines to reduce the potential for misuse that we have observed in past editions.
+
+All style guideline information is Copyright © 2015, BJCP, Inc. Beer Judge Certification Program. Reproduced with permission.
+    </string>
+</resources>

@@ -6,4 +6,4 @@ echo "Change strings.xml about_version"
 echo "update version.properties"
 
 ./gradlew assembleRelease
-./gradlew publishApkRelease
+./gradlew publishReleaseApk
