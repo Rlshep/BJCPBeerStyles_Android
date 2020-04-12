@@ -1,9 +1,17 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RadioButton;
+import android.widget.Spinner;
 
+import java.util.ArrayList;
+import java.util.Locale;
+
+import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
@@ -20,7 +28,9 @@ public class SettingsActivity extends BjcpActivity {
         setupToolbar(R.id.scbToolbar, getString(R.string.title_activity_settings), true, true);
 
         initializeRadioButtons();
+        initializeLangSelection();
         addListenerOnButton();
+        addListenerOnLangSelection();
     }
 
     private void initializeRadioButtons() {
@@ -33,6 +43,22 @@ public class SettingsActivity extends BjcpActivity {
         plato.setChecked(preferencesHelper.isPlato());
         srm.setChecked(!preferencesHelper.isEBC());
         ebc.setChecked(preferencesHelper.isEBC());
+    }
+
+    private void initializeLangSelection() {
+        Spinner lang = findViewById(R.id.settings_lang);
+        BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance(this);
+        ArrayList locales = new ArrayList<Locale>();
+
+        for (String langCode: bjcpDataHelper.getAllLanguages()) {
+            locales.add(new Locale(langCode));
+        }
+
+        LocaleArrayAdapter adapter = new LocaleArrayAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item, locales);
+
+        lang.setAdapter(adapter);
+        lang.setSelection(adapter.getPosition(new Locale(preferencesHelper.getLanguage())));
     }
 
     public void addListenerOnButton() {
@@ -66,6 +92,29 @@ public class SettingsActivity extends BjcpActivity {
             @Override
             public void onClick(View v) {
                 preferencesHelper.setPreferences(PreferencesHelper.UNIT_COLOR, PreferencesHelper.COLOR_EBC);
+            }
+        });
+    }
+
+    public void addListenerOnLangSelection() {
+        Spinner lang = findViewById(R.id.settings_lang);
+        Activity activity = this;
+
+        lang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String language = ((Locale) parent.getItemAtPosition(pos)).getLanguage();
+                if (!language.equals(preferencesHelper.getLanguage())) {
+                    setLocale(language);
+                    Intent refresh = new Intent(activity, SettingsActivity.class);
+                    finish();
+                    startActivity(refresh);
+                    preferencesHelper.setPreferences(preferencesHelper.LANGUAGE, language);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
     }

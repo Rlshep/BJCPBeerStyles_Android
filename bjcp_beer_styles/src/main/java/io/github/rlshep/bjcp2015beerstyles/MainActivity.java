@@ -49,6 +49,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         setupToolbar(R.id.tool_bar, "", true, false);
         preferencesHelper.setupPreferences();
 
+        setLocale(preferencesHelper.getLanguage());
+
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
