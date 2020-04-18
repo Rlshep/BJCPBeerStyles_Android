@@ -109,6 +109,7 @@ public class SettingsActivity extends BjcpActivity {
                     Intent refresh = new Intent(activity, SettingsActivity.class);
                     finish();
                     startActivity(refresh);
+                    setTitle(R.string.app_name);
                     preferencesHelper.setPreferences(preferencesHelper.LANGUAGE, language);
                 }
             }

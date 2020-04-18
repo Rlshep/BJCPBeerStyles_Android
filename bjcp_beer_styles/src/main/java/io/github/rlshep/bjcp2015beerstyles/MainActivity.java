@@ -50,6 +50,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         preferencesHelper.setupPreferences();
 
         setLocale(preferencesHelper.getLanguage());
+        setTitle(R.string.app_name);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
