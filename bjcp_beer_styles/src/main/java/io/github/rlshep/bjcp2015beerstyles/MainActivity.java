@@ -36,6 +36,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     public String[] searchSuggestions;
     private ArrayAdapter<String> searchSuggestionAdapter;
     private Menu menu;
+    private String currentLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +50,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         setupToolbar(R.id.tool_bar, "", true, false);
         preferencesHelper.setupPreferences();
 
-        setLocale(preferencesHelper.getLanguage());
-        setTitle(R.string.app_name);
+        currentLanguage = preferencesHelper.getLanguage();
+        setAppLanguage(currentLanguage);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
@@ -103,6 +104,18 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
+        String appLanguage = preferencesHelper.getLanguage();
+        if (!appLanguage.equals(currentLanguage)) {
+            currentLanguage = appLanguage;
+            setAppLanguage(appLanguage);
+            recreate();
+        }
     }
 
     @Override

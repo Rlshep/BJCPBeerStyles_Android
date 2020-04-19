@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import io.github.rlshep.bjcp2015beerstyles.adapters.LocaleArrayAdapter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
@@ -103,14 +104,11 @@ public class SettingsActivity extends BjcpActivity {
         lang.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String language = ((Locale) parent.getItemAtPosition(pos)).getLanguage();
-                if (!language.equals(preferencesHelper.getLanguage())) {
-                    setLocale(language);
-                    Intent refresh = new Intent(activity, SettingsActivity.class);
-                    finish();
-                    startActivity(refresh);
-                    setTitle(R.string.app_name);
-                    preferencesHelper.setPreferences(preferencesHelper.LANGUAGE, language);
+                String selectedLanguage = ((Locale) parent.getItemAtPosition(pos)).getLanguage();
+                if (!selectedLanguage.equals(preferencesHelper.getLanguage())) {
+                    setAppLanguage(selectedLanguage);
+                    recreate();
+                    preferencesHelper.setPreferences(preferencesHelper.LANGUAGE, selectedLanguage);
                 }
             }
 

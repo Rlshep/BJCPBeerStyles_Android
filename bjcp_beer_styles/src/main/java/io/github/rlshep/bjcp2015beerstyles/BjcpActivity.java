@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Locale;
 
 public abstract class BjcpActivity extends AppCompatActivity {
+    private String currentLanguage;
+
     protected void setupToolbar(int toolBarId, String title, boolean showIcon, boolean showUp) {
         Toolbar toolbar = findViewById(toolBarId);
 
@@ -29,12 +31,13 @@ public abstract class BjcpActivity extends AppCompatActivity {
         }
     }
 
-    protected void setLocale(String lang) {
+    protected void setAppLanguage(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();
         conf.locale = myLocale;
         res.updateConfiguration(conf, dm);
+        setTitle(R.string.app_name);
     }
 }
