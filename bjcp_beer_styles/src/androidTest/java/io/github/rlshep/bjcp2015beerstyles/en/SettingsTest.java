@@ -97,4 +97,21 @@ public class SettingsTest extends BJCPTest {
         onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("22.0")));
 
     }
+
+    @Test
+    public void reset_settings() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingGravity)).check(matches(Matchers.hasValueEqualTo("Gravity:")));
+
+        // Switch back to Specific Gravity
+        onView(withId(R.id.settings_specific_gravity)).perform(click());
+        onView(withId(R.id.settings_srm)).perform(click());
+
+        Espresso.pressBack();
+
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("1.048")));
+        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("22.0")));
+    }
 }

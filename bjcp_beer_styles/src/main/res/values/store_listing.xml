@@ -4,15 +4,15 @@
     <string name="short_description">A quick reference application to the BJCP 2015 Beer Style Guidelines.</string>
     <string name="full_description">
         Application Features
-        &bull;Updated BJCP 2015 Style Guidelines.
-        &bull;Full search capability.
-        &bull;In-line SRM color images.
-        &bull;Ability to bookmark style categories and sub-categories.
-        &bull;Easy swipe navigation between categories and sub-categories.
-        &bull;No ads.
-        &bull;Full Introductions and appendices.
-        &bull;Standalone SRM color chart.
-        &bull;Mead and Cider style guidelines
+        <![CDATA[&bull;]]>Updated BJCP 2015 Style Guidelines.
+        <![CDATA[&bull;]]>Full search capability.
+        <![CDATA[&bull;]]>In-line SRM color images.
+        <![CDATA[&bull;]]>Ability to bookmark style categories and sub-categories.
+        <![CDATA[&bull;]]>Easy swipe navigation between categories and sub-categories.
+        <![CDATA[&bull;]]>No ads.
+        <![CDATA[&bull;]]>Full Introductions and appendices.
+        <![CDATA[&bull;]]>Standalone SRM color chart.
+        <![CDATA[&bull;]]>Mead and Cider style guidelines
 
 The 2015 BJCP Style Guidelines are a major revision from the 2008 edition. The goals of the new edition are to better address world beer styles as found in their local markets, keep pace with emerging craft beer market trends, describe historical beers now finding a following, better describe the sensory characteristics of modern brewing ingredients, take advantage of new research and references, and help competition organizers better manage the complexity of their events.
 
