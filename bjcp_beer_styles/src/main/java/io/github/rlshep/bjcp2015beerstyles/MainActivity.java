@@ -2,9 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.SearchView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.DynamicDrawableSpan;
@@ -16,6 +13,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.viewpager.widget.ViewPager;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.ViewPagerAdapter;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
@@ -46,8 +47,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
         PreferencesHelper preferencesHelper = new PreferencesHelper(this);
 
-        setupToolbar(R.id.tool_bar, "", true, false);
         preferencesHelper.setupPreferences();
+        setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());

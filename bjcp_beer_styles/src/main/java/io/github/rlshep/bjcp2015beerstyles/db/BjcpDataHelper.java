@@ -13,6 +13,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.Tag;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DATABASE_VERSION;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DEFAULT_LANGUAGE;
@@ -52,14 +53,17 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_V
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
     private LocaleHelper lh;
+    private String revision;
 
     private static final String CATEGORY_SELECT = "SELECT " + COLUMN_ID + ", " + COLUMN_CATEGORY_CODE + ", " + COLUMN_NAME + ", " + COLUMN_ORDER + ", " + COLUMN_PARENT_ID + "," + COLUMN_BOOKMARKED + "," + COLUMN_REVISION + "," + COLUMN_LANG + " FROM " + TABLE_CATEGORY + " C ";
-    private static final String CATEGORY_TOP_WHERE = " WHERE " + COLUMN_REVISION + " = " + Category.CURRENT_REVISION;
 
-    protected BjcpDataHelper(BjcpActivity activity) { 
+    protected BjcpDataHelper(BjcpActivity activity) {
         super(activity);
         lh = new LocaleHelper(activity);
+        PreferencesHelper preferencesHelper = new PreferencesHelper(activity);
+        revision = preferencesHelper.getStyleType();
     }
+
 
     // Use the application context, which will ensure that you don't accidentally leak an Activity's context. See this article for more information: http://bit.ly/6LRzfx
     public static synchronized BjcpDataHelper getInstance(BjcpActivity activity) {
@@ -68,13 +72,27 @@ public class BjcpDataHelper extends BaseDataHelper {
         return instance;
     }
 
+    public String getRevision() {
+
+        return revision;
+    }
+
+    public void setRevision(String revision) {
+
+        this.revision = revision;
+    }
+
+    private String getCategoryTopWhere() {
+        return " WHERE " + COLUMN_REVISION + " = '" + revision + "'";
+    }
+
     public Category getCategory(String categoryId) {
         String query = CATEGORY_SELECT + " WHERE " + COLUMN_ID + " = " + categoryId;
         return getCategories(query).get(0);
     }
 
     public List<Category> getAllCategories() {
-        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + COLUMN_PARENT_ID + " IS NULL " + " AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "'ORDER BY " + COLUMN_ORDER;
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL " + " AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "'ORDER BY " + COLUMN_ORDER;
         return getCategories(query);
     }
 
@@ -113,7 +131,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
-                category = new Category();
+                category = new Category(getRevision());
                 category.setId(c.getLong(c.getColumnIndex(COLUMN_ID)));
                 category.setCategoryCode(c.getString(c.getColumnIndex(COLUMN_CATEGORY_CODE)));
                 category.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
@@ -168,7 +186,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getBookmarkedCategories() {
-        String query = CATEGORY_SELECT + CATEGORY_TOP_WHERE + " AND " + COLUMN_BOOKMARKED + " = 1 AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
 
         return getCategories(query);
     }
@@ -268,7 +286,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
+        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
 
         Cursor c = getRead().rawQuery(query, null);
 
@@ -291,7 +309,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStylesDefaultLanguage(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT C2." + COLUMN_ID + ", FS." + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " FS JOIN " + TABLE_CATEGORY + " C1 ON C1." + COLUMN_ID + " = FS." + COLUMN_RESULT_ID + " JOIN " + TABLE_CATEGORY + " C2 ON C2." + COLUMN_CATEGORY_CODE + " = C1." + COLUMN_CATEGORY_CODE + " AND C2." + COLUMN_LANG + " = '" + lh.getLanguage() + "' WHERE FS." + COLUMN_LANG + " = '" + DEFAULT_LANGUAGE + "' AND FS." + COLUMN_REVISION + " = " + Category.CURRENT_REVISION + " AND FS." + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY C2." + COLUMN_ID;
+        String query = "SELECT C2." + COLUMN_ID + ", FS." + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " FS JOIN " + TABLE_CATEGORY + " C1 ON C1." + COLUMN_ID + " = FS." + COLUMN_RESULT_ID + " JOIN " + TABLE_CATEGORY + " C2 ON C2." + COLUMN_CATEGORY_CODE + " = C1." + COLUMN_CATEGORY_CODE + " AND C2." + COLUMN_LANG + " = '" + lh.getLanguage() + "' WHERE FS." + COLUMN_LANG + " = '" + DEFAULT_LANGUAGE + "' AND FS." + COLUMN_REVISION + " = '" + getRevision() + "' AND FS." + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY C2." + COLUMN_ID;
 
         Cursor c = getRead().rawQuery(query, null);
 

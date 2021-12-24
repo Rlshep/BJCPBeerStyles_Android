@@ -1,7 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -10,6 +9,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import org.apache.commons.lang.StringUtils;
 

@@ -5,7 +5,7 @@ import android.content.res.Resources;
 
 import java.util.Locale;
 
-import static android.support.test.InstrumentationRegistry.getContext;
+import static androidx.test.platform.app.InstrumentationRegistry.getContext;
 
 public abstract class BJCPTest {
     protected void setLocale(String language, String country) {

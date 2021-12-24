@@ -1,12 +1,10 @@
 <resources>
-    <string name="about_version">BJCP 2015 Beer Styles v1.2.8</string>
-    <string name="about_bjcp_begin">All style guideline information is Copyright © 2015, BJCP, Inc. </string>
+    <string name="about_version">Beer Style Compendium v1.3.0</string>
+    <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
     <string name="about_author">Application authored by BJCP Certified Judge Richard Sheppard.</string>
-    <string name="about_thanks_begin">Thank you to </string>
-    <string name="about_thanks_mid">Seth Kroger</string>
-    <string name="about_thanks_end"> for providing the formatted XML."</string>
+    <string name="about_ba">2021 Brewers Association Beer Style Guidelines used with permission of Brewers Association.</string>
     <string name="about_report_begin">"Report any bugs or issues to "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>
@@ -19,7 +17,7 @@
     <string name="action_info">About</string>
     <string name="action_delete">Remove</string>
     <string name="action_select_all">Select All</string>
-    <string name="app_name">BJCP 2015 Beer Styles</string>
+    <string name="app_name">Beer Style Compendium</string>
     <string name="beginSrm">Beginning S R M equal to </string>
     <string name="color_amber"><b>Amber</b></string>
     <string name="color_black"><b>Black</b></string>
@@ -53,6 +51,11 @@
     <string name="settings_plato">Plato</string>
     <string name="settings_title">English titles:</string>
     <string name="settings_specific_gravity">SG</string>
+    <string name="settings_guideline_name">Guideline: </string>
+    <string-array name="settings_guidelines">
+        <item>2015 BJCP</item>
+        <item>2021 BA</item>
+    </string-array>
     <string name="search">Search</string>
     <string name="srm">SRM</string>
     <string name="title_activity_about">About</string>

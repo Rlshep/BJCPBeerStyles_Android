@@ -1,12 +1,10 @@
 <resources>
-    <string name="about_version">BJCP 2015 Guía de Estilos de Cerveza v1.2.8</string>
-    <string name="about_bjcp_begin">Toda la información de la guía de estilo es Copyright © 2015, BJCP, Inc. </string>
+    <string name="about_version">Compendio de estilo cervecero v1.3.0</string>
+    <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>
     <string name="about_author">Aplicación creada por el juez certificado BJCP Richard Sheppard.</string>
-    <string name="about_thanks_begin">Gracias a </string>
-    <string name="about_thanks_mid">Seth Kroger</string>
-    <string name="about_thanks_end"> para proporcionar el formato XML."</string>
+    <string name="about_ba">Pautas de estilo de cerveza de la Asociación de Cerveceros de 2021 utilizadas con permiso de la Asociación de Cerveceros.</string>
     <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
     <string name="about_report_end">Repositorio Github."</string>
     <string name="ABV">ABV</string>
@@ -19,7 +17,7 @@
     <string name="action_info">Acerca de</string>
     <string name="action_delete">Acerca de</string>
     <string name="action_select_all">Seleccionar todo</string>
-    <string name="app_name">BJCP 2015 Guía de Estilos de Cerveza</string>
+    <string name="app_name">Compendio de estilo cervecero</string>
     <string name="beginSrm">Comenzando S R M igual a </string>
     <string name="color_straw"><b>Paja</b></string>
     <string name="color_yellow"><b>Amarillo</b></string>
@@ -54,6 +52,11 @@
     <string name="settings_plato">Plato</string>
     <string name="settings_specific_gravity">SG</string>
     <string name="settings_title">Títulos en ingles:</string>
+    <string name="settings_guideline_name">Guía:</string>
+    <string-array name="settings_guidelines">
+        <item>2015 BJCP</item>
+        <item>2021 BA</item>
+    </string-array>
     <string name="srm">SRM</string>
     <string name="title_activity_about">Acerca de</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
