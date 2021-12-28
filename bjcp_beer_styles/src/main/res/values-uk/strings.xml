@@ -8,6 +8,7 @@
     <string name="about_report_begin">"Про помилки повідомляйте "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>
+    <string name="ABW">ABW</string>
     <string name="accessibility_advance_search">Просунутий пошук</string>
     <string name="accessibility_categories">Категорії</string>
     <string name="accessibility_favorites">Улюблене</string>
@@ -35,7 +36,6 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Кінець S R M дорівнює </string>
     <string name="fg">FG</string>
-    <string name="header_vitals">Основні показники</string>
     <string name="ibu">IBU</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
@@ -45,6 +45,7 @@
     <string name="on_tap_empty">"Натисніть і тримайте категорію чи підкатегорію, щоб зберегти."</string>
     <string name="plato">°P</string>
     <string name="reset">Скинути</string>
+    <string name="settings_alcohol">Алкоголь %:</string>
     <string name="settings_color">Колір:</string>
     <string name="settings_gravity">Щільність:</string>
     <string name="settings_language">Мова:</string>
@@ -56,8 +57,12 @@
         <item>2015 BJCP</item>
         <item>2021 BA</item>
     </string-array>
+    <string name="settings_volume">Обсяг</string>
+    <string name="settings_weight">Вага</string>
     <string name="search">Пошук</string>
     <string name="srm">SRM</string>
+    <string name="stats_header">Основні показники</string>
+    <string name="stats_varies">Залежно від стилю</string>
     <string name="title_activity_about">Про</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

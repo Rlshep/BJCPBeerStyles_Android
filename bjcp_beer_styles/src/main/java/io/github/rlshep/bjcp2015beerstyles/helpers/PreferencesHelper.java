@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
 
 public class PreferencesHelper {
@@ -16,10 +17,13 @@ public class PreferencesHelper {
     public static final String UNIT_GRAVITY = "gravity";
     public static final String UNIT_COLOR = "color";
     public static final String UNIT_STYLE_TYPE = "style_type";
+    public static final String UNIT_ALCOHOL = "alcohol";
     public static final String GRAVITY_PLATO = "plato";
     public static final String GRAVITY_SPECIFIC = "specific";
     public static final String COLOR_SRM = "srm";
     public static final String COLOR_EBC = "ebc";
+    public static final String ALCOHOL_ABV = "abv";
+    public static final String ALCOHOL_ABW = "abw";
 
     private final SharedPreferences sharedPref;
     private final Activity activity;
@@ -33,6 +37,7 @@ public class PreferencesHelper {
 
     public void setupPreferences() {
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
+        String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -42,9 +47,12 @@ public class PreferencesHelper {
                 setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
                 setPreferences(UNIT_COLOR, COLOR_SRM);
             }
-        }
 
-        setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
+            setPreferences(UNIT_ALCOHOL, ALCOHOL_ABV);
+        }
+        if (StringUtils.isEmpty(stylePref)) {
+            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
+        }
     }
 
     public void setPreferences(String key, String value) {
@@ -58,9 +66,15 @@ public class PreferencesHelper {
         return isPreferenceEqual(UNIT_COLOR, COLOR_EBC);
     }
 
+    public boolean isSRM() {
+        return isPreferenceEqual(UNIT_COLOR, COLOR_SRM);
+    }
+
     public boolean isPlato() {
         return isPreferenceEqual(UNIT_GRAVITY, GRAVITY_PLATO);
     }
+
+    public boolean isABV() { return isPreferenceEqual(UNIT_ALCOHOL, ALCOHOL_ABV); }
 
     public boolean isPreferenceEqual(String key, String value) {
         boolean equal = false;
@@ -81,5 +95,21 @@ public class PreferencesHelper {
 
     public String getStyleType() {
         return  sharedPref.getString(UNIT_STYLE_TYPE, null);
+    }
+
+    public boolean isBrewersAssociation() {
+        return BA_2021.equals(sharedPref.getString(UNIT_STYLE_TYPE, null));
+    }
+
+    public int getArrayPosition(String[] array, String item) {
+        int i;
+
+        for (i=0; i<array.length; i++) {
+            if (item.equals(array[i])) {
+                return i;
+            }
+        }
+
+        return i;
     }
 }

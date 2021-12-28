@@ -8,6 +8,7 @@
     <string name="about_report_begin">"Report any bugs or issues to "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>
+    <string name="ABW">ABW</string>
     <string name="accessibility_advance_search">Advanced Search</string>
     <string name="accessibility_categories">Categories</string>
     <string name="accessibility_favorites">Favorites</string>
@@ -35,7 +36,6 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Ending S R M equal to </string>
     <string name="fg">FG</string>
-    <string name="header_vitals">Vital Statistics</string>
     <string name="ibu">IBU</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
@@ -45,6 +45,7 @@
     <string name="on_tap_empty">"Press and hold any Category or Sub-Category to save here."</string>
     <string name="plato">°P</string>
     <string name="reset">Reset</string>
+    <string name="settings_alcohol">Alcohol %:</string>
     <string name="settings_color">Color:</string>
     <string name="settings_gravity">Gravity:</string>
     <string name="settings_language">Language:</string>
@@ -56,8 +57,12 @@
         <item>2015 BJCP</item>
         <item>2021 BA</item>
     </string-array>
+    <string name="settings_volume">Volume</string>
+    <string name="settings_weight">Weight</string>
     <string name="search">Search</string>
     <string name="srm">SRM</string>
+    <string name="stats_header">Vital Statistics</string>
+    <string name="stats_varies">Varies with style</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

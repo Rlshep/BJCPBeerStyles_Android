@@ -14,6 +14,7 @@ public class MetricConverter {
     private static final double EBC_B = 1111.14;
     private static final double EBC_C = 630.272;
     private static final double EBC_D = 135.997;
+    private static final double ABW = 0.79336;
 
     //EBC = SRM × 1.97
     public static double getEBC(double inSRM) {
@@ -51,5 +52,11 @@ public class MetricConverter {
         }
 
         return metric;
+    }
+
+    //ABW = ABV * 0.79336
+    public static String getABW(double abv) {
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(abv * ABW);
     }
 }

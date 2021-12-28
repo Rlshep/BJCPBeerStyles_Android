@@ -35,19 +35,26 @@ public class SettingsActivity extends BjcpActivity {
         RadioButton plato = findViewById(R.id.settings_plato);
         RadioButton srm = findViewById(R.id.settings_srm);
         RadioButton ebc = findViewById(R.id.settings_ebc);
+        RadioButton abv = findViewById(R.id.settings_abv);
+        RadioButton abw = findViewById(R.id.settings_abw);
 
         specificGravity.setChecked(!preferencesHelper.isPlato());
         plato.setChecked(preferencesHelper.isPlato());
         srm.setChecked(!preferencesHelper.isEBC());
         ebc.setChecked(preferencesHelper.isEBC());
+        abv.setChecked(preferencesHelper.isABV());
+        abw.setChecked(!preferencesHelper.isABV());
     }
 
     private void initializeSpinners() {
         Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.settings_guidelines, android.R.layout.simple_spinner_item);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.settings_guidelines, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         guideline.setAdapter(adapter);
+
+        String[] values = this.getResources().getStringArray(R.array.settings_guidelines);
+        guideline.setSelection(preferencesHelper.getArrayPosition(values, preferencesHelper.getStyleTypeName()));
     }
 
     private void addListenerOnButton() {
@@ -55,6 +62,8 @@ public class SettingsActivity extends BjcpActivity {
         RadioButton plato = findViewById(R.id.settings_plato);
         RadioButton srm = findViewById(R.id.settings_srm);
         RadioButton ebc = findViewById(R.id.settings_ebc);
+        RadioButton abv = findViewById(R.id.settings_abv);
+        RadioButton abw = findViewById(R.id.settings_abw);
 
         specificGravity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +90,20 @@ public class SettingsActivity extends BjcpActivity {
             @Override
             public void onClick(View v) {
                 preferencesHelper.setPreferences(PreferencesHelper.UNIT_COLOR, PreferencesHelper.COLOR_EBC);
+            }
+        });
+
+        abv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_ALCOHOL, PreferencesHelper.ALCOHOL_ABV);
+            }
+        });
+
+        abw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_ALCOHOL, PreferencesHelper.ALCOHOL_ABW);
             }
         });
     }

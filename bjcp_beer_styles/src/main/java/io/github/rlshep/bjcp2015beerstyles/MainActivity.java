@@ -37,6 +37,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     public String[] searchSuggestions;
     private ArrayAdapter<String> searchSuggestionAdapter;
     private Menu menu;
+    private PreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         setContentView(R.layout.activity_main);
         validateCorrectDatabaseVersion();
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
-        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
+        preferencesHelper = new PreferencesHelper(this);
 
         preferencesHelper.setupPreferences();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
@@ -101,6 +102,12 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
     }
 
     @Override

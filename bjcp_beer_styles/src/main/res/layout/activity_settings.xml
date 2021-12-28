@@ -17,6 +17,47 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+         <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/settingColor"
+                android:text="@string/settings_color"
+                android:textColor="@color/darkTextColor"
+                android:textStyle="bold"/>
+
+            <RadioGroup
+                android:id="@+id/radioGroupColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="right">
+
+                <RadioButton
+                    android:id="@+id/settings_srm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
+                    android:text="@string/srm" />
+
+                <RadioButton
+                    android:id="@+id/settings_ebc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:buttonTint="@color/abvLineColor"
+                    android:text="@string/ebc" />
+            </RadioGroup>
+        </TableRow>
         <TableRow
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -69,33 +110,32 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
-                android:id="@+id/settingColor"
-                android:text="@string/settings_color"
+                android:id="@+id/settingAlcohol"
+                android:text="@string/settings_alcohol"
                 android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <RadioGroup
-                android:id="@+id/radioGroupColor"
+                android:id="@+id/radioGroupAlcohol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="right">
+                android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/settings_srm"
+                    android:id="@+id/settings_abv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:buttonTint="@color/abvLineColor"
-                    android:text="@string/srm" />
+                    android:text="@string/settings_volume" />
 
                 <RadioButton
-                    android:id="@+id/settings_ebc"
+                    android:id="@+id/settings_abw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:buttonTint="@color/abvLineColor"
-                    android:text="@string/ebc" />
+                    android:text="@string/settings_weight" />
             </RadioGroup>
         </TableRow>
         <TableRow
