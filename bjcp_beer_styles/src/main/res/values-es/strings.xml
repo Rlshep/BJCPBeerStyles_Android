@@ -5,6 +5,7 @@
     <string name="about_bjcp_end">Reproducido con permiso.</string>
     <string name="about_author">Aplicación creada por el juez certificado BJCP Richard Sheppard.</string>
     <string name="about_ba">Pautas de estilo de cerveza de la Asociación de Cerveceros de 2021 utilizadas con permiso de la Asociación de Cerveceros.</string>
+    <string name="about_ba_end">Asociación de Cerveceros</string>
     <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
     <string name="about_report_end">Repositorio Github."</string>
     <string name="ABV">ABV</string>

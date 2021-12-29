@@ -5,6 +5,7 @@
     <string name="about_bjcp_end">Використовується за згодою.</string>
     <string name="about_author">Додаток авторизовано суддею BJCP Річардом Шеппардом.</string>
     <string name="about_ba">Рекомендації Асоціації пивоварів 2021 року щодо стилю пива використовуються з дозволу Асоціації пивоварів.</string>
+    <string name="about_ba_end">Асоціація пивоварів</string>
     <string name="about_report_begin">"Про помилки повідомляйте "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>

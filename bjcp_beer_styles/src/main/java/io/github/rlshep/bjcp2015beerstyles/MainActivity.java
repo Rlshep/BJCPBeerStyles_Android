@@ -108,6 +108,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     protected void onResume() {
         super.onResume();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
+        searchSuggestions = new SearchHelper().getSearchSuggestions(this);
     }
 
     @Override

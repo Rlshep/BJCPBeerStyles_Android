@@ -4,7 +4,8 @@
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
     <string name="about_author">Application authored by BJCP Certified Judge Richard Sheppard.</string>
-    <string name="about_ba">2021 Brewers Association Beer Style Guidelines used with permission of Brewers Association.</string>
+    <string name="about_ba">2021 Brewers Association Beer Style Guidelines used with permission of </string>
+    <string name="about_ba_end">Brewers Association</string>
     <string name="about_report_begin">"Report any bugs or issues to "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>

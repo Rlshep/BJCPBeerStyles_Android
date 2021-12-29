@@ -54,6 +54,7 @@ public class FilterTab extends Fragment {
 
         if (null != view) {
             setupColors(view);
+            setupSearchText(view);
         }
     }
 
