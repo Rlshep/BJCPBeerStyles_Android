@@ -123,7 +123,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         int i = 1;
 
         for (VitalStatistics vitalStatistic : vitalStatistics) {
-            if (XML_SRM.equals(vitalStatistic.getHeaderTarget())) {
+            if (XML_SRM.equals(vitalStatistic.getHeaderTarget()) || !preferencesHelper.isBrewersAssociation()) {
                 setColor(vitalStatistic, i);
                 i++;
             }

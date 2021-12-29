@@ -69,7 +69,12 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     // Use the application context, which will ensure that you don't accidentally leak an Activity's context. See this article for more information: http://bit.ly/6LRzfx
     public static synchronized BjcpDataHelper getInstance(BjcpActivity activity) {
-        instance = new BjcpDataHelper(activity);
+        if (null == instance) {
+            instance = new BjcpDataHelper(activity);
+        } else {
+            PreferencesHelper preferencesHelper = new PreferencesHelper(activity);
+            instance.setRevision(preferencesHelper.getStyleType());
+        }
 
         return instance;
     }
@@ -92,7 +97,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getAllCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL " + " AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "'ORDER BY " + getOrderType();
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL "  + " AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "'ORDER BY " + getOrderType();
         return getCategories(query);
     }
 
@@ -186,7 +191,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getBookmarkedCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND "  + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
 
         return getCategories(query);
     }
@@ -266,7 +271,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<String> searchSynonyms(String keyword) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchResult;
-        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -331,7 +336,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
     public List<String> getAllSynonyms() {
         ArrayList<String> synonyms = new ArrayList<>();
-        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "'";
+        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "'";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -351,14 +356,14 @@ public class BjcpDataHelper extends BaseDataHelper {
         ArrayList<String> names = new ArrayList<>();
         String language = lh.getLanguage();
 
-        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " IN ('" + language + "'";
+        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "'";
 
         if (!DEFAULT_LANGUAGE.equals(language)) {
             query += ", '" + DEFAULT_LANGUAGE + "'";
         } else {
 
         }
-        query += ") ORDER BY " + COLUMN_NAME;
+        query += " ORDER BY " + COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -381,7 +386,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public String getSearchVitalStatisticsQuery(VitalStatistics vitalStatistics) {
-        return "SELECT V." + COLUMN_CAT_ID + " FROM " + TABLE_VITALS + " V JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = V." + COLUMN_CAT_ID + " WHERE V." + COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY C." + getOrderType();
+        return "SELECT V." + COLUMN_CAT_ID + " FROM " + TABLE_VITALS + " V JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = V." + COLUMN_CAT_ID + " WHERE V." + COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' ORDER BY C." + getOrderType();
     }
 
     public List<SearchResult> searchVitals(String query) {
@@ -433,7 +438,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllTags() {
         ArrayList<String> tags = new ArrayList<>();
-        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + lh.getLanguage() + "'";
+        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + lh.getLanguage() + "'" + " AND C." + COLUMN_REVISION + " = '" + getRevision() + "'";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
