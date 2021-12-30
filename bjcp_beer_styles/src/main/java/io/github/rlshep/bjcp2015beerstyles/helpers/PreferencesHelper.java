@@ -38,6 +38,7 @@ public class PreferencesHelper {
     public void setupPreferences() {
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
         String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
+        String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -47,9 +48,12 @@ public class PreferencesHelper {
                 setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
                 setPreferences(UNIT_COLOR, COLOR_SRM);
             }
+        }
 
+        if (StringUtils.isEmpty(alcoholPref)) {
             setPreferences(UNIT_ALCOHOL, ALCOHOL_ABV);
         }
+
         if (StringUtils.isEmpty(stylePref)) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
         }

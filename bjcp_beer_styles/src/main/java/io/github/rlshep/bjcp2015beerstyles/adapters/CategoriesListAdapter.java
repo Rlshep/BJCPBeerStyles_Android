@@ -54,7 +54,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
             Category category = (Category) item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
 
-            if (StringUtils.isEmpty(category.getTruncatedCategoryCode())) {
+            if (!StringUtils.isEmpty(category.getTruncatedCategoryCode())) {
                 rowText.setText(category.getTruncatedCategoryCode() + " - " + category.getName());
             } else {
                 rowText.setText(category.getName());

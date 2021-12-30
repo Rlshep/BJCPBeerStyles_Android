@@ -3,9 +3,9 @@ package io.github.rlshep.bjcp2015beerstyles;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import java.util.Locale;
+import androidx.test.platform.app.InstrumentationRegistry;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getContext;
+import java.util.Locale;
 
 public abstract class BJCPTest {
     protected void setLocale(String language, String country) {
@@ -13,7 +13,7 @@ public abstract class BJCPTest {
         // here we update locale for date formatters
         Locale.setDefault(locale);
         // here we update locale for app resources
-        Resources res = getContext().getResources();
+        Resources res = InstrumentationRegistry.getInstrumentation().getTargetContext().getResources();
         Configuration config = res.getConfiguration();
         config.locale = locale;
         res.updateConfiguration(config, res.getDisplayMetrics());

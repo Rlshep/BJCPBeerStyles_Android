@@ -3,6 +3,8 @@ package io.github.rlshep.bjcp2015beerstyles.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,7 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_V
 
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
+    private static final String NULL = "null";
     private LocaleHelper lh;
     private String revision;
 
@@ -138,13 +141,18 @@ public class BjcpDataHelper extends BaseDataHelper {
             if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
                 category = new Category(getRevision());
                 category.setId(c.getLong(c.getColumnIndex(COLUMN_ID)));
-                category.setCategoryCode(c.getString(c.getColumnIndex(COLUMN_CATEGORY_CODE)));
                 category.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                 category.setOrderNumber(c.getInt(c.getColumnIndex(COLUMN_ORDER)));
                 category.setParentId(c.getLong(c.getColumnIndex(COLUMN_PARENT_ID)));
                 category.setBookmarked(c.getInt(c.getColumnIndex(COLUMN_BOOKMARKED)) > 0);
                 category.setRevision(c.getString(c.getColumnIndex(COLUMN_REVISION)));
                 category.setLanguage((c.getString(c.getColumnIndex((COLUMN_LANG)))));
+
+                String categoryCode = c.getString(c.getColumnIndex(COLUMN_CATEGORY_CODE));
+                if (!StringUtils.isEmpty(categoryCode) && !NULL.equals(categoryCode)) {
+                    category.setCategoryCode(categoryCode);
+                }
+
                 categories.add(category);
 
             }
@@ -356,14 +364,7 @@ public class BjcpDataHelper extends BaseDataHelper {
         ArrayList<String> names = new ArrayList<>();
         String language = lh.getLanguage();
 
-        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "'";
-
-        if (!DEFAULT_LANGUAGE.equals(language)) {
-            query += ", '" + DEFAULT_LANGUAGE + "'";
-        } else {
-
-        }
-        query += " ORDER BY " + COLUMN_NAME;
+        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' ORDER BY " + COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);

@@ -28,7 +28,6 @@ import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ColorHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 
 public class CategoryBodyActivity extends BjcpActivity {
@@ -49,7 +48,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         String title = "";
 
         if (extras != null) {
-            if (StringUtils.isEmpty(extras.getString("CATEGORY"))) {
+            if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
                 title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             } else {
                 title = extras.getString("CATEGORY_NAME");
@@ -119,11 +118,12 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setColors() {
+        ColorHelper colorHelper = new ColorHelper(this, categoryId);
         List<VitalStatistics> vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
         int i = 1;
 
         for (VitalStatistics vitalStatistic : vitalStatistics) {
-            if (XML_SRM.equals(vitalStatistic.getHeaderTarget()) || !preferencesHelper.isBrewersAssociation()) {
+            if (colorHelper.isColorAllowed(vitalStatistic)) {
                 setColor(vitalStatistic, i);
                 i++;
             }
@@ -131,12 +131,14 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setColor(VitalStatistics vitalStatistics, int i) {
-        TextView srmText = getSrmTextView("srmText", i);
         ColorHelper colorHelper = new ColorHelper(this, categoryId);
-
-        srmText.setText(Html.fromHtml(colorHelper.getColorVerbiage(vitalStatistics)));
-        srmText.setVisibility(View.VISIBLE);
-        setColorBoxes(vitalStatistics, i);
+        String colorVerbiage = colorHelper.getColorVerbiage(vitalStatistics);
+        if (!StringUtils.isEmpty(colorVerbiage)) {
+            TextView srmText = getSrmTextView("srmText", i);
+            srmText.setText(Html.fromHtml(colorVerbiage));
+            srmText.setVisibility(View.VISIBLE);
+            setColorBoxes(vitalStatistics, i);
+        }
     }
 
 

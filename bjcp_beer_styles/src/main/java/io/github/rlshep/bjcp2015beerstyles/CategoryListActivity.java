@@ -43,7 +43,7 @@ public class CategoryListActivity extends BjcpActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            if (StringUtils.isEmpty(extras.getString("CATEGORY"))) {
+            if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
                 title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
             } else {
                 title = extras.getString("CATEGORY_NAME");

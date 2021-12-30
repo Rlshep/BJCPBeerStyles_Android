@@ -44,11 +44,12 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_main);
-        validateCorrectDatabaseVersion();
-        searchSuggestions = new SearchHelper().getSearchSuggestions(this);
-        preferencesHelper = new PreferencesHelper(this);
 
+        preferencesHelper = new PreferencesHelper(this);
         preferencesHelper.setupPreferences();
+        searchSuggestions = new SearchHelper().getSearchSuggestions(this);
+
+        validateCorrectDatabaseVersion();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.

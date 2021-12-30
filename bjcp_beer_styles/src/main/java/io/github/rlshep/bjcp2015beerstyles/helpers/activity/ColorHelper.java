@@ -1,12 +1,13 @@
 package io.github.rlshep.bjcp2015beerstyles.helpers.activity;
 
+import org.apache.commons.lang.StringUtils;
+
 import io.github.rlshep.bjcp2015beerstyles.CategoryBodyActivity;
 import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 public class ColorHelper {
@@ -38,9 +39,15 @@ public class ColorHelper {
         return colorVerbiage.toString();
     }
 
-    private boolean hasSrmNumeric(VitalStatistics vitalStatistics) {
-        return !ZERO.equals(vitalStatistics.getSrmStart()) || !ZERO.equals(vitalStatistics.getSrmEnd());
+    public boolean isColorAllowed(VitalStatistics vitalStatistic) {
+        return XML_SRM.equals(vitalStatistic.getHeaderTarget()) ||
+                (!preferencesHelper.isBrewersAssociation() && StringUtils.isEmpty(vitalStatistic.getHeader()));
     }
+
+    private boolean hasSrmNumeric(VitalStatistics vitalStatistics) {
+        return ((0.0 != vitalStatistics.getSrmStart()) || (0.0 != vitalStatistics.getSrmEnd()));
+    }
+
 
     private StringBuilder getColorTitle(VitalStatistics vitalStatistics) {
         StringBuilder colorVerbiage = new StringBuilder();
