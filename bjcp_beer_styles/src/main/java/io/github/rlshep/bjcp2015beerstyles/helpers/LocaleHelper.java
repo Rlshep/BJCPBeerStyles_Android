@@ -3,7 +3,7 @@ package io.github.rlshep.bjcp2015beerstyles.helpers;
 import android.content.Context;
 import android.os.Build;
 import android.os.LocaleList;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

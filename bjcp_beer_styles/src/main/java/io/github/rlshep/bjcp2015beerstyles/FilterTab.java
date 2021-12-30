@@ -2,8 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +11,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.appyvet.materialrangebar.RangeBar;
 
@@ -53,6 +54,7 @@ public class FilterTab extends Fragment {
 
         if (null != view) {
             setupColors(view);
+            setupSearchText(view);
         }
     }
 

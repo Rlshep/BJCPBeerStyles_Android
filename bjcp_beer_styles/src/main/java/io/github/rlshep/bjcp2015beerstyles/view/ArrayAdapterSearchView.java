@@ -1,11 +1,12 @@
 package io.github.rlshep.bjcp2015beerstyles.view;
 
 import android.content.Context;
-import android.support.v4.widget.CursorAdapter;
-import android.support.v7.widget.SearchView;
 import android.util.AttributeSet;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.cursoradapter.widget.CursorAdapter;
 
 public class ArrayAdapterSearchView extends SearchView {
 
@@ -22,7 +23,7 @@ public class ArrayAdapterSearchView extends SearchView {
     }
 
     public void initialize() {
-        mSearchAutoComplete = (android.support.v7.widget.SearchView.SearchAutoComplete) findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        mSearchAutoComplete = (androidx.appcompat.widget.SearchView.SearchAutoComplete) findViewById(androidx.appcompat.R.id.search_src_text);
         this.setAdapter(null);
         this.setOnItemClickListener(null);
     }

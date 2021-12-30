@@ -1,13 +1,15 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import org.apache.commons.lang.StringUtils;
 
 public abstract class BjcpActivity extends AppCompatActivity {
+    private Toolbar toolbar;
+
     protected void setupToolbar(int toolBarId, String title, boolean showIcon, boolean showUp) {
-        Toolbar toolbar = findViewById(toolBarId);
+        toolbar = findViewById(toolBarId);
 
         if (!StringUtils.isEmpty(title)) {
             toolbar.setTitle(title);
@@ -22,5 +24,9 @@ public abstract class BjcpActivity extends AppCompatActivity {
         if (showIcon) {
             getSupportActionBar().setIcon(R.drawable.action_icon);
         }
+    }
+
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 }

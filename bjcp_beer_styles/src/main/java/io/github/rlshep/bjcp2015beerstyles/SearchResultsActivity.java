@@ -126,9 +126,9 @@ public class SearchResultsActivity extends BjcpActivity {
             if (!StringUtils.isEmpty(searchedText)
                     && category.getName().toUpperCase().contains(searchedText.toUpperCase())) {
                 sorted.add(category);
-            } else if (category.getCategoryCode().startsWith("I")) {
+            } else if (null != category.getCategoryCode() && category.getCategoryCode().startsWith("I")) {
                 catIntros.add(category);
-            } else if (category.getCategoryCode().startsWith("A")) {
+            } else if (null != category.getCategoryCode() && category.getCategoryCode().startsWith("A")) {
                 catAppendixes.add(category);
             } else {
                 catRemaining.add(category);

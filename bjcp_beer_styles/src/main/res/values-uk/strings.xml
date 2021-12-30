@@ -1,15 +1,15 @@
 <resources>
-    <string name="about_version">Стилевий довідник BJCP 2015 версія 1.2.8</string>
-    <string name="about_bjcp_begin">Авторське право на всі стилеві описи належить BJCP  © 2015, BJCP, Inc. </string>
+    <string name="about_version">Збірник стилів пива 1.3.0</string>
+    <string name="about_bjcp_begin">Авторське право на BJCP стилеві описи належить BJCP  © 2015, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Програма сертифікації пивних суддів.</string>
     <string name="about_bjcp_end">Використовується за згодою.</string>
     <string name="about_author">Додаток авторизовано суддею BJCP Річардом Шеппардом.</string>
-    <string name="about_thanks_begin">Подяки</string>
-    <string name="about_thanks_mid">Сету Крогеру</string>
-    <string name="about_thanks_end"> за форматування XML."</string>
+    <string name="about_ba">Рекомендації Асоціації пивоварів 2021 року щодо стилю пива використовуються з дозволу Асоціації пивоварів.</string>
+    <string name="about_ba_end">Асоціація пивоварів</string>
     <string name="about_report_begin">"Про помилки повідомляйте "</string>
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>
+    <string name="ABW">ABW</string>
     <string name="accessibility_advance_search">Просунутий пошук</string>
     <string name="accessibility_categories">Категорії</string>
     <string name="accessibility_favorites">Улюблене</string>
@@ -19,7 +19,7 @@
     <string name="action_info">Про додаток</string>
     <string name="action_delete">Видалити</string>
     <string name="action_select_all">Обрати все</string>
-    <string name="app_name">Пивні стилі BJCP 2015</string>
+    <string name="app_name">Збірник стилів пива</string>
     <string name="beginSrm">Початок S R M дорівнює </string>
     <string name="color_amber"><b>Бурштиновий</b></string>
     <string name="color_black"><b>Чорний</b></string>
@@ -37,7 +37,6 @@
     <string name="ebc">EBC</string>
     <string name="endSrm">Кінець S R M дорівнює </string>
     <string name="fg">FG</string>
-    <string name="header_vitals">Основні показники</string>
     <string name="ibu">IBU</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
@@ -47,14 +46,24 @@
     <string name="on_tap_empty">"Натисніть і тримайте категорію чи підкатегорію, щоб зберегти."</string>
     <string name="plato">°P</string>
     <string name="reset">Скинути</string>
+    <string name="settings_alcohol">Алкоголь %:</string>
     <string name="settings_color">Колір:</string>
     <string name="settings_gravity">Щільність:</string>
     <string name="settings_language">Мова:</string>
     <string name="settings_plato">Plato</string>
     <string name="settings_title">Англійські назви:</string>
     <string name="settings_specific_gravity">SG</string>
+    <string name="settings_guideline_name">Керівництво:</string>
+    <string-array name="settings_guidelines">
+        <item>2015 BJCP</item>
+        <item>2021 BA</item>
+    </string-array>
+    <string name="settings_volume">Обсяг</string>
+    <string name="settings_weight">Вага</string>
     <string name="search">Пошук</string>
     <string name="srm">SRM</string>
+    <string name="stats_header">Основні показники</string>
+    <string name="stats_varies">Залежно від стилю</string>
     <string name="title_activity_about">Про</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

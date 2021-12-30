@@ -6,25 +6,28 @@ import android.content.SharedPreferences;
 
 import org.apache.commons.lang.StringUtils;
 
+import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
+
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
 
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
-    public static final String UNIT = "unit";
-    private static final String METRIC = "metric";
-    private static final String IMPERIAL = "imperial";
-
     public static final String UNIT_GRAVITY = "gravity";
     public static final String UNIT_COLOR = "color";
+    public static final String UNIT_STYLE_TYPE = "style_type";
+    public static final String UNIT_ALCOHOL = "alcohol";
     public static final String GRAVITY_PLATO = "plato";
     public static final String GRAVITY_SPECIFIC = "specific";
     public static final String COLOR_SRM = "srm";
     public static final String COLOR_EBC = "ebc";
-    public static final String LANGUAGE = "language";
+    public static final String ALCOHOL_ABV = "abv";
+    public static final String ALCOHOL_ABW = "abw";
 
-    private SharedPreferences sharedPref;
-    private Activity activity;
-    private LocaleHelper lh;
+    private final SharedPreferences sharedPref;
+    private final Activity activity;
+    private final LocaleHelper lh;
 
     public PreferencesHelper(Activity a) {
         this.activity = a;
@@ -33,11 +36,11 @@ public class PreferencesHelper {
     }
 
     public void setupPreferences() {
-        String unitsPref = sharedPref.getString(UNIT, null); // old generic preference
-
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
+        String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
+        String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
 
-        if (StringUtils.isEmpty(unitsPref) && StringUtils.isEmpty(gravityPref)) {       //First time in
+        if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
                 setPreferences(UNIT_GRAVITY, GRAVITY_PLATO);
                 setPreferences(UNIT_COLOR, COLOR_EBC);
@@ -45,14 +48,14 @@ public class PreferencesHelper {
                 setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
                 setPreferences(UNIT_COLOR, COLOR_SRM);
             }
-        } else if (!StringUtils.isEmpty(unitsPref) && METRIC.equals(unitsPref)) {       //To convert old generic preferences
-            setPreferences(UNIT_GRAVITY, GRAVITY_PLATO);
-            setPreferences(UNIT_COLOR, COLOR_EBC);
-            setPreferences(UNIT, null);     //invalidate
-        } else if (!StringUtils.isEmpty(unitsPref) && IMPERIAL.equals(unitsPref)) {     //To convert old generic preferences
-            setPreferences(UNIT_GRAVITY, GRAVITY_SPECIFIC);
-            setPreferences(UNIT_COLOR, COLOR_SRM);
-            setPreferences(UNIT, null);     //invalidate
+        }
+
+        if (StringUtils.isEmpty(alcoholPref)) {
+            setPreferences(UNIT_ALCOHOL, ALCOHOL_ABV);
+        }
+
+        if (StringUtils.isEmpty(stylePref)) {
+            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
         }
     }
 
@@ -67,9 +70,15 @@ public class PreferencesHelper {
         return isPreferenceEqual(UNIT_COLOR, COLOR_EBC);
     }
 
+    public boolean isSRM() {
+        return isPreferenceEqual(UNIT_COLOR, COLOR_SRM);
+    }
+
     public boolean isPlato() {
         return isPreferenceEqual(UNIT_GRAVITY, GRAVITY_PLATO);
     }
+
+    public boolean isABV() { return isPreferenceEqual(UNIT_ALCOHOL, ALCOHOL_ABV); }
 
     public boolean isPreferenceEqual(String key, String value) {
         boolean equal = false;
@@ -80,5 +89,31 @@ public class PreferencesHelper {
         }
 
         return equal;
+    }
+
+    public String getStyleTypeName() {
+        String styleTypeValue = sharedPref.getString(UNIT_STYLE_TYPE, null);
+
+        return BjcpConstants.getStyleTypeKeyValue(styleTypeValue);
+    }
+
+    public String getStyleType() {
+        return  sharedPref.getString(UNIT_STYLE_TYPE, null);
+    }
+
+    public boolean isBrewersAssociation() {
+        return BA_2021.equals(sharedPref.getString(UNIT_STYLE_TYPE, null));
+    }
+
+    public int getArrayPosition(String[] array, String item) {
+        int i;
+
+        for (i=0; i<array.length; i++) {
+            if (item.equals(array[i])) {
+                return i;
+            }
+        }
+
+        return i;
     }
 }

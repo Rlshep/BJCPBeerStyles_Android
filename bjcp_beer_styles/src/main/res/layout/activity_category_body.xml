@@ -49,12 +49,12 @@
                 <TableRow android:layout_width="fill_parent">
 
                     <TextView
-                        android:id="@+id/srmTextStart1"
+                        android:id="@+id/srmBoxStart1"
                         android:layout_width="wrap_content"
                         android:layout_height="200dp" />
 
                     <TextView
-                        android:id="@+id/srmTextEnd1"
+                        android:id="@+id/srmBoxEnd1"
                         android:layout_width="wrap_content"
                         android:layout_height="200dp" />
                 </TableRow>
@@ -69,12 +69,12 @@
                 <TableRow android:layout_width="fill_parent">
 
                     <TextView
-                        android:id="@+id/srmTextStart2"
+                        android:id="@+id/srmBoxStart2"
                         android:layout_width="wrap_content"
                         android:layout_height="200dp" />
 
                     <TextView
-                        android:id="@+id/srmTextEnd2"
+                        android:id="@+id/srmBoxEnd2"
                         android:layout_width="wrap_content"
                         android:layout_height="200dp" />
                 </TableRow>

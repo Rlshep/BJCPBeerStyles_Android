@@ -61,7 +61,6 @@ public class Matchers {
                     Category category = (Category) ((ListView) view).getItemAtPosition(i);
 
                     matches = StringUtils.equals(expected, category.getName());
-                    System.out.println("hasListViewEqualTo actual category name: " + category.getName());
                 }
 
                 return matches;

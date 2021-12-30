@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +53,13 @@ public class CategoriesListAdapter extends ArrayAdapter {
         if (item instanceof Category) {
             Category category = (Category) item;
             rowText = (TextView) listRowView.findViewById(R.id.catListText);
-            rowText.setText(category.getTruncatedCategoryCode() + " - " + category.getName());
+
+            if (!StringUtils.isEmpty(category.getTruncatedCategoryCode())) {
+                rowText.setText(category.getTruncatedCategoryCode() + " - " + category.getName());
+            } else {
+                rowText.setText(category.getName());
+            }
+
         } else if (item instanceof String) {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);

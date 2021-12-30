@@ -1,7 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -11,33 +10,33 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import org.apache.commons.lang.StringUtils;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
-import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.Section;
-import io.github.rlshep.bjcp2015beerstyles.domain.Tag;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.activity.CategoryBodyHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ColorHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
+
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
 
 
 public class CategoryBodyActivity extends BjcpActivity {
 
     private static final String SRM_PREFIX = "srm_";
-    private static final String DELIM = ", ";
     private GestureDetector gestureDetector;
     private String categoryId = "";
     private PreferencesHelper preferencesHelper;
-    private NumberFormat gravityFormatter = new DecimalFormat("#0.000");
+    private CategoryBodyHelper categoryBodyHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +45,15 @@ public class CategoryBodyActivity extends BjcpActivity {
         setContentView(R.layout.activity_category_body);
         Bundle extras = getIntent().getExtras();
         String searchedText = "";
+        String title = "";
 
         if (extras != null) {
-            String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
+            if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
+                title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
+            } else {
+                title = extras.getString("CATEGORY_NAME");
+            }
+
             setupToolbar(R.id.scbToolbar, title, false, true);
             categoryId = extras.getString("CATEGORY_ID");
 
@@ -60,6 +65,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         }
 
         preferencesHelper = new PreferencesHelper(this);
+        categoryBodyHelper = new CategoryBodyHelper(this, categoryId);
         setBody(searchedText);
         gestureDetector = new GestureDetector(this, new GestureListener());
     }
@@ -101,106 +107,56 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setBody(String searchedText) {
-        List<VitalStatistics> vitalStatisticses = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
-        setMainText(searchedText, vitalStatisticses);
-        setSrms(vitalStatisticses);
+        setMainText(searchedText);
+        setColors();
     }
 
-    private void setSrms(List<VitalStatistics> vitalStatisticses) {
+    private void setMainText(String searchedText) {
+        TextView sectionsTextView = findViewById(R.id.sectionsText);
+        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(categoryBodyHelper.getMainText(), searchedText)));
+        sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
+    }
+
+    private void setColors() {
+        ColorHelper colorHelper = new ColorHelper(this, categoryId);
+        List<VitalStatistics> vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
         int i = 1;
 
-        for (VitalStatistics vitalStatistics : vitalStatisticses) {
-            if (0 < vitalStatistics.getSrmStart()) {
-                setSrm(vitalStatistics, i);
+        for (VitalStatistics vitalStatistic : vitalStatistics) {
+            if (colorHelper.isColorAllowed(vitalStatistic)) {
+                setColor(vitalStatistic, i);
                 i++;
             }
         }
     }
 
-    private void setMainText(String searchedText, List<VitalStatistics> vitalStatisticses) {
-        StringBuilder text = new StringBuilder();
-        text.append(getSectionsBody(categoryId));
-        text.append(getTags(categoryId));
-        text.append(getVitalStatistics(vitalStatisticses));
-
-        TextView sectionsTextView = findViewById(R.id.sectionsText);
-        sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(text.toString(), searchedText)));
-        sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
+    private void setColor(VitalStatistics vitalStatistics, int i) {
+        ColorHelper colorHelper = new ColorHelper(this, categoryId);
+        String colorVerbiage = colorHelper.getColorVerbiage(vitalStatistics);
+        if (!StringUtils.isEmpty(colorVerbiage)) {
+            TextView srmText = getSrmTextView("srmText", i);
+            srmText.setText(Html.fromHtml(colorVerbiage));
+            srmText.setVisibility(View.VISIBLE);
+            setColorBoxes(vitalStatistics, i);
+        }
     }
 
-    private String getSectionsBody(String categoryId) {
-        String body = "";
-        for (Section section : BjcpDataHelper.getInstance(this).getCategorySections(categoryId)) {
-            body += section.getBody();
+
+    private void setColorBoxes(VitalStatistics vitalStatistics, int i) {
+        TextView srmTextStart = getSrmTextView("srmBoxStart", i);
+        TextView srmTextEnd = getSrmTextView("srmBoxEnd", i);
+        String startSrm = ((Integer) Double.valueOf(Math.floor(vitalStatistics.getSrmStart())).intValue()).toString();
+        String endSrm = ((Integer) Double.valueOf(Math.ceil(vitalStatistics.getSrmEnd())).intValue()).toString();
+
+        if ((null != startSrm) && !ZERO.equals(startSrm)) {
+            srmTextStart.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + startSrm, "color", getPackageName())));
+            srmTextStart.setVisibility(View.VISIBLE);
         }
 
-        return body;
-    }
-
-    private String getTags(String categoryId) {
-        String body = "";
-        List<Tag> tags = BjcpDataHelper.getInstance(this).getTags(categoryId);
-
-        for (int i=0; i<tags.size(); i++) {
-            body += tags.get(i).getTag();
-
-            if (i != (tags.size() - 1)) {
-                body += DELIM;
-            }
+        if ((null != endSrm) && !ZERO.equals(endSrm)) {
+            srmTextEnd.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + endSrm, "color", getPackageName())));
+            srmTextEnd.setVisibility(View.VISIBLE);
         }
-
-        return body;
-    }
-
-    private void setSrm(VitalStatistics vitalStatistics, int i) {
-        TextView srmText = getSrmTextView("srmText", i);
-        TextView srmTextStart = getSrmTextView("srmTextStart", i);
-        TextView srmTextEnd = getSrmTextView("srmTextEnd", i);
-
-        srmText.setText(Html.fromHtml(getColorVerbiage(vitalStatistics)));
-        srmTextStart.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getStartSrm(vitalStatistics), "color", getPackageName())));
-        srmTextEnd.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + getEndSrm(vitalStatistics), "color", getPackageName())));
-
-        srmTextStart.setVisibility(View.VISIBLE);
-        srmTextEnd.setVisibility(View.VISIBLE);
-        srmTextEnd.setVisibility(View.VISIBLE);
-    }
-
-    private String getVitalStatistics(List<VitalStatistics> vitalStatisticses) {
-        StringBuilder vitals = new StringBuilder();
-
-        if (0 < vitalStatisticses.size()) {
-            vitals.append("<br/><br/><big><b>");
-            vitals.append(getString(R.string.header_vitals));
-            vitals.append("</b></big>");
-        }
-
-        for (VitalStatistics vitalStatistics : vitalStatisticses) {
-            if (0 < vitalStatistics.getIbuStart()) {
-                vitals.append("<br><b>");
-                vitals.append(vitalStatistics.getHeader());
-                vitals.append(" IBUs:</b> ");
-                vitals.append(vitalStatistics.getIbuStart());
-                vitals.append(" - ");
-                vitals.append(vitalStatistics.getIbuEnd());
-            }
-            if (0 < vitalStatistics.getOgStart()) {
-                vitals.append(getOgVerbiage(vitalStatistics));
-            }
-            if (0 < vitalStatistics.getFgStart()) {
-                vitals.append(getFgVerbiage(vitalStatistics));
-            }
-            if (0 < vitalStatistics.getAbvStart()) {
-                vitals.append("<br><b>");
-                vitals.append(vitalStatistics.getHeader());
-                vitals.append(" ABV:</b> ");
-                vitals.append(vitalStatistics.getAbvStart());
-                vitals.append(" - ");
-                vitals.append(vitalStatistics.getAbvEnd());
-            }
-        }
-
-        return vitals.toString();
     }
 
     private TextView getSrmTextView(String srm, int i) {
@@ -218,83 +174,5 @@ public class CategoryBodyActivity extends BjcpActivity {
                 BjcpController.loadCategoryBody(this, sc);
             }
         }
-    }
-
-    private String getStartSrm(VitalStatistics vitalStatistics) {
-        return ((Integer) Double.valueOf(Math.floor(vitalStatistics.getSrmStart())).intValue()).toString();
-    }
-
-    private String getEndSrm(VitalStatistics vitalStatistics) {
-        return ((Integer) Double.valueOf(Math.ceil(vitalStatistics.getSrmEnd())).intValue()).toString();
-    }
-
-    private String getColorVerbiage(VitalStatistics vitalStatistics) {
-        StringBuilder colorVerbiage = new StringBuilder();
-        colorVerbiage.append("<b>");
-        colorVerbiage.append(vitalStatistics.getHeader());
-        colorVerbiage.append(" ");
-
-        if (preferencesHelper.isEBC()) {
-            colorVerbiage.append(getString(R.string.ebc));
-            colorVerbiage.append(": </b>");
-            colorVerbiage.append(MetricConverter.getEBC(vitalStatistics.getSrmStart()));
-            colorVerbiage.append(" - ");
-            colorVerbiage.append(MetricConverter.getEBC(vitalStatistics.getSrmEnd()));
-        } else {
-            colorVerbiage.append(getString(R.string.srm));
-            colorVerbiage.append(": </b>");
-            colorVerbiage.append(vitalStatistics.getSrmStart());
-            colorVerbiage.append(" - ");
-            colorVerbiage.append(vitalStatistics.getSrmEnd());
-        }
-
-        return colorVerbiage.toString();
-    }
-
-    private String getOgVerbiage(VitalStatistics vitalStatistics) {
-        StringBuilder ogVerbiage = new StringBuilder();
-        ogVerbiage.append("<br><b>");
-        ogVerbiage.append(vitalStatistics.getHeader());
-        ogVerbiage.append(" ");
-        ogVerbiage.append(getString(R.string.og));
-        ogVerbiage.append(":</b> ");
-
-        if (preferencesHelper.isPlato()) {
-            ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgStart()));
-            ogVerbiage.append(getString(R.string.plato));
-            ogVerbiage.append(" - ");
-            ogVerbiage.append(MetricConverter.getPlato(vitalStatistics.getOgEnd()));
-            ogVerbiage.append(getString(R.string.plato));
-        } else {
-            ogVerbiage.append(gravityFormatter.format(vitalStatistics.getOgStart()));
-            ogVerbiage.append(" - ");
-            ogVerbiage.append(gravityFormatter.format(vitalStatistics.getOgEnd()));
-        }
-
-        return ogVerbiage.toString();
-    }
-
-
-    private String getFgVerbiage(VitalStatistics vitalStatistics) {
-        StringBuilder fgVerbiage = new StringBuilder();
-        fgVerbiage.append("<br><b>");
-        fgVerbiage.append(vitalStatistics.getHeader());
-        fgVerbiage.append(" ");
-        fgVerbiage.append(getString(R.string.fg));
-        fgVerbiage.append(":</b> ");
-
-        if (preferencesHelper.isPlato()) {
-            fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgStart()));
-            fgVerbiage.append(getString(R.string.plato));
-            fgVerbiage.append(" - ");
-            fgVerbiage.append(MetricConverter.getPlato(vitalStatistics.getFgEnd()));
-            fgVerbiage.append(getString(R.string.plato));
-        } else {
-            fgVerbiage.append(gravityFormatter.format(vitalStatistics.getFgStart()));
-            fgVerbiage.append(" - ");
-            fgVerbiage.append(gravityFormatter.format(vitalStatistics.getFgEnd()));
-        }
-
-        return fgVerbiage.toString();
     }
 }

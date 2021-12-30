@@ -2,7 +2,6 @@ package io.github.rlshep.bjcp2015beerstyles;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -12,6 +11,10 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+
+import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +39,16 @@ public class CategoryListActivity extends BjcpActivity {
         Thread.setDefaultUncaughtExceptionHandler(new ExceptionHandler(this));
         setContentView(R.layout.activity_category_list);
         String searchedText = "";
+        String title = "";
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
+            if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
+                title = extras.getString("CATEGORY") + " - " + extras.getString("CATEGORY_NAME");
+            } else {
+                title = extras.getString("CATEGORY_NAME");
+            }
+
             setupToolbar(R.id.sclToolbar, title, false, true);
 
             categoryId = extras.getString("CATEGORY_ID");
