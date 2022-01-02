@@ -17,6 +17,7 @@ public class CategoryBodyHelper {
         this.activity = activity;
         this.categoryId = categoryId;
         this.vitalsHelper = new VitalStatisticsHelper(activity, categoryId);
+
     }
 
     public String getMainText() {
@@ -24,7 +25,7 @@ public class CategoryBodyHelper {
 
         text.append(getSectionsBody());
         text.append(getTags());
-        text.append(vitalsHelper.getVitalStatistics());
+        text.append(vitalsHelper.getMainVitalStatistics());
 
         return text.toString();
     }

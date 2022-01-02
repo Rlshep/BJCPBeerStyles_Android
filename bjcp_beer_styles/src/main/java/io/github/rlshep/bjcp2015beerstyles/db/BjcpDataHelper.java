@@ -13,46 +13,42 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.Tag;
-import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DATABASE_VERSION;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.DEFAULT_LANGUAGE;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_ABV_END;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_ABV_START;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_BODY;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_BOOKMARKED;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_CATEGORY_CODE;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_CAT_ID;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_FG_END;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_FG_START;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_HEADER;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_HEADER_TARGET;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_IBU_END;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_IBU_START;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_HIGH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_ID;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_LANG;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_LEFT;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_LOW;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_NAME;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_OG_END;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_OG_START;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_NOTES;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_ORDER;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_PARENT_ID;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_RESULT_ID;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_REVISION;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_RIGHT;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_SRM_END;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_SRM_START;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_TABLE_NAME;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_TAG;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.COLUMN_TYPE;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_CATEGORY;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_FTS_SEARCH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_SECTION;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_SYNONYMS;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_TAG;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.TABLE_VITALS;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_ABV;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_IBU;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
@@ -204,41 +200,34 @@ public class BjcpDataHelper extends BaseDataHelper {
         return getCategories(query);
     }
 
-    public List<VitalStatistics> getVitalStatistics(String categoryId) {
-        List<VitalStatistics> vitalStatisticses = new ArrayList<>();
-        VitalStatistics vitalStatistics;
+    public List<VitalStatistic> getVitalStatistic(String categoryId) {
+        List<VitalStatistic> vitalStatistics = new ArrayList<>();
+        VitalStatistic vitalStatistic;
 
-        String query = "SELECT V." + COLUMN_ID + ", V." + COLUMN_OG_START + ", V." + COLUMN_OG_END + ", V." + COLUMN_FG_START + ", V." + COLUMN_FG_END + ", V." + COLUMN_IBU_START + ", V." + COLUMN_IBU_END + ", V." + COLUMN_SRM_START + ", V." + COLUMN_SRM_END + ", V." + COLUMN_ABV_START + ", V." + COLUMN_ABV_END + ", " + COLUMN_HEADER + ", " + COLUMN_HEADER_TARGET + " FROM " + TABLE_VITALS + " V WHERE V." + COLUMN_CAT_ID + " = " + categoryId;
+        String query = "SELECT V." + COLUMN_ID + ", V." + COLUMN_LOW + ", V." + COLUMN_HIGH + ", " + COLUMN_HEADER + ", " + COLUMN_TYPE + ", " + COLUMN_NOTES + " FROM " + TABLE_VITALS + " V WHERE V." + COLUMN_CAT_ID + " = " + categoryId + " ORDER BY " + COLUMN_TYPE + ", " + COLUMN_HEADER;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            vitalStatistics = new VitalStatistics();
+            vitalStatistic = new VitalStatistic();
 
             if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
-                vitalStatistics.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-                vitalStatistics.setOgStart(c.getDouble(c.getColumnIndex(COLUMN_OG_START)));
-                vitalStatistics.setOgEnd(c.getDouble(c.getColumnIndex(COLUMN_OG_END)));
-                vitalStatistics.setFgStart(c.getDouble(c.getColumnIndex(COLUMN_FG_START)));
-                vitalStatistics.setFgEnd(c.getDouble(c.getColumnIndex(COLUMN_FG_END)));
-                vitalStatistics.setIbuStart(c.getInt(c.getColumnIndex(COLUMN_IBU_START)));
-                vitalStatistics.setIbuEnd(c.getInt(c.getColumnIndex(COLUMN_IBU_END)));
-                vitalStatistics.setSrmStart(c.getDouble(c.getColumnIndex(COLUMN_SRM_START)));
-                vitalStatistics.setSrmEnd(c.getDouble(c.getColumnIndex(COLUMN_SRM_END)));
-                vitalStatistics.setAbvStart(c.getDouble(c.getColumnIndex(COLUMN_ABV_START)));
-                vitalStatistics.setAbvEnd(c.getDouble(c.getColumnIndex(COLUMN_ABV_END)));
-                vitalStatistics.setHeader(c.getString(c.getColumnIndex(COLUMN_HEADER)));
-                vitalStatistics.setHeaderTarget(c.getString(c.getColumnIndex(COLUMN_HEADER_TARGET)));
+                vitalStatistic.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
+                vitalStatistic.setLow(c.getDouble(c.getColumnIndex(COLUMN_LOW)));
+                vitalStatistic.setHigh(c.getDouble(c.getColumnIndex(COLUMN_HIGH)));
+                vitalStatistic.setHeader(c.getString(c.getColumnIndex(COLUMN_HEADER)));
+                vitalStatistic.setType(c.getString(c.getColumnIndex(COLUMN_TYPE)));
+                vitalStatistic.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
             }
             c.moveToNext();
-            vitalStatisticses.add(vitalStatistics);
+            vitalStatistics.add(vitalStatistic);
         }
 
         c.close();
 
-        return vitalStatisticses;
+        return vitalStatistics;
     }
 
     public void updateCategoryBookmarked(Category category) {
@@ -386,8 +375,28 @@ public class BjcpDataHelper extends BaseDataHelper {
         return (DATABASE_VERSION == getRead().getVersion());
     }
 
-    public String getSearchVitalStatisticsQuery(VitalStatistics vitalStatistics) {
-        return "SELECT V." + COLUMN_CAT_ID + " FROM " + TABLE_VITALS + " V JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = V." + COLUMN_CAT_ID + " WHERE V." + COLUMN_IBU_START + ">=" + vitalStatistics.getIbuStart() + " AND V." + COLUMN_IBU_END + "<=" + vitalStatistics.getIbuEnd() + " AND V." + COLUMN_SRM_START + ">=" + vitalStatistics.getSrmStart() + " AND V." + COLUMN_SRM_END + "<=" + vitalStatistics.getSrmEnd() + " AND V." + COLUMN_ABV_START + ">=" + vitalStatistics.getAbvStart() + " AND V." + COLUMN_ABV_END + "<=" + vitalStatistics.getAbvEnd() + " AND C." + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' ORDER BY C." + getOrderType();
+    public String getSearchVitalStatisticsQuery(List<VitalStatistic> vitalStatistics) {
+        String ibuLow = "";
+        String ibuHigh = "";
+        String srmLow = "";
+        String srmHigh = "";
+        String abvLow = "";
+        String abvHigh = "";
+
+        for (VitalStatistic vitalStatistic : vitalStatistics) {
+            if (XML_IBU.equals(vitalStatistic.getType())) {
+                ibuLow = new Double(vitalStatistic.getLow()).toString();
+                ibuHigh = new Double(vitalStatistic.getHigh()).toString();
+            } else if (XML_SRM.equals(vitalStatistic.getType())) {
+                srmLow = new Double(vitalStatistic.getLow()).toString();
+                srmHigh = new Double(vitalStatistic.getHigh()).toString();
+            } else if (XML_ABV.equals(vitalStatistic.getType())) {
+                abvLow = new Double(vitalStatistic.getLow()).toString();
+                abvHigh = new Double(vitalStatistic.getHigh()).toString();
+            }
+        }
+
+        return "SELECT V." + COLUMN_CAT_ID + " FROM " + TABLE_VITALS + " V JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = V." + COLUMN_CAT_ID + " WHERE (V." + COLUMN_TYPE + " = '" + XML_IBU + "' AND V." + COLUMN_LOW + ">=" + ibuLow + " AND V." + COLUMN_HIGH + "<=" + ibuHigh + ") OR (V." + COLUMN_TYPE + " = '" + XML_SRM + "' AND "  + COLUMN_LOW + ">=" + srmLow + " AND V." + COLUMN_HIGH + "<=" + srmHigh + ") OR (V." + COLUMN_TYPE + " = '" + XML_ABV + "' AND " + COLUMN_LOW+ ">=" + abvLow + " AND V." + COLUMN_HIGH + "<=" + abvHigh + ") AND C." + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' ORDER BY C." + getOrderType();
     }
 
     public List<SearchResult> searchVitals(String query) {

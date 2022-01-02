@@ -17,17 +17,24 @@ import androidx.fragment.app.Fragment;
 
 import com.appyvet.materialrangebar.RangeBar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
-import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.SearchHelper;
+
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_ABV;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_IBU;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 
 public class FilterTab extends Fragment {
 
-    private VitalStatistics vitalStatistics = new VitalStatistics();
+    private List<VitalStatistic> vitalStatistics = new ArrayList<>();
     private ArrayAdapter<String> searchSuggestionAdapter;
     private View view;
     private static final double MAX_ABV = 100.0;
@@ -59,12 +66,23 @@ public class FilterTab extends Fragment {
     }
 
     private void initVitalStatistics() {
-        vitalStatistics.setAbvStart(0.0);
-        vitalStatistics.setAbvEnd(MAX_ABV);
-        vitalStatistics.setIbuStart(0);
-        vitalStatistics.setIbuEnd(MAX_IBU);
-        vitalStatistics.setSrmStart(0.0);
-        vitalStatistics.setSrmEnd(MAX_SRM);
+        VitalStatistic abv = new VitalStatistic();
+        abv.setType(XML_ABV);
+        abv.setLow(0.0);
+        abv.setHigh(MAX_ABV);
+        vitalStatistics.add(abv);
+
+        VitalStatistic ibu = new VitalStatistic();
+        ibu.setType(XML_IBU);
+        ibu.setLow(0);
+        ibu.setHigh(MAX_IBU);
+        vitalStatistics.add(ibu);
+
+        VitalStatistic srm = new VitalStatistic();
+        srm.setType(XML_SRM);
+        srm.setLow(0.0);
+        srm.setHigh(MAX_SRM);
+        vitalStatistics.add(srm);
     }
 
     private void setupSearchText(View view) {
@@ -84,8 +102,8 @@ public class FilterTab extends Fragment {
             @Override
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
-                vitalStatistics.setIbuStart(Integer.parseInt(leftPinValue));
-                vitalStatistics.setIbuEnd(Integer.parseInt(rightPinValue));
+                setVitalLow(XML_IBU, Double.parseDouble(leftPinValue));
+                setVitalHigh(XML_IBU, Double.parseDouble(rightPinValue));
             }
 
             @Override
@@ -101,8 +119,8 @@ public class FilterTab extends Fragment {
             @Override
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
-                vitalStatistics.setAbvStart(Double.parseDouble(leftPinValue));
-                vitalStatistics.setAbvEnd(Double.parseDouble(rightPinValue));
+                setVitalLow(XML_ABV, Double.parseDouble(leftPinValue));
+                setVitalHigh(XML_ABV, Double.parseDouble(rightPinValue));
             }
 
             @Override
@@ -120,8 +138,8 @@ public class FilterTab extends Fragment {
             public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
                                               int rightPinIndex, String leftPinValue, String rightPinValue) {
 
-                vitalStatistics.setSrmStart(Double.parseDouble(leftPinValue));
-                vitalStatistics.setSrmEnd(Double.parseDouble(rightPinValue));
+                setVitalLow(XML_SRM, Double.parseDouble(leftPinValue));
+                setVitalHigh(XML_SRM, Double.parseDouble(rightPinValue));
             }
 
             @Override
@@ -194,7 +212,7 @@ public class FilterTab extends Fragment {
 
         if (preferencesHelper.isEBC()) {
             for (int i=0; i<colorLabels.length; i++) {
-                colorLabels[i] = (new Integer((int)MetricConverter.getEBC(Double.parseDouble(colorLabels[i])))).toString();
+                colorLabels[i] = (Integer.valueOf((int)MetricConverter.getEBC(Double.parseDouble(colorLabels[i])))).toString();
             }
 
             colorText.setText(R.string.ebc);
@@ -208,7 +226,7 @@ public class FilterTab extends Fragment {
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
 
-        if (null != activity && null != activity.getCurrentFocus()) {
+        if (null != activity.getCurrentFocus()) {
             inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
         }
     }
@@ -221,16 +239,44 @@ public class FilterTab extends Fragment {
         RangeBar rangeBarAbv = view.findViewById(R.id.rangebar_abv);
         RangeBar rangeBarColor = view.findViewById(R.id.rangebar_color);
 
-        if (vitalStatistics.getIbuEnd() == Math.round(rangeBarIbu.getTickEnd())) {
-            vitalStatistics.setIbuEnd(MAX_IBU);
+        for (VitalStatistic vitalStatistic : vitalStatistics) {
+            if (XML_IBU.equals(vitalStatistic.getType())) {
+                if (vitalStatistic.getHigh() == Math.round(rangeBarIbu.getTickEnd())) {
+                    vitalStatistic.setHigh(MAX_IBU);
+                }
+            } else if (XML_ABV.equals(vitalStatistic.getType())) {
+                if (vitalStatistic.getHigh() == Math.round(rangeBarAbv.getTickEnd())) {
+                    vitalStatistic.setHigh(MAX_ABV);
+                }
+            } else if (XML_SRM.equals(vitalStatistic.getType())) {
+                if (vitalStatistic.getLow() == Math.round(rangeBarColor.getTickStart())) {
+                    vitalStatistic.setHigh(MAX_IBU);
+                }
+            }
         }
+    }
 
-        if (vitalStatistics.getAbvEnd() == Math.round(rangeBarAbv.getTickEnd())) {
-            vitalStatistics.setAbvEnd(MAX_ABV);
+    private void setVitalLow(String type, double value) {
+        for (VitalStatistic vitalStatistic : vitalStatistics) {
+            if (XML_IBU.equals(type)) {
+                vitalStatistic.setLow(value);
+            } else if (XML_ABV.equals(type)) {
+                vitalStatistic.setLow(value);
+            } else if (XML_SRM.equals(type)) {
+                vitalStatistic.setLow(value);
+            }
         }
+    }
 
-        if (vitalStatistics.getSrmStart() == Math.round(rangeBarColor.getTickStart())) {
-            vitalStatistics.setSrmStart(0.0);
+    private void setVitalHigh(String type, double value) {
+        for (VitalStatistic vitalStatistic : vitalStatistics) {
+            if (XML_IBU.equals(type)) {
+                vitalStatistic.setHigh(value);
+            } else if (XML_ABV.equals(type)) {
+                vitalStatistic.setHigh(value);
+            } else if (XML_SRM.equals(type)) {
+                vitalStatistic.setHigh(value);
+            }
         }
     }
 }
