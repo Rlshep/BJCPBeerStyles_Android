@@ -9,8 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
 
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
@@ -55,7 +54,7 @@ public class PreferencesHelper {
         }
 
         if (StringUtils.isEmpty(stylePref)) {
-            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
+            setPreferences(UNIT_STYLE_TYPE, BJCP_2021);
         }
     }
 
@@ -99,10 +98,6 @@ public class PreferencesHelper {
 
     public String getStyleType() {
         return  sharedPref.getString(UNIT_STYLE_TYPE, null);
-    }
-
-    public boolean isBrewersAssociation() {
-        return BA_2021.equals(sharedPref.getString(UNIT_STYLE_TYPE, null));
     }
 
     public int getArrayPosition(String[] array, String item) {

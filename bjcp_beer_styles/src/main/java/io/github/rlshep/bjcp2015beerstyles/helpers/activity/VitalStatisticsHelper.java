@@ -14,6 +14,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_ABV;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_ALL;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_FG;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_IBU;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_OG;
@@ -47,14 +48,18 @@ public class VitalStatisticsHelper {
             VitalStatistic vitalStatistic = vitalStatistics.get(i);
             if (!XML_SRM.equals(vitalStatistic.getType())) {    // Colors set in BodyActivity
                 vitals.append(getStatisticVerbiage(vitalStatistic));
-
-                if (i < vitalStatistics.size()-1) { // minus srm
-                    vitals.append("<br />");
-                }
+                vitals.append("<br />");
             }
         }
 
-        return vitals.toString();
+        // Remove last break because of new text view for colors
+        String verbiage = vitals.toString();
+        if (verbiage.endsWith("<br />")) {
+            int index = verbiage.lastIndexOf("<br />");
+            verbiage = vitals.substring(0, index);
+        }
+
+        return verbiage;
     }
 
     public String getStatisticVerbiage(VitalStatistic vitalStatistic) {
@@ -92,6 +97,8 @@ public class VitalStatisticsHelper {
             verbiage.append(activity.getString(R.string.fg));
         } else if (XML_ABV.equals(vitalStatistic.getType())) {
             verbiage.append(getAlcoholHeader());
+        } else if (XML_ALL.equals(vitalStatistic.getType())) {
+            verbiage.append(activity.getString(R.string.all));
         }
 
         verbiage.append(": </b>");
