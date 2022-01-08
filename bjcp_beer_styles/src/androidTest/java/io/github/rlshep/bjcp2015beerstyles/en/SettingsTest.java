@@ -66,7 +66,7 @@ public class SettingsTest extends BJCPTest {
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("30.0")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("30.0")));
 
         // Back to main
         Espresso.pressBack();
@@ -79,7 +79,7 @@ public class SettingsTest extends BJCPTest {
         Espresso.pressBack();
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("22.0")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("22.0")));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class SettingsTest extends BJCPTest {
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("11.9°P")));
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("22.0")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("22.0")));
 
     }
 
@@ -112,6 +112,6 @@ public class SettingsTest extends BJCPTest {
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("1.048")));
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("22.0")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("22.0")));
     }
 }

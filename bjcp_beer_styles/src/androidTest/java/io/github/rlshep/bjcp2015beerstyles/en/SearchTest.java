@@ -39,63 +39,68 @@ public class SearchTest extends BJCPTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
     @Test
-    public void searchText_return_sweet_stout() {
+    public void searchText_return_sweet_stout() throws InterruptedException {
         // Search for Keyword Espresso
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(STRING_TO_BE_TYPED)));
     }
 
     @Test
-    public void searchText_return_sweet_stout_apostrophe() {
+    public void searchText_return_sweet_stout_apostrophe() throws InterruptedException {
         // Search for Keyword
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(APOSTROPHE_TO_BE_TYPED), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(APOSTROPHE_TO_BE_TYPED)));
     }
 
     @Test
-    public void searchText_return_fullers_exact() {
+    public void searchText_return_fullers_exact() throws InterruptedException {
         // Search for Keyword
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(EXACT_TO_BE_TYPED), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
-
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(EXACT_TO_BE_TYPED)));
     }
 
     @Test
-    public void searchText_return_new_england_ipa() {
+    public void searchText_return_new_england_ipa() throws InterruptedException {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
     }
 
     @Test
-    public void searchText_return_hazy_ipa() {
+    public void searchText_return_hazy_ipa() throws InterruptedException {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
     }
 
     @Test
-    public void searchText_return_kolsch() {
+    public void searchText_return_kolsch() throws InterruptedException {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(KOLSCH), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(KOLSCH_ACTUAL)));
     }

@@ -1,5 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles.es;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -16,6 +17,7 @@ import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -30,6 +32,18 @@ public class ColorChartMetricTest extends BJCPTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+
+    @Test
+    public void reset_settings() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingGravity)).check(matches(Matchers.hasValueEqualTo("Gravedad:")));
+
+        // Switch back to Specific Gravity
+        onView(withId(R.id.settings_specific_gravity)).perform(click());
+        onView(withId(R.id.settings_ebc)).perform(click());
+
+        Espresso.pressBack();
+    }
 
     @Test
     public void testColorChartUS() {
