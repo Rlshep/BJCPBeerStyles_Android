@@ -59,14 +59,15 @@ public class CategoryTest extends BJCPTest {
     }
 
     @Test
-    public void testCategorySaison() {
+    public void testCategorySaison() throws InterruptedException {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
-        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("pale SRM")));
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("dark SRM")));
+
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("dark SRM")));
+        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("pale SRM")));
     }
 
     @Test

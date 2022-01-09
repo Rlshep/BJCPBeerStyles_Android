@@ -1,5 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles.es;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -28,6 +29,18 @@ import static org.hamcrest.CoreMatchers.anything;
 public class CategoryEsTest extends BJCPTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+
+    @Test
+    public void reset_settings() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingGravity)).check(matches(Matchers.hasValueEqualTo("Gravedad:")));
+
+        // Switch to Plato and EBC
+        onView(withId(R.id.settings_plato)).perform(click());
+        onView(withId(R.id.settings_ebc)).perform(click());
+
+        Espresso.pressBack();
+    }
 
     @Test
     public void testCategoryCount() {
@@ -61,15 +74,16 @@ public class CategoryEsTest extends BJCPTest {
     }
 
     @Test
-    public void testCategorySaison_es() {
+    public void testCategorySaison_es() throws InterruptedException {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
-        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("Pálida EBC")));
-        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("Oscura EBC")));
-        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("11,9°P")));
+        Thread.sleep(1000);
+        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("Pálida EBC")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("Oscura EBC")));
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("11.9°P")));
     }
 
     @Test

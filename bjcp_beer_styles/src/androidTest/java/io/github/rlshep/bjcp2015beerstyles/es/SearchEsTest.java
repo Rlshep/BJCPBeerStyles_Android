@@ -40,7 +40,7 @@ public class SearchEsTest extends BJCPTest {
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
     @Test
-    public void searchText_return_sweet_stout() {
+    public void searchText_return_sweet_stout() throws InterruptedException {
         setLocale("es", "ES");
 
         // Search for Keyword Espresso
@@ -49,12 +49,13 @@ public class SearchEsTest extends BJCPTest {
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(ESPRESSO)));
     }
 
     @Test
-    public void searchText_return_sweet_stout_apostrophe() {
+    public void searchText_return_sweet_stout_apostrophe() throws InterruptedException {
         setLocale("es", "ES");
 
         // Search for Keyword
@@ -63,81 +64,87 @@ public class SearchEsTest extends BJCPTest {
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(APOSTROPHE_TO_BE_TYPED)));
     }
 
     @Test
-    public void searchText_return_fullers_exact() {
+    public void searchText_return_fullers_exact() throws InterruptedException {
         setLocale("es", "ES");
 
         // Search for Keyword
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(EXACT_TO_BE_TYPED), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
-
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(EXACT_TO_BE_TYPED)));
     }
 
     @Test
-    public void searchText_return_new_england_ipa() {
+    public void searchText_return_new_england_ipa() throws InterruptedException {
         setLocale("es", "ES");
 
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
     }
 
     @Test
-    public void searchText_return_new_england_ipa_en() {
+    public void searchText_return_new_england_ipa_en() throws InterruptedException {
         setLocale("es", "ES");
 
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
     }
 
     @Test
-    public void searchText_return_hazy_ipa() {
+    public void searchText_return_hazy_ipa() throws InterruptedException {
         setLocale("es", "ES");
 
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(NEW_ENGLAND_IPA)));
     }
 
     @Test
-    public void searchText_return_kolsch() {
+    public void searchText_return_kolsch() throws InterruptedException {
         setLocale("es", "ES");
 
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(KOLSCH), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(KOLSCH_ACTUAL)));
     }
 
     @Test
-    public void searchText_return_prepro() {
+    public void searchText_return_prepro() throws InterruptedException {
         setLocale("es", "ES");
 
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(PREPRO), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Pilsner Americana")));
     }
 
 
     @Test
-    public void searchText_return_English_search_returns_spanish() {
+    public void searchText_return_English_search_returns_spanish() throws InterruptedException {
         setLocale("es", "ES");
 
         // Search for Keyword Espresso
@@ -146,6 +153,7 @@ public class SearchEsTest extends BJCPTest {
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
 
         // Click on first result Sweet Stout
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(ESPRESSO)));
     }

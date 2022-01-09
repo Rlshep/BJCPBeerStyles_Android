@@ -47,7 +47,7 @@ public class SettingsActivity extends BjcpActivity {
     }
 
     private void initializeSpinners() {
-        Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
+        Spinner guideline = findViewById(R.id.settings_guideline);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.settings_guidelines, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -1,6 +1,6 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.3.0</string>
-    <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2015, BJCP, Inc. </string>
+    <string name="about_version">Beer Style Compendium v1.3.2</string>
+    <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
     <string name="about_author">Application authored by BJCP Certified Judge Richard Sheppard.</string>
@@ -10,6 +10,7 @@
     <string name="about_report_end">Github Repository."</string>
     <string name="ABV">ABV</string>
     <string name="ABW">ABW</string>
+    <string name="all">All</string>
     <string name="accessibility_advance_search">Advanced Search</string>
     <string name="accessibility_categories">Categories</string>
     <string name="accessibility_favorites">Favorites</string>
@@ -56,6 +57,7 @@
     <string name="settings_guideline_name">Guideline: </string>
     <string-array name="settings_guidelines">
         <item>2015 BJCP</item>
+        <item>2021 BJCP</item>
         <item>2021 BA</item>
     </string-array>
     <string name="settings_volume">Volume</string>

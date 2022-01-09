@@ -19,15 +19,15 @@ import java.util.List;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
-import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistics;
+import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
-import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.CategoryBodyHelper;
-import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ColorHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.activity.VitalStatisticsHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 
 public class CategoryBodyActivity extends BjcpActivity {
@@ -35,7 +35,6 @@ public class CategoryBodyActivity extends BjcpActivity {
     private static final String SRM_PREFIX = "srm_";
     private GestureDetector gestureDetector;
     private String categoryId = "";
-    private PreferencesHelper preferencesHelper;
     private CategoryBodyHelper categoryBodyHelper;
 
     @Override
@@ -64,7 +63,6 @@ public class CategoryBodyActivity extends BjcpActivity {
             }
         }
 
-        preferencesHelper = new PreferencesHelper(this);
         categoryBodyHelper = new CategoryBodyHelper(this, categoryId);
         setBody(searchedText);
         gestureDetector = new GestureDetector(this, new GestureListener());
@@ -118,35 +116,33 @@ public class CategoryBodyActivity extends BjcpActivity {
     }
 
     private void setColors() {
-        ColorHelper colorHelper = new ColorHelper(this, categoryId);
-        List<VitalStatistics> vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistics(categoryId);
+        List<VitalStatistic> vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistic(categoryId);
         int i = 1;
 
-        for (VitalStatistics vitalStatistic : vitalStatistics) {
-            if (colorHelper.isColorAllowed(vitalStatistic)) {
+        for (VitalStatistic vitalStatistic : vitalStatistics) {
+            if (XML_SRM.equals(vitalStatistic.getType())) {
                 setColor(vitalStatistic, i);
                 i++;
             }
         }
     }
 
-    private void setColor(VitalStatistics vitalStatistics, int i) {
-        ColorHelper colorHelper = new ColorHelper(this, categoryId);
-        String colorVerbiage = colorHelper.getColorVerbiage(vitalStatistics);
+    private void setColor(VitalStatistic vitalStatistic, int i) {
+        VitalStatisticsHelper vitalStatisticsHelper = new VitalStatisticsHelper(this, categoryId);
+        String colorVerbiage = vitalStatisticsHelper.getStatisticVerbiage(vitalStatistic);
         if (!StringUtils.isEmpty(colorVerbiage)) {
             TextView srmText = getSrmTextView("srmText", i);
             srmText.setText(Html.fromHtml(colorVerbiage));
             srmText.setVisibility(View.VISIBLE);
-            setColorBoxes(vitalStatistics, i);
+            setColorBoxes(vitalStatistic, i);
         }
     }
 
-
-    private void setColorBoxes(VitalStatistics vitalStatistics, int i) {
+    private void setColorBoxes(VitalStatistic vitalStatistics, int i) {
         TextView srmTextStart = getSrmTextView("srmBoxStart", i);
         TextView srmTextEnd = getSrmTextView("srmBoxEnd", i);
-        String startSrm = ((Integer) Double.valueOf(Math.floor(vitalStatistics.getSrmStart())).intValue()).toString();
-        String endSrm = ((Integer) Double.valueOf(Math.ceil(vitalStatistics.getSrmEnd())).intValue()).toString();
+        String startSrm = ((Integer) Double.valueOf(Math.floor(vitalStatistics.getLow())).intValue()).toString();
+        String endSrm = ((Integer) Double.valueOf(Math.ceil(vitalStatistics.getHigh())).intValue()).toString();
 
         if ((null != startSrm) && !ZERO.equals(startSrm)) {
             srmTextStart.setBackgroundColor(getResources().getColor(getResources().getIdentifier(SRM_PREFIX + startSrm, "color", getPackageName())));
