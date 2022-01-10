@@ -204,8 +204,10 @@ public class VitalStatisticsHelper {
         StringBuilder value = new StringBuilder();
 
         value.append(getAlcoholValue(vitalStatistic.getLow()));
+        value.append("%");
         value.append(" - ");
         value.append(getAlcoholValue(vitalStatistic.getHigh()));
+        value.append("%");
 
         return value.toString();
     }
