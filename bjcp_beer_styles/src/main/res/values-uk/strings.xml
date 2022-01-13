@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Збірник стилів пива 1.3.2</string>
+    <string name="about_version">Збірник стилів пива 1.3.3</string>
     <string name="about_bjcp_begin">Авторське право на BJCP стилеві описи належить BJCP  © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Програма сертифікації пивних суддів.</string>
     <string name="about_bjcp_end">Використовується за згодою.</string>
@@ -57,6 +57,7 @@
     <string name="settings_guideline_name">Керівництво:</string>
     <string-array name="settings_guidelines">
         <item>2015 BJCP</item>
+        <item>2021 BJCP</item>
         <item>2021 BA</item>
     </string-array>
     <string name="settings_volume">Обсяг</string>
