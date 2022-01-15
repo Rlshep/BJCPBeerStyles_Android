@@ -1,9 +1,10 @@
 package io.github.rlshep.bjcp2015beerstyles.es;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.*;
 import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)
@@ -38,6 +40,13 @@ public class SearchEsTest extends BJCPTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+
+    @Before
+    public void setup() {
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2015));
+        setLanguage("Español");
+        setSrmSgAbv(false, false, true);
+    }
 
     @Test
     public void searchText_return_sweet_stout() throws InterruptedException {
@@ -159,10 +168,11 @@ public class SearchEsTest extends BJCPTest {
     }
 
     @Test
-    public void searchText_return_tag() {
+    public void searchText_return_tag() throws InterruptedException {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(TRADITIONAL), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
+        Thread.sleep(1000);
         onData(anything()).inAdapterView(withId(R.id.searchResults)).atPosition(1).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(TRADITIONAL)));
     }

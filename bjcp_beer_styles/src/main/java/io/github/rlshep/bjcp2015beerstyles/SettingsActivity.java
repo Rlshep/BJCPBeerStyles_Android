@@ -7,10 +7,13 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
 
 public class SettingsActivity extends BjcpActivity {
     private PreferencesHelper preferencesHelper;
@@ -47,14 +50,18 @@ public class SettingsActivity extends BjcpActivity {
     }
 
     private void initializeSpinners() {
-        Spinner guideline = findViewById(R.id.settings_guideline);
+        initializeSpinner(R.id.settings_guideline, R.array.settings_guidelines, preferencesHelper.getStyleTypeName());
+        initializeSpinner(R.id.settings_language, R.array.settings_languages, BjcpConstants.getKeyValue(LANGUAGE_MAP, preferencesHelper.getLanguage()));
+    }
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.settings_guidelines, android.R.layout.simple_spinner_item);
+    private void initializeSpinner(int spinnerId, int valuesId, String defaultValue) {
+        Spinner spinner = findViewById(spinnerId);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, valuesId, android.R.layout.simple_spinner_item);
+        String[] values = this.getResources().getStringArray(valuesId);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        guideline.setAdapter(adapter);
-
-        String[] values = this.getResources().getStringArray(R.array.settings_guidelines);
-        guideline.setSelection(preferencesHelper.getArrayPosition(values, preferencesHelper.getStyleTypeName()));
+        spinner.setAdapter(adapter);
+        spinner.setSelection(preferencesHelper.getArrayPosition(values, defaultValue));
     }
 
     private void addListenerOnButton() {
@@ -110,12 +117,12 @@ public class SettingsActivity extends BjcpActivity {
 
     private void addListenerOnSpinners() {
         Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
+        Spinner language = (Spinner) findViewById(R.id.settings_language);
 
         guideline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 String styleTypeName = (String) parent.getItemAtPosition(pos);
-
                 preferencesHelper.setPreferences(PreferencesHelper.UNIT_STYLE_TYPE, GUIDELINE_MAP.get(styleTypeName));
                 getToolbar().setTitle(styleTypeName);
             }
@@ -124,5 +131,20 @@ public class SettingsActivity extends BjcpActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String styleTypeName = (String) parent.getItemAtPosition(pos);
+                String langShort = LANGUAGE_MAP.get(styleTypeName);
+                preferencesHelper.setPreferences(LANGUAGE, langShort);
+                setAppLanguage(langShort);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
     }
 }

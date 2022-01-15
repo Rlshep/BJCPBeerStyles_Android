@@ -13,7 +13,6 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
-import io.github.rlshep.bjcp2015beerstyles.helpers.LocaleHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
@@ -51,16 +50,13 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM
 public class BjcpDataHelper extends BaseDataHelper {
     private static BjcpDataHelper instance;
     private static final String NULL = "null";
-    private LocaleHelper lh;
-    private String revision;
+    private PreferencesHelper ph;
 
     private static final String CATEGORY_SELECT = "SELECT " + COLUMN_ID + ", " + COLUMN_CATEGORY_CODE + ", " + COLUMN_NAME + ", " + COLUMN_ORDER + ", " + COLUMN_PARENT_ID + "," + COLUMN_BOOKMARKED + "," + COLUMN_REVISION + "," + COLUMN_LANG + " FROM " + TABLE_CATEGORY + " C ";
 
     protected BjcpDataHelper(BjcpActivity activity) {
         super(activity);
-        lh = new LocaleHelper(activity);
-        PreferencesHelper preferencesHelper = new PreferencesHelper(activity);
-        revision = preferencesHelper.getStyleType();
+        ph = new PreferencesHelper(activity);
     }
 
 
@@ -69,23 +65,22 @@ public class BjcpDataHelper extends BaseDataHelper {
         if (null == instance) {
             instance = new BjcpDataHelper(activity);
         } else {
-            PreferencesHelper preferencesHelper = new PreferencesHelper(activity);
-            instance.setRevision(preferencesHelper.getStyleType());
+            instance.setPreferencesHelper(new PreferencesHelper(activity));
         }
 
         return instance;
     }
 
-    public String getRevision() {
-        return revision;
+    public PreferencesHelper getPreferencesHelper() {
+        return ph;
     }
 
-    public void setRevision(String revision) {
-        this.revision = revision;
+    public void setPreferencesHelper(PreferencesHelper preferencesHelper) {
+        this.ph = preferencesHelper;
     }
 
     private String getCategoryTopWhere() {
-        return " WHERE " + COLUMN_REVISION + " = '" + revision + "'";
+        return " WHERE " + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
     }
 
     public Category getCategory(String categoryId) {
@@ -94,7 +89,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getAllCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL "  + " AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "'ORDER BY " + getOrderType();
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL "  + " AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "'ORDER BY " + getOrderType();
         return getCategories(query);
     }
 
@@ -133,7 +128,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         while (!c.isAfterLast()) {
             if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
-                category = new Category(getRevision());
+                category = new Category(ph.getStyleType());
                 category.setId(c.getLong(c.getColumnIndex(COLUMN_ID)));
                 category.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
                 category.setOrderNumber(c.getInt(c.getColumnIndex(COLUMN_ORDER)));
@@ -193,7 +188,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getBookmarkedCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND "  + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_LANG + " = '" + lh.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND "  + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
 
         return getCategories(query);
     }
@@ -262,7 +257,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<String> searchSynonyms(String keyword) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchResult;
-        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -283,7 +278,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
+        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
 
         Cursor c = getRead().rawQuery(query, null);
 
@@ -305,7 +300,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllSynonyms() {
         ArrayList<String> synonyms = new ArrayList<>();
-        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "'";
+        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -323,9 +318,9 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllCategoryNames() {
         ArrayList<String> names = new ArrayList<>();
-        String language = lh.getLanguage();
+        String language = ph.getLanguage();
 
-        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + getRevision() + "' ORDER BY " + COLUMN_NAME;
+        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' ORDER BY " + COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -376,7 +371,7 @@ public class BjcpDataHelper extends BaseDataHelper {
                 " AND SRM." + COLUMN_TYPE + " = '" + XML_SRM +
                 "' JOIN " + TABLE_VITALS + " ABV ON C." + COLUMN_ID + " = ABV." + COLUMN_CAT_ID +
                 " AND ABV." + COLUMN_TYPE + " = '" + XML_ABV +
-                "' WHERE C." + COLUMN_LANG + " = '" + lh.getLanguage() + "' AND C." + COLUMN_REVISION + " = '" + getRevision() +
+                "' WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() +
                 "' AND IBU." + COLUMN_LOW + ">= " + ibuLow + " AND IBU." + COLUMN_HIGH + " <= " + ibuHigh +
                 " AND SRM." + COLUMN_LOW + " >= " + srmLow + " AND SRM." + COLUMN_HIGH + " <= " + srmHigh +
                 " AND ABV." + COLUMN_LOW + " >= " + abvLow + " AND ABV." + COLUMN_HIGH + " <= " + abvHigh +
@@ -408,7 +403,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllTags() {
         ArrayList<String> tags = new ArrayList<>();
-        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + lh.getLanguage() + "'" + " AND C." + COLUMN_REVISION + " = '" + getRevision() + "'";
+        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "'" + " AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -427,7 +422,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private String getOrderType() {
         String order = COLUMN_ORDER;
 
-        if (revision.equals(BA_2021)) {
+        if (ph.getStyleType().equals(BA_2021)) {
             order = COLUMN_NAME;
         }
 

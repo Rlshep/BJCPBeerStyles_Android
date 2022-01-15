@@ -8,8 +8,6 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import java.util.Locale;
 
-import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
-
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -33,10 +31,40 @@ public abstract class BJCPTest {
 
     public static void setGuideline(String guideline) {
         onView(withId(R.id.action_settings)).perform(click());
-        onView(withId(R.id.settingGuidelineName)).check(matches(Matchers.hasValueEqualTo("Guideline:")));
         onView(withId(R.id.settings_guideline)).perform(click());
         onData(hasToString(guideline)).perform(click());
         onView(withId(R.id.settings_guideline)).check(matches(withSpinnerText(containsString(guideline))));
+        Espresso.pressBack();
+    }
+
+    public static void setLanguage(String language) {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settings_language)).perform(click());
+        onData(hasToString(language)).perform(click());
+        Espresso.pressBack();
+    }
+
+    public static void setSrmSgAbv(boolean srm, boolean sg, boolean abv) {
+        onView(withId(R.id.action_settings)).perform(click());
+
+        if (srm) {
+            onView(withId(R.id.settings_srm)).perform(click());
+        } else {
+            onView(withId(R.id.settings_ebc)).perform(click());
+        }
+
+        if (sg) {
+            onView(withId(R.id.settings_specific_gravity)).perform(click());
+        } else {
+            onView(withId(R.id.settings_plato)).perform(click());
+        }
+
+        if (abv) {
+            onView(withId(R.id.settings_abv)).perform(click());
+        } else {
+            onView(withId(R.id.settings_abw)).perform(click());
+        }
+
         Espresso.pressBack();
     }
 }

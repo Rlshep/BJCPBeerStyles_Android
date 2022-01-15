@@ -1,11 +1,11 @@
 package io.github.rlshep.bjcp2015beerstyles.es;
 
-import androidx.test.espresso.Espresso;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,11 +17,13 @@ import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
 import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)
@@ -33,16 +35,11 @@ public class ColorChartMetricTest extends BJCPTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
 
-    @Test
+    @Before
     public void reset_settings() {
-        onView(withId(R.id.action_settings)).perform(click());
-        onView(withId(R.id.settingGravity)).check(matches(Matchers.hasValueEqualTo("Gravedad:")));
-
-        // Switch back to Specific Gravity
-        onView(withId(R.id.settings_specific_gravity)).perform(click());
-        onView(withId(R.id.settings_ebc)).perform(click());
-
-        Espresso.pressBack();
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2015));
+        setLanguage("Español");
+        setSrmSgAbv(false, false, true);
     }
 
     @Test

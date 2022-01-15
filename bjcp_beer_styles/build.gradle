@@ -86,6 +86,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.0.0'
 
     implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.test:runner:1.4.0'
     testImplementation 'junit:junit:4.12'
 
     // Testing-only dependencies

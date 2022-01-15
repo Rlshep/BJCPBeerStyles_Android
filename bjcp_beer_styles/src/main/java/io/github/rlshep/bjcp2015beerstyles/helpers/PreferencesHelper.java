@@ -10,6 +10,8 @@ import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE;
 
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
@@ -38,6 +40,7 @@ public class PreferencesHelper {
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
         String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
         String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
+        String languagePref = sharedPref.getString(LANGUAGE, null);
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -55,6 +58,10 @@ public class PreferencesHelper {
 
         if (StringUtils.isEmpty(stylePref)) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2021);
+        }
+
+        if (StringUtils.isEmpty(languagePref)) {
+            setPreferences(LANGUAGE, lh.getLocaleLanguage());
         }
     }
 
@@ -93,7 +100,7 @@ public class PreferencesHelper {
     public String getStyleTypeName() {
         String styleTypeValue = sharedPref.getString(UNIT_STYLE_TYPE, null);
 
-        return BjcpConstants.getStyleTypeKeyValue(styleTypeValue);
+        return BjcpConstants.getKeyValue(GUIDELINE_MAP, styleTypeValue);
     }
 
     public String getStyleType() {
@@ -110,5 +117,9 @@ public class PreferencesHelper {
         }
 
         return i;
+    }
+
+    public String getLanguage() {
+        return sharedPref.getString(LANGUAGE, null);
     }
 }
