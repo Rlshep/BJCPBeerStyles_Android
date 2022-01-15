@@ -1,9 +1,10 @@
 package io.github.rlshep.bjcp2015beerstyles.en;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,13 +19,21 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getStyleTypeKeyValue;
 import static org.hamcrest.CoreMatchers.anything;
 
-@RunWith(AndroidJUnit4.class)
 @LargeTest
+@RunWith(AndroidJUnit4.class)
 public class CategoryTest extends BJCPTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+
+    @Before
+    public void setup() {
+        setGuideline(getStyleTypeKeyValue(BJCP_2015));
+    }
 
     @Test
     public void testCategoryCount() {
@@ -86,5 +95,16 @@ public class CategoryTest extends BJCPTest {
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sommerbier")));
+    }
+
+    /********************************* Start 2021 *******************************************/
+
+    @Test
+    public void testCategoryStrongAle2021_en() {
+        setGuideline(getStyleTypeKeyValue(BJCP_2021)); //Switch to 2021 BJCP Guideline
+
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong British Ale", 17)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(17).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("British Strong Ale: Burton Ale", 2)));
     }
 }
