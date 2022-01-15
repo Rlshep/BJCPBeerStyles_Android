@@ -9,9 +9,10 @@ import org.apache.commons.lang.StringUtils;
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE;
 
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
@@ -19,6 +20,9 @@ public class PreferencesHelper {
     public static final String UNIT_COLOR = "color";
     public static final String UNIT_STYLE_TYPE = "style_type";
     public static final String UNIT_ALCOHOL = "alcohol";
+    public static final String UNIT_LANGUAGE = "language";
+    public static final String MESSAGE_FIRST_135 = "first";
+    public static final String MESSAGE_NEVER_SHOW_AVAILABILITY = "not_available";
     public static final String GRAVITY_PLATO = "plato";
     public static final String GRAVITY_SPECIFIC = "specific";
     public static final String COLOR_SRM = "srm";
@@ -40,7 +44,8 @@ public class PreferencesHelper {
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
         String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
         String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
-        String languagePref = sharedPref.getString(LANGUAGE, null);
+        String languagePref = sharedPref.getString(UNIT_LANGUAGE, null);
+        String firstPref = sharedPref.getString(MESSAGE_FIRST_135, null);  //TODO: Remove in future release
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -56,12 +61,16 @@ public class PreferencesHelper {
             setPreferences(UNIT_ALCOHOL, ALCOHOL_ABV);
         }
 
-        if (StringUtils.isEmpty(stylePref)) {
+        if (StringUtils.isEmpty(stylePref) && ENGLISH.equals(lh.getLocaleLanguage())) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2021);
+        } else if (StringUtils.isEmpty(stylePref)) {    // Default to 2015 until translation is available.
+            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
+        } else if (StringUtils.isEmpty(firstPref) && !ENGLISH.equals(lh.getLocaleLanguage())) {     // Temporary fix for default non-english
+            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
         }
 
         if (StringUtils.isEmpty(languagePref)) {
-            setPreferences(LANGUAGE, lh.getLocaleLanguage());
+            setPreferences(UNIT_LANGUAGE, lh.getLocaleLanguage());
         }
     }
 
@@ -120,6 +129,15 @@ public class PreferencesHelper {
     }
 
     public String getLanguage() {
-        return sharedPref.getString(LANGUAGE, null);
+        return sharedPref.getString(UNIT_LANGUAGE, null);
     }
+
+    public boolean isFirstTimeIn() {
+        return (null == sharedPref.getString(MESSAGE_FIRST_135, null));
+    }
+
+    public boolean isShowLanguageAvailabilityMessage() {
+        return (null == sharedPref.getString(MESSAGE_NEVER_SHOW_AVAILABILITY, null));
+    }
+
 }

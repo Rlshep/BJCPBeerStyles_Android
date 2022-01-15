@@ -1,5 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,16 +9,24 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_LANGUAGE;
 
 public class SettingsActivity extends BjcpActivity {
     private PreferencesHelper preferencesHelper;
+    private boolean onLoad = true;
+    private String currentLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,12 +35,13 @@ public class SettingsActivity extends BjcpActivity {
         setContentView(R.layout.activity_settings);
 
         preferencesHelper = new PreferencesHelper(this);
+        currentLanguage = preferencesHelper.getLanguage();
         setupToolbar(R.id.scbToolbar, getString(R.string.title_activity_settings), true, true);
-
         initializeRadioButtons();
         initializeSpinners();
         addListenerOnButton();
         addListenerOnSpinners();
+        setAppLanguage(currentLanguage);
     }
 
     private void initializeRadioButtons() {
@@ -125,6 +136,8 @@ public class SettingsActivity extends BjcpActivity {
                 String styleTypeName = (String) parent.getItemAtPosition(pos);
                 preferencesHelper.setPreferences(PreferencesHelper.UNIT_STYLE_TYPE, GUIDELINE_MAP.get(styleTypeName));
                 getToolbar().setTitle(styleTypeName);
+                showAvailabilityMessage();
+                onLoad = false; // hack to skip first time in.
             }
 
             @Override
@@ -136,9 +149,14 @@ public class SettingsActivity extends BjcpActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 String styleTypeName = (String) parent.getItemAtPosition(pos);
-                String langShort = LANGUAGE_MAP.get(styleTypeName);
-                preferencesHelper.setPreferences(LANGUAGE, langShort);
-                setAppLanguage(langShort);
+                String lang = LANGUAGE_MAP.get(styleTypeName);
+                setAppLanguage(lang);
+                preferencesHelper.setPreferences(UNIT_LANGUAGE, lang);
+
+                if (!lang.equals(currentLanguage)) {
+                    recreate();
+                }
+                showAvailabilityMessage();
             }
 
             @Override
@@ -146,5 +164,47 @@ public class SettingsActivity extends BjcpActivity {
             }
         });
 
+    }
+
+    private void showAvailabilityMessage() {
+        if (isShowAvailabilityMessage()) {
+            Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
+            Spinner language = (Spinner) findViewById(R.id.settings_language);
+
+            StringBuilder message = new StringBuilder();
+            message.append(guideline.getSelectedItem());
+            message.append(" ");
+            message.append(getResources().getString(R.string.message_available_1));
+            message.append(" ");
+            message.append(language.getSelectedItem());
+            message.append(" ");
+            message.append(getResources().getString(R.string.message_available_2));
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(message.toString());
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                }
+            });
+            alertDialogBuilder.setNegativeButton(getResources().getString(R.string.button_never_show),new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    preferencesHelper.setPreferences(PreferencesHelper.MESSAGE_NEVER_SHOW_AVAILABILITY, "true");
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private boolean isShowAvailabilityMessage() {
+        final String[] UNAVAILABLE_GUIDELINES = {BJCP_2021, BA_2021};
+        List availableGuidelines = Arrays.asList(UNAVAILABLE_GUIDELINES);
+
+        return !onLoad &&
+                preferencesHelper.isShowLanguageAvailabilityMessage() &&
+                !preferencesHelper.getLanguage().equals(ENGLISH) &&
+                availableGuidelines.contains(preferencesHelper.getStyleType());
     }
 }

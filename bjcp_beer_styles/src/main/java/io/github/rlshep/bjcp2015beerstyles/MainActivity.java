@@ -1,5 +1,7 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -38,6 +40,7 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
     private ArrayAdapter<String> searchSuggestionAdapter;
     private Menu menu;
     private PreferencesHelper preferencesHelper;
+    private String currentLanguage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +51,32 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         preferencesHelper = new PreferencesHelper(this);
         preferencesHelper.setupPreferences();
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
+        currentLanguage = preferencesHelper.getLanguage();
+        setAppLanguage(currentLanguage);
 
         validateCorrectDatabaseVersion();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
+        setupViews();
+        showFirstMessage();
+    }
 
+
+    public void showFirstMessage() {
+        if (preferencesHelper.isFirstTimeIn()) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(getResources().getString(R.string.message_first));
+            alertDialogBuilder.setPositiveButton(getResources().getString(R.string.button_ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface arg0, int arg1) {
+                    preferencesHelper.setPreferences(PreferencesHelper.MESSAGE_FIRST_135, "true");
+                }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private void setupViews() {
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         final ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), getTabTitles());
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
@@ -102,7 +127,6 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
-
     }
 
     @Override
@@ -110,6 +134,13 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         super.onResume();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
+
+        String appLanguage = preferencesHelper.getLanguage();
+        if (!appLanguage.equals(currentLanguage)) {
+            currentLanguage = appLanguage;
+            setAppLanguage(appLanguage);
+            recreate();
+        }
     }
 
     @Override
