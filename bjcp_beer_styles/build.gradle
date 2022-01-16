@@ -81,11 +81,13 @@ dependencies {
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.appyvet:materialrangebar:1.4.5'
+    implementation 'com.android.support:cardview-v7'
 
     // App's dependencies, including test
     implementation 'androidx.annotation:annotation:1.0.0'
 
     implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
+    implementation 'androidx.test:runner:1.4.0'
     testImplementation 'junit:junit:4.12'
 
     // Testing-only dependencies

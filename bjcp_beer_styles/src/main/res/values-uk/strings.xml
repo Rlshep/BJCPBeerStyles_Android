@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Збірник стилів пива 1.3.4</string>
+    <string name="about_version">Збірник стилів пива 1.3.5</string>
     <string name="about_bjcp_begin">Авторське право на BJCP стилеві описи належить BJCP  © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Програма сертифікації пивних суддів.</string>
     <string name="about_bjcp_end">Використовується за згодою.</string>
@@ -22,6 +22,8 @@
     <string name="action_select_all">Обрати все</string>
     <string name="app_name">Збірник стилів пива</string>
     <string name="beginSrm">Початок S R M дорівнює </string>
+    <string name="button_never_show">ніколи більше не показувати</string>
+    <string name="button_ok">Добре</string>
     <string name="color_amber"><b>Бурштиновий</b></string>
     <string name="color_black"><b>Чорний</b></string>
     <string name="color_brown"><b>Брунатний</b></string>
@@ -39,6 +41,9 @@
     <string name="endSrm">Кінець S R M дорівнює </string>
     <string name="fg">FG</string>
     <string name="ibu">IBU</string>
+    <string name="message_available_1">недоступний для </string>
+    <string name="message_available_2">замість цього показує англійську.</string>
+    <string name="message_first">Примітки до випуску версії 1.3.5\n\nНові параметри доступні в меню Налаштування.\n\n1. Тепер у програмі можна вибрати мову. Примітка: не всі інструкції доступні кількома мовами.\n\n2. Рекомендації можна вибрати, включаючи BJCP 2021, BJCP 2015, BA 2021.</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
     <string name="og">OG</string>
@@ -60,12 +65,19 @@
         <item>2021 BJCP</item>
         <item>2021 BA</item>
     </string-array>
+    <string name="settings_language_name">Мову:</string>
+    <string-array name="settings_languages">
+        <item>English</item>
+        <item>Español</item>
+        <item>український</item>
+    </string-array>
     <string name="settings_volume">Обсяг</string>
     <string name="settings_weight">Вага</string>
     <string name="search">Пошук</string>
     <string name="srm">SRM</string>
     <string name="stats_header">Основні показники</string>
     <string name="stats_varies">Залежно від стилю</string>
+    <string name="textButtonMain">Ok</string>
     <string name="title_activity_about">Про</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

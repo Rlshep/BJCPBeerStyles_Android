@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Compendio de estilo cervecero v1.3.4</string>
+    <string name="about_version">Compendio de estilo cervecero v1.3.5</string>
     <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>
@@ -22,6 +22,8 @@
     <string name="action_select_all">Seleccionar todo</string>
     <string name="app_name">Compendio de estilo cervecero</string>
     <string name="beginSrm">Comenzando S R M igual a </string>
+    <string name="button_never_show">Nunca lo muestres otra vez</string>
+    <string name="button_ok">OK</string>
     <string name="color_straw"><b>Paja</b></string>
     <string name="color_yellow"><b>Amarillo</b></string>
     <string name="color_gold"><b>Oro</b></string>
@@ -39,6 +41,9 @@
     <string name="endSrm">Finalizando S R M igual a </string>
     <string name="fg">FG</string>
     <string name="ibu">IBU</string>
+    <string name="message_available_1">no está disponible para</string>
+    <string name="message_available_2">mostrando inglés en su lugar.</string>
+    <string name="message_first">Notas de la versión versión 1.3.5\n\nNuevas opciones disponibles en el menú Configuración.\n\n  1. El idioma ahora se puede seleccionar dentro de la aplicación. Nota: no todas las pautas están disponibles en varios idiomas.\n\n2. Las pautas son seleccionables, incluidas BJCP 2021, BJCP 2015, BA 2021.</string>
     <string name="no_search_results">No se han encontrado resultados</string>
     <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
     <string name="og">OG</string>
@@ -61,11 +66,18 @@
         <item>2021 BJCP</item>
         <item>2021 BA</item>
     </string-array>
+    <string name="settings_language_name">Idioma:</string>
+    <string-array name="settings_languages">
+        <item>English</item>
+        <item>Español</item>
+        <item>український</item>
+    </string-array>
     <string name="settings_volume">Volumen</string>
     <string name="settings_weight">Peso</string>
     <string name="srm">SRM</string>
     <string name="stats_header">Estadísticas Vitales</string>
     <string name="stats_varies">Varía según el estilo</string>
+    <string name="textButtonMain">Ok</string>
     <string name="title_activity_about">Acerca de</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>

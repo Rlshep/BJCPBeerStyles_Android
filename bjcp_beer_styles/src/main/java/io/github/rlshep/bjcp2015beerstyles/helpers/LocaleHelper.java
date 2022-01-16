@@ -21,7 +21,7 @@ public class LocaleHelper {
         this.c = context;
     }
 
-    public String getLanguage() {
+    public String getLocaleLanguage() {
         String language = DEFAULT_LANGUAGE;
 
         try {

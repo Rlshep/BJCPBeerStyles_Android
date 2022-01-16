@@ -4,6 +4,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,6 +20,9 @@ import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
 import static org.hamcrest.CoreMatchers.anything;
 
 @RunWith(AndroidJUnit4.class)
@@ -26,6 +30,13 @@ import static org.hamcrest.CoreMatchers.anything;
 public class FilterTest extends BJCPTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule(MainActivity.class);
+
+    @Before
+    public void setup() {
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2015));
+        setLanguage("English");
+        setSrmSgAbv(true, true, true);
+    }
 
     @Test
     public void testScreenRenders() {

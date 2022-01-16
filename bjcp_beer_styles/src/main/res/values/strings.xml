@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.3.4</string>
+    <string name="about_version">Beer Style Compendium v1.3.5</string>
     <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
@@ -22,6 +22,8 @@
     <string name="action_select_all">Select All</string>
     <string name="app_name">Beer Style Compendium</string>
     <string name="beginSrm">Beginning S R M equal to </string>
+    <string name="button_never_show">Never show again</string>
+    <string name="button_ok">Ok</string>
     <string name="color_amber"><b>Amber</b></string>
     <string name="color_black"><b>Black</b></string>
     <string name="color_brown"><b>Brown</b></string>
@@ -39,6 +41,9 @@
     <string name="endSrm">Ending S R M equal to </string>
     <string name="fg">FG</string>
     <string name="ibu">IBU</string>
+    <string name="message_available_1">is not available for</string>
+    <string name="message_available_2">showing English instead.</string>
+    <string name="message_first">Release Notes version 1.3.5\n\nNew options available from Settings menu.\n\n1. Language is now selectable within the application. Note: not all guidelines are available in multiple languages.\n\n2. Guidelines are selectable including BJCP 2021, BJCP 2015, BA 2021.</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
@@ -60,12 +65,19 @@
         <item>2021 BJCP</item>
         <item>2021 BA</item>
     </string-array>
+    <string name="settings_language_name">Language:</string>
+    <string-array name="settings_languages">
+        <item>English</item>
+        <item>Español</item>
+        <item>український</item>
+    </string-array>
     <string name="settings_volume">Volume</string>
     <string name="settings_weight">Weight</string>
     <string name="search">Search</string>
     <string name="srm">SRM</string>
     <string name="stats_header">Vital Statistics</string>
     <string name="stats_varies">Varies with style</string>
+    <string name="textButtonMain">Ok</string>
     <string name="title_activity_about">About</string>
     <string name="title_activity_category_body">CategoryBodyActivity</string>
     <string name="title_activity_category_list">CategoryListActivity</string>
