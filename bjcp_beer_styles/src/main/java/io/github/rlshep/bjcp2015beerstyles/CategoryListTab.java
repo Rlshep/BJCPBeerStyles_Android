@@ -9,22 +9,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import java.util.List;
 
 import io.github.rlshep.bjcp2015beerstyles.adapters.CategoriesListAdapter;
 import io.github.rlshep.bjcp2015beerstyles.controllers.BjcpController;
 import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
+import io.github.rlshep.bjcp2015beerstyles.helpers.BookmarkHelper;
 
 public class CategoryListTab extends Fragment {
     private View v;
     private Parcelable state = null;
-
+    private BookmarkHelper bookmarkHelper = new BookmarkHelper();
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class CategoryListTab extends Fragment {
                 boolean consumed = false;
 
                 if (parent.getItemAtPosition(position) instanceof Category) {
-                    addAllCategoriesToBookmarked((Category) parent.getItemAtPosition(position));
+                    bookmarkHelper.addAllCategoriesToBookmarked((Activity) view.getContext(), (Category) parent.getItemAtPosition(position));
                     consumed = true;
                 }
 
@@ -91,16 +89,5 @@ public class CategoryListTab extends Fragment {
         if(state != null) {
             categoryListView.onRestoreInstanceState(state);
         }
-    }
-
-    private void addAllCategoriesToBookmarked(Category category) {
-        List<Category> categories = BjcpDataHelper.getInstance((BjcpActivity)getActivity()).getCategoriesByParent(category.getId());
-
-        for (Category cat : categories) {
-            cat.setBookmarked(true);
-        }
-
-        BjcpDataHelper.getInstance((BjcpActivity)getActivity()).updateCategoriesBookmarked(categories);
-        Toast.makeText(getActivity().getApplicationContext(), R.string.on_tap_success, Toast.LENGTH_SHORT).show();
     }
 }

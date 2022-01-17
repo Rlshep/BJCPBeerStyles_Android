@@ -20,7 +20,6 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
 import static org.hamcrest.CoreMatchers.anything;
@@ -98,16 +97,5 @@ public class CategoryTest extends BJCPTest {
 
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sommerbier")));
-    }
-
-    /********************************* Start 2021 *******************************************/
-
-    @Test
-    public void testCategoryStrongAle2021_en() {
-        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021)); //Switch to 2021 BJCP Guideline
-
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong British Ale", 17)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(17).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("British Strong Ale: Burton Ale", 2)));
     }
 }

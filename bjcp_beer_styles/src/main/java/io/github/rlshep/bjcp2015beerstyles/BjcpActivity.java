@@ -36,7 +36,6 @@ public abstract class BjcpActivity extends AppCompatActivity {
         return toolbar;
     }
 
-
     protected void setAppLanguage(String lang) {
         Locale myLocale = new Locale(lang);
         Resources res = getResources();

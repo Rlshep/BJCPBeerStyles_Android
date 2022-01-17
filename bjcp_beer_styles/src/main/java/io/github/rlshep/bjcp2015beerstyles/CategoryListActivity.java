@@ -75,7 +75,7 @@ public class CategoryListActivity extends BjcpActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     Category category = (Category) parent.getItemAtPosition(position);
-                    BjcpController.loadCategoryBody((Activity) view.getContext(), category);
+                    BjcpController.loadCategory((Activity) view.getContext(), category);
                 }
             }
         });
@@ -89,9 +89,7 @@ public class CategoryListActivity extends BjcpActivity {
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
-                }
-                //TODO: CLEAN UP OR FIX
-                else if (parent.getItemAtPosition(position) instanceof Section) {
+                }  else if (parent.getItemAtPosition(position) instanceof Section) {
                     TextView rowText = (TextView) findViewById(R.id.catSectionText);
                     rowText.setSelectAllOnFocus(true);
                     consumed = false;

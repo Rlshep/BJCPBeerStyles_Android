@@ -52,7 +52,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private static final String NULL = "null";
     private PreferencesHelper ph;
 
-    private static final String CATEGORY_SELECT = "SELECT " + COLUMN_ID + ", " + COLUMN_CATEGORY_CODE + ", " + COLUMN_NAME + ", " + COLUMN_ORDER + ", " + COLUMN_PARENT_ID + "," + COLUMN_BOOKMARKED + "," + COLUMN_REVISION + "," + COLUMN_LANG + " FROM " + TABLE_CATEGORY + " C ";
+    private static final String CATEGORY_SELECT = "SELECT " + COLUMN_ID + ", " + COLUMN_CATEGORY_CODE + ", " + COLUMN_NAME + ", " + COLUMN_ORDER + ", " + COLUMN_PARENT_ID + "," + COLUMN_BOOKMARKED + "," + COLUMN_REVISION + "," + COLUMN_LANG + ", " + COLUMN_PARENT_ID + " FROM " + TABLE_CATEGORY + " C ";
 
     protected BjcpDataHelper(BjcpActivity activity) {
         super(activity);
@@ -80,7 +80,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     private String getCategoryTopWhere() {
-        return " WHERE " + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
+        return " WHERE " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "' ";
     }
 
     public Category getCategory(String categoryId) {
@@ -89,7 +89,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getAllCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL "  + " AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "'ORDER BY " + getOrderType();
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " IS NULL ORDER BY " + getOrderType();
         return getCategories(query);
     }
 
@@ -103,6 +103,12 @@ public class BjcpDataHelper extends BaseDataHelper {
         }
 
         return categories;
+    }
+
+
+    private List<Category> getChildCategories(long parentId) {
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_PARENT_ID + " = " + parentId + " ORDER BY " + getOrderType();
+        return getCategories(query);
     }
 
     private String getIdsQuery(List<Long> ids) {
@@ -136,6 +142,7 @@ public class BjcpDataHelper extends BaseDataHelper {
                 category.setBookmarked(c.getInt(c.getColumnIndex(COLUMN_BOOKMARKED)) > 0);
                 category.setRevision(c.getString(c.getColumnIndex(COLUMN_REVISION)));
                 category.setLanguage((c.getString(c.getColumnIndex((COLUMN_LANG)))));
+                category.setChildCategories(getChildCategories(c.getLong(c.getColumnIndex(COLUMN_ID))));
 
                 String categoryCode = c.getString(c.getColumnIndex(COLUMN_CATEGORY_CODE));
                 if (!StringUtils.isEmpty(categoryCode) && !NULL.equals(categoryCode)) {

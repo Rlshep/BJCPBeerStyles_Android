@@ -22,9 +22,11 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.SearchResult;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
+import io.github.rlshep.bjcp2015beerstyles.helpers.BookmarkHelper;
 
 public class SearchResultsActivity extends BjcpActivity {
     private Parcelable state = null;
+    private BookmarkHelper bookmarkHelper = new BookmarkHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,13 +87,24 @@ public class SearchResultsActivity extends BjcpActivity {
                 Object item = parent.getItemAtPosition(position);
                 if (item instanceof Category) {
                     Category category = (Category) item;
-
-                    if (category.isParent()) {
-                        BjcpController.loadCategoryList((Activity) view.getContext(), category, searchedText);
-                    } else {
-                        BjcpController.loadCategoryBody((Activity) view.getContext(), category, searchedText);
-                    }
+                    BjcpController.loadCategory((Activity) view.getContext(), category, searchedText);
                 }
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Object item = parent.getItemAtPosition(position);
+                boolean consumed = false;
+
+                if (item instanceof Category) {
+                    Category category = (Category) item;
+                    bookmarkHelper.addAllCategoriesToBookmarked((Activity) view.getContext(), category);
+                    consumed = true;
+                }
+
+                return consumed;
             }
         });
 

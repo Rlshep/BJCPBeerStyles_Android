@@ -16,6 +16,18 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 
 public class BjcpController {
 
+    public static void loadCategory(Activity activity, Category category) {
+        loadCategory(activity, category, "");
+    }
+
+    public static void loadCategory(Activity activity, Category category, String searchedText) {
+        if (0 < category.getChildCategories().size()) {
+            loadCategoryList(activity, category);
+        } else {
+            loadCategoryBody(activity, category);
+        }
+    }
+
     public static void loadCategoryList(Activity activity, Category category) {
         loadCategoryList(activity, category, "");
     }
