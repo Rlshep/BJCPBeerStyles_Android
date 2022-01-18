@@ -34,7 +34,6 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM
 
 public class FilterTab extends Fragment {
 
-    private List<VitalStatistic> vitalStatistics = new ArrayList<>();
     private ArrayAdapter<String> searchSuggestionAdapter;
     private View view;
     private static final double MAX_ABV = 100.0;
@@ -45,9 +44,7 @@ public class FilterTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.filter_tab, container, false);
 
-        initVitalStatistics();
         setupSearchText(view);
-        setupRangeBars(view);
         setupButtons(view);
         setupUI(view);
         setupColors(view);
@@ -65,26 +62,6 @@ public class FilterTab extends Fragment {
         }
     }
 
-    private void initVitalStatistics() {
-        VitalStatistic abv = new VitalStatistic();
-        abv.setType(XML_ABV);
-        abv.setLow(0.0);
-        abv.setHigh(MAX_ABV);
-        vitalStatistics.add(abv);
-
-        VitalStatistic ibu = new VitalStatistic();
-        ibu.setType(XML_IBU);
-        ibu.setLow(0);
-        ibu.setHigh(MAX_IBU);
-        vitalStatistics.add(ibu);
-
-        VitalStatistic srm = new VitalStatistic();
-        srm.setType(XML_SRM);
-        srm.setLow(0.0);
-        srm.setHigh(MAX_SRM);
-        vitalStatistics.add(srm);
-    }
-
     private void setupSearchText(View view) {
         // Get a reference to the AutoCompleteTextView in the layout
         AutoCompleteTextView textView = view.findViewById(R.id.editSearch);
@@ -93,87 +70,24 @@ public class FilterTab extends Fragment {
         textView.setAdapter(searchSuggestionAdapter);
     }
 
-    private void setupRangeBars(View view) {
-        RangeBar rangebarIbu = view.findViewById(R.id.rangebar_ibu);
-        RangeBar rangebarAbv = view.findViewById(R.id.rangebar_abv);
-        RangeBar rangebarColor = view.findViewById(R.id.rangebar_color);
-
-        rangebarIbu.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-            @Override
-            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
-                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
-                setVitalLow(XML_IBU, Double.parseDouble(leftPinValue));
-                setVitalHigh(XML_IBU, Double.parseDouble(rightPinValue));
-            }
-
-            @Override
-            public void onTouchEnded(RangeBar rb) {
-            }
-
-            @Override
-            public void onTouchStarted(RangeBar rangeBar) {
-            }
-        });
-
-        rangebarAbv.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-            @Override
-            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
-                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
-                setVitalLow(XML_ABV, Double.parseDouble(leftPinValue));
-                setVitalHigh(XML_ABV, Double.parseDouble(rightPinValue));
-            }
-
-            @Override
-            public void onTouchEnded(RangeBar rangeBar) {
-            }
-
-            @Override
-            public void onTouchStarted(RangeBar rangeBar) {
-            }
-
-        });
-
-        rangebarColor.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
-            @Override
-            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
-                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
-
-                setVitalLow(XML_SRM, Double.parseDouble(leftPinValue));
-                setVitalHigh(XML_SRM, Double.parseDouble(rightPinValue));
-            }
-
-            @Override
-            public void onTouchEnded(RangeBar rb) {
-                rb.setLeftSelectorColor(rb.getTickColor(rb.getLeftIndex()));
-                rb.setRightSelectorColor(rb.getTickColor(rb.getRightIndex()));
-            }
-
-            @Override
-            public void onTouchStarted(RangeBar rangeBar) {
-            }
-        });
-    }
-
     private void setupButtons(View v) {
         Button search = v.findViewById(R.id.filterSearch);
         Button reset = v.findViewById(R.id.filterReset);
-        RangeBar rangebarIbu = v.findViewById(R.id.rangebar_ibu);
-        RangeBar rangebarAbv = v.findViewById(R.id.rangebar_abv);
-        RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
         AutoCompleteTextView editSearch = v.findViewById(R.id.editSearch);
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                updateMaxVitals();
-
                 BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance((BjcpActivity) getActivity());
-                BjcpController.startSearchResultsActivity(getActivity(), editSearch.getText().toString(), bjcpDataHelper.getSearchVitalStatisticsQuery(vitalStatistics));
+                BjcpController.startSearchResultsActivity(getActivity(), editSearch.getText().toString(),
+                        bjcpDataHelper.getSearchVitalStatisticsQuery(getVitalStatistics()));
             }
         });
 
         reset.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                initVitalStatistics();
+                RangeBar rangebarIbu = v.findViewById(R.id.rangebar_ibu);
+                RangeBar rangebarAbv = v.findViewById(R.id.rangebar_abv);
+                RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
 
                 rangebarIbu.setRangePinsByValue(0, 100);
                 rangebarAbv.setRangePinsByValue(0, 10);
@@ -231,52 +145,65 @@ public class FilterTab extends Fragment {
         }
     }
 
-    /**
-     * Adjust search vitals account for higher values than range bar allows.
-     */
-    private void updateMaxVitals() {
+
+    private List<VitalStatistic> getVitalStatistics() {
+        List<VitalStatistic> vitalStatistics = new ArrayList<>();
+
         RangeBar rangeBarIbu = view.findViewById(R.id.rangebar_ibu);
         RangeBar rangeBarAbv = view.findViewById(R.id.rangebar_abv);
         RangeBar rangeBarColor = view.findViewById(R.id.rangebar_color);
 
-        for (VitalStatistic vitalStatistic : vitalStatistics) {
-            if (XML_IBU.equals(vitalStatistic.getType())) {
-                if (vitalStatistic.getHigh() == Math.round(rangeBarIbu.getTickEnd())) {
-                    vitalStatistic.setHigh(MAX_IBU);
-                }
-            } else if (XML_ABV.equals(vitalStatistic.getType())) {
-                if (vitalStatistic.getHigh() == Math.round(rangeBarAbv.getTickEnd())) {
-                    vitalStatistic.setHigh(MAX_ABV);
-                }
-            } else if (XML_SRM.equals(vitalStatistic.getType())) {
-                if (vitalStatistic.getLow() == Math.round(rangeBarColor.getTickStart())) {
-                    vitalStatistic.setHigh(MAX_IBU);
-                }
-            }
-        }
+        VitalStatistic abv = new VitalStatistic();
+        abv.setType(XML_ABV);
+        abv.setLow(Double.parseDouble(rangeBarAbv.getLeftPinValue()));
+        abv.setHigh(getHighAbv(rangeBarAbv));
+        vitalStatistics.add(abv);
+
+        VitalStatistic ibu = new VitalStatistic();
+        ibu.setType(XML_IBU);
+        ibu.setLow(Double.parseDouble(rangeBarIbu.getLeftPinValue()));
+        ibu.setHigh(getHighIbu(rangeBarIbu));
+        vitalStatistics.add(ibu);
+
+        VitalStatistic color = new VitalStatistic();
+        color.setType(XML_SRM);
+        color.setLow(Double.parseDouble(rangeBarColor.getLeftPinValue()));
+        color.setHigh(getHighColor(rangeBarColor));
+        vitalStatistics.add(color);
+
+        return vitalStatistics;
     }
 
-    private void setVitalLow(String type, double value) {
-        for (VitalStatistic vitalStatistic : vitalStatistics) {
-            if (XML_IBU.equals(type)) {
-                vitalStatistic.setLow(value);
-            } else if (XML_ABV.equals(type)) {
-                vitalStatistic.setLow(value);
-            } else if (XML_SRM.equals(type)) {
-                vitalStatistic.setLow(value);
-            }
+    //Adjust search vitals account for higher values than range bar allows.
+    private double getHighAbv(RangeBar rangeBar) {
+        double abv = Double.parseDouble(rangeBar.getRightPinValue());
+
+        if (abv == Math.round(rangeBar.getTickEnd())) {
+            abv = MAX_ABV;
         }
+
+        return abv;
     }
 
-    private void setVitalHigh(String type, double value) {
-        for (VitalStatistic vitalStatistic : vitalStatistics) {
-            if (XML_IBU.equals(type)) {
-                vitalStatistic.setHigh(value);
-            } else if (XML_ABV.equals(type)) {
-                vitalStatistic.setHigh(value);
-            } else if (XML_SRM.equals(type)) {
-                vitalStatistic.setHigh(value);
-            }
+    //Adjust search vitals account for higher values than range bar allows.
+    private double getHighIbu(RangeBar rangeBar) {
+        double ibu = Double.parseDouble(rangeBar.getRightPinValue());
+
+        if (ibu == Math.round(rangeBar.getTickEnd())) {
+            ibu = MAX_IBU;
         }
+
+        return ibu;
+    }
+
+    //Adjust search vitals account for higher values than range bar allows.
+    private double getHighColor(RangeBar rangeBar) {
+        double color = Double.parseDouble(rangeBar.getRightPinValue());
+
+        if (color == Math.round(rangeBar.getTickEnd())) {
+            color = MAX_SRM;
+        }
+
+        return color;
     }
 }
