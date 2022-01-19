@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Стильовий довідник пива 1.3.7</string>
+    <string name="about_version">Стильовий довідник пива 1.3.8</string>
     <string name="about_bjcp_begin">Авторське право на довідник BJCP належить BJCP © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Програма сертифікації пивних суддів.</string>
     <string name="about_bjcp_end">Використовується за згодою.</string>
@@ -43,7 +43,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">недоступний такою мовою: </string>
     <string name="message_available_2">Замість цього відображається англійська версія.</string>
-    <string name="message_first">Примітки до випуску версії 1.3.6\n\nНові параметри доступні в меню Налаштування.\n\n1. Тепер у програмі можна вибрати мову. Примітка: не всі інструкції доступні кількома мовами.\n\n2. Доступні довідники: BJCP 2021, BJCP 2015, BA 2021.\n\n3. Об’єднайте категорії меду та сидра в BJCP 2021.</string>
+    <string name="message_first">Примітки до випуску версії 1.3.6\n\nНові параметри доступні в меню Налаштування.\n\n1. Тепер у програмі можна вибрати мову. Примітка: не всі інструкції доступні кількома мовами.\n\n2. Доступні довідники: BJCP 2021, BJCP 2015, BA 2021.\n\n3. Об’єднайте категорії меду та сидра в BJCP 2021.\n\n4. Незначні виправлення статистики Saison та деревини\n\n5. Виправлено помилку, коли попередній пошук не повертав правильні категорії.</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
     <string name="og">OG</string>

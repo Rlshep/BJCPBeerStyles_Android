@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Compendio de estilo cervecero v1.3.7</string>
+    <string name="about_version">Compendio de estilo cervecero v1.3.8</string>
     <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>
@@ -43,7 +43,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">no está disponible para</string>
     <string name="message_available_2">mostrando inglés en su lugar.</string>
-    <string name="message_first">Notas de la versión versión 1.3.7\n\n1. El idioma ahora se puede seleccionar dentro de la aplicación. Nota: no todas las pautas están disponibles en varios idiomas.\n\n2. Las pautas son seleccionables, incluidas BJCP 2021, BJCP 2015, BA 2021.\n\n3. Agrupar las categorías de hidromiel y sidra en BJCP 2021.</string>
+    <string name="message_first">Notas de la versión versión 1.3.7\n\n1. El idioma ahora se puede seleccionar dentro de la aplicación. Nota: no todas las pautas están disponibles en varios idiomas.\n\n2. Las pautas son seleccionables, incluidas BJCP 2021, BJCP 2015, BA 2021.\n\n3. Agrupar las categorías de hidromiel y sidra en BJCP 2021.\n\n4. Correcciones menores a las estadísticas de Saison y madera envejecida.\n\n5. Corrección de errores donde la búsqueda avanzada no devolvía las categorías correctas.</string>
     <string name="no_search_results">No se han encontrado resultados</string>
     <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
     <string name="og">OG</string>
@@ -70,7 +70,7 @@
     <string-array name="settings_languages">
         <item>English</item>
         <item>Español</item>
-        <item>український</item>
+        <item>Українська</item>
     </string-array>
     <string name="settings_volume">Volumen</string>
     <string name="settings_weight">Peso</string>

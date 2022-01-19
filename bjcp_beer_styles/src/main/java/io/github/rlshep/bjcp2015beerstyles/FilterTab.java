@@ -45,6 +45,7 @@ public class FilterTab extends Fragment {
         view = inflater.inflate(R.layout.filter_tab, container, false);
 
         setupSearchText(view);
+        setupRangeBars(view);
         setupButtons(view);
         setupUI(view);
         setupColors(view);
@@ -70,7 +71,31 @@ public class FilterTab extends Fragment {
         textView.setAdapter(searchSuggestionAdapter);
     }
 
+    private void setupRangeBars(View view) {
+        RangeBar rangebarColor = view.findViewById(R.id.rangebar_color);
+
+        rangebarColor.setOnRangeBarChangeListener(new RangeBar.OnRangeBarChangeListener() {
+            @Override
+            public void onRangeChangeListener(RangeBar rangeBar, int leftPinIndex,
+                                              int rightPinIndex, String leftPinValue, String rightPinValue) {
+            }
+
+            @Override
+            public void onTouchEnded(RangeBar rb) {
+                rb.setLeftSelectorColor(rb.getTickColor(rb.getLeftIndex()));
+                rb.setRightSelectorColor(rb.getTickColor(rb.getRightIndex()));
+            }
+
+            @Override
+            public void onTouchStarted(RangeBar rangeBar) {
+            }
+        });
+    }
+
     private void setupButtons(View v) {
+        RangeBar rangebarIbu = v.findViewById(R.id.rangebar_ibu);
+        RangeBar rangebarAbv = v.findViewById(R.id.rangebar_abv);
+        RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
         Button search = v.findViewById(R.id.filterSearch);
         Button reset = v.findViewById(R.id.filterReset);
         AutoCompleteTextView editSearch = v.findViewById(R.id.editSearch);
@@ -85,10 +110,6 @@ public class FilterTab extends Fragment {
 
         reset.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                RangeBar rangebarIbu = v.findViewById(R.id.rangebar_ibu);
-                RangeBar rangebarAbv = v.findViewById(R.id.rangebar_abv);
-                RangeBar rangebarColor = v.findViewById(R.id.rangebar_color);
-
                 rangebarIbu.setRangePinsByValue(0, 100);
                 rangebarAbv.setRangePinsByValue(0, 10);
                 rangebarColor.setRangePinsByValue(1, 41);

@@ -18,9 +18,14 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
+
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -28,6 +33,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
+import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -47,25 +53,10 @@ public class SearchFilterTest extends BJCPTest {
 
     @Test
     public void searchFilterTest() {
-        ViewInteraction textView = onView(
-                allOf(withText("   "),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.tabs),
-                                        0),
-                                3),
-                        isDisplayed()));
-        textView.perform(click());
-
-        ViewInteraction viewPager = onView(
-                allOf(withId(R.id.pager),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(android.R.id.content),
-                                        0),
-                                2),
-                        isDisplayed()));
-        viewPager.perform(swipeLeft());
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(longClick());
+        onView(withId(R.id.pager)).perform(swipeLeft());    // Bookmarks
+        onView(withId(R.id.pager)).perform(swipeLeft());    // Color Chart
+        onView(withId(R.id.pager)).perform(swipeLeft());    // Filter
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.filterSearch), withText("Search"),
@@ -76,6 +67,8 @@ public class SearchFilterTest extends BJCPTest {
                                 1),
                         isDisplayed()));
         appCompatButton.perform(click());
+
+        onView(withId(R.id.searchResults)).check(matches(Matchers.hasListViewEqualTo("American Light Lager", 0)));
     }
 
     private static Matcher<View> childAtPosition(

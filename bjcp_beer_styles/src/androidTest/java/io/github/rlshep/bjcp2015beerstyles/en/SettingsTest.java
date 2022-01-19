@@ -109,7 +109,6 @@ public class SettingsTest extends BJCPTest {
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("11.9°P")));
         onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("22.0")));
-
     }
 
     @Test
@@ -121,7 +120,6 @@ public class SettingsTest extends BJCPTest {
         onView(withId(R.id.settings_language)).check(matches(withSpinnerText(containsString("Español"))));
         Espresso.pressBack();
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introducción", 0)));
-        setLanguage("English"); // Set back to English
     }
 
     @Test
@@ -129,10 +127,9 @@ public class SettingsTest extends BJCPTest {
         onView(withId(R.id.action_settings)).perform(click());
         onView(withId(R.id.settingLanguageName)).check(matches(Matchers.hasValueEqualTo("Language:")));
         onView(withId(R.id.settings_language)).perform(click());
-        onData(hasToString("український")).perform(click());
-        onView(withId(R.id.settings_language)).check(matches(withSpinnerText(containsString("український"))));
+        onData(hasToString("Українська")).perform(click());
+        onView(withId(R.id.settings_language)).check(matches(withSpinnerText(containsString("Українська"))));
         Espresso.pressBack();
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Вступ", 0)));
-        setLanguage("English"); // Set back to English
     }
 }

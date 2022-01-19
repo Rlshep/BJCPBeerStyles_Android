@@ -71,4 +71,25 @@ public class Category2021Test extends BJCPTest {
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Impression")));
     }
 
+    @Test
+    public void testCategorySaison() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Saison", 2)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("(standard) ABV: 5.0% - 7.0%")));
+        onView(withId(R.id.srmText1)).check(matches(Matchers.hasValueEqualTo("(dark) SRM")));
+        onView(withId(R.id.srmText2)).check(matches(Matchers.hasValueEqualTo("(pale) SRM")));
+    }
+
+    @Test
+    public void testCategoryWoodAged() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Wood Beer", 33)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(33).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Wood-Aged Beer", 1)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("ABV: varies with base style, typically above-average")));
+    }
 }

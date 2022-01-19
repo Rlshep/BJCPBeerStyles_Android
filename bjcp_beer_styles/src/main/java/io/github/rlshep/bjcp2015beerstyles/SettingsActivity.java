@@ -148,8 +148,8 @@ public class SettingsActivity extends BjcpActivity {
         language.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                String styleTypeName = (String) parent.getItemAtPosition(pos);
-                String lang = LANGUAGE_MAP.get(styleTypeName);
+                String languageName = (String) parent.getItemAtPosition(pos);
+                String lang = LANGUAGE_MAP.get(languageName);
                 setAppLanguage(lang);
                 preferencesHelper.setPreferences(UNIT_LANGUAGE, lang);
 
