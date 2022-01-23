@@ -349,7 +349,7 @@ public class BjcpDataHelper extends BaseDataHelper {
         return (DATABASE_VERSION == getRead().getVersion());
     }
 
-    public String getSearchVitalStatisticsQuery(List<VitalStatistic> vitalStatistics) {
+    public String getSearchVitalStatisticsQuery(List<VitalStatistic> vitalStatistics, String keyword) {
         String ibuLow = "";
         String ibuHigh = "";
         String srmLow = "";
@@ -377,8 +377,13 @@ public class BjcpDataHelper extends BaseDataHelper {
                 "' JOIN " + TABLE_VITALS + " SRM ON C." + COLUMN_ID + " = SRM." + COLUMN_CAT_ID +
                 " AND SRM." + COLUMN_TYPE + " = '" + XML_SRM +
                 "' JOIN " + TABLE_VITALS + " ABV ON C." + COLUMN_ID + " = ABV." + COLUMN_CAT_ID +
-                " AND ABV." + COLUMN_TYPE + " = '" + XML_ABV +
-                "' WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() +
+                " AND ABV." + COLUMN_TYPE + " = '" + XML_ABV + "'";
+                if (!StringUtils.isEmpty(keyword)) {
+                    query = query + " JOIN " + TABLE_FTS_SEARCH + " TFS ON TFS." +
+                        COLUMN_RESULT_ID + " = C." + COLUMN_ID + " AND TFS." + COLUMN_TABLE_NAME + " = 'CATEGORY' AND TFS." +
+                        COLUMN_BODY + " MATCH '\"" + keyword + "\"*'";
+                }
+                query = query + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() +
                 "' AND IBU." + COLUMN_LOW + ">= " + ibuLow + " AND IBU." + COLUMN_HIGH + " <= " + ibuHigh +
                 " AND SRM." + COLUMN_LOW + " >= " + srmLow + " AND SRM." + COLUMN_HIGH + " <= " + srmHigh +
                 " AND ABV." + COLUMN_LOW + " >= " + abvLow + " AND ABV." + COLUMN_HIGH + " <= " + abvHigh +

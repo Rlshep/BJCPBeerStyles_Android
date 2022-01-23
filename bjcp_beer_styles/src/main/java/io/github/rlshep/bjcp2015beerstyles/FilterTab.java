@@ -102,9 +102,10 @@ public class FilterTab extends Fragment {
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                String keyword =  editSearch.getText().toString();
                 BjcpDataHelper bjcpDataHelper = BjcpDataHelper.getInstance((BjcpActivity) getActivity());
-                BjcpController.startSearchResultsActivity(getActivity(), editSearch.getText().toString(),
-                        bjcpDataHelper.getSearchVitalStatisticsQuery(getVitalStatistics()));
+                BjcpController.startSearchResultsActivity(getActivity(), keyword,
+                        bjcpDataHelper.getSearchVitalStatisticsQuery(getVitalStatistics(), keyword));
             }
         });
 
