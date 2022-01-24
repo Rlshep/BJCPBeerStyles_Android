@@ -22,9 +22,9 @@ public class BjcpController {
 
     public static void loadCategory(Activity activity, Category category, String searchedText) {
         if (0 < category.getChildCategories().size()) {
-            loadCategoryList(activity, category);
+            loadCategoryList(activity, category, searchedText);
         } else {
-            loadCategoryBody(activity, category);
+            loadCategoryBody(activity, category, searchedText);
         }
     }
 
