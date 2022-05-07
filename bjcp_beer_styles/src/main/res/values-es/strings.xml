@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Compendio de estilo cervecero v1.3.9</string>
+    <string name="about_version">Compendio de estilo cervecero v1.3.10</string>
     <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>

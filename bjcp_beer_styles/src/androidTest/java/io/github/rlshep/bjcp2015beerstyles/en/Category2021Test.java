@@ -92,4 +92,34 @@ public class Category2021Test extends BJCPTest {
 
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("ABV: varies with base style, typically above-average")));
     }
+
+    @Test
+    public void testCategoryIntro() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introductions", 0)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to the 2021 Guidelines", 0)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Do not overly focus")));
+    }
+
+    @Test
+    public void testCategoryIntroStyles() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introductions", 0)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to Beer Styles", 1)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("fruitiness (esters).")));
+    }
+
+    @Test
+    public void testCategoryIntroSpecialty() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introductions", 0)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to Specialty-Type Beer", 2)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Hop aroma may be absent")));
+    }
 }
