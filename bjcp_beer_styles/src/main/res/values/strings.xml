@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.3.9</string>
+    <string name="about_version">Beer Style Compendium v1.3.10</string>
     <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2021, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
