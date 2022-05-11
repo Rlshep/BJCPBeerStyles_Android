@@ -9,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
@@ -18,9 +18,10 @@ import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.SPANISH;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_LANGUAGE;
 
 public class SettingsActivity extends BjcpActivity {
@@ -199,12 +200,22 @@ public class SettingsActivity extends BjcpActivity {
     }
 
     private boolean isShowAvailabilityMessage() {
-        final String[] UNAVAILABLE_GUIDELINES = {BJCP_2021, BA_2021};
-        List availableGuidelines = Arrays.asList(UNAVAILABLE_GUIDELINES);
+        boolean showMessage = false;
 
-        return !onLoad &&
-                preferencesHelper.isShowLanguageAvailabilityMessage() &&
-                !preferencesHelper.getLanguage().equals(ENGLISH) &&
-                availableGuidelines.contains(preferencesHelper.getStyleType());
+        Map<String, String> disAllowedGuidelines = new HashMap<>();
+        disAllowedGuidelines.put(UKRANIAN, BA_2021);
+        disAllowedGuidelines.put(SPANISH, BA_2021);
+        disAllowedGuidelines.put(SPANISH, BJCP_2021);
+
+        if (!onLoad && preferencesHelper.isShowLanguageAvailabilityMessage()) {
+            for (Map.Entry<String, String> set : disAllowedGuidelines.entrySet()) {
+                if (set.getKey().equals(preferencesHelper.getLanguage()) &&
+                        set.getValue().equals(preferencesHelper.getStyleType())) {
+                    showMessage = true;
+                }
+            }
+        }
+
+        return showMessage;
     }
 }

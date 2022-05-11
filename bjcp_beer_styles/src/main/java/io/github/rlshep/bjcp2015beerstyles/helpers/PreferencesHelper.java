@@ -13,6 +13,7 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
@@ -61,7 +62,8 @@ public class PreferencesHelper {
             setPreferences(UNIT_ALCOHOL, ALCOHOL_ABV);
         }
 
-        if (StringUtils.isEmpty(stylePref) && ENGLISH.equals(lh.getLocaleLanguage())) {
+        if (StringUtils.isEmpty(stylePref) &&
+                (ENGLISH.equals(lh.getLocaleLanguage()) ||  UKRANIAN.equals(lh.getLocaleLanguage()))) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2021);
         } else if (StringUtils.isEmpty(stylePref)) {    // Default to 2015 until translation is available.
             setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
