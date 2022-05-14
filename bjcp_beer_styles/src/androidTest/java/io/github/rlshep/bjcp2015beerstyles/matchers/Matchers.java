@@ -60,7 +60,7 @@ public class Matchers {
                 if (view != null && view instanceof ListView) {
                     Category category = (Category) ((ListView) view).getItemAtPosition(i);
 
-                    matches = StringUtils.equals(expected, category.getName());
+                    matches = StringUtils.equals(expected, category.getName().trim());
                 }
 
                 return matches;
