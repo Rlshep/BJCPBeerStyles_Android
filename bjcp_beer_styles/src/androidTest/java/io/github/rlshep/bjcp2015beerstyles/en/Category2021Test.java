@@ -122,4 +122,14 @@ public class Category2021Test extends BJCPTest {
 
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Hop aroma may be absent")));
     }
+
+    @Test
+    public void testCategoryRoggen() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Historical Beer", 27)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(27).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Historical Beer: Roggenbier", 8)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(8).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(" Dunkles Weissbier made with rye")));
+    }
 }
