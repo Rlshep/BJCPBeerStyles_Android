@@ -11,4 +11,5 @@ If you havae any security or privacy concerns, please send me an email and I wil
 Yours sincerely,  
 Richard Sheppard
 Columbus, OH US 
+
 BeerStyles2015@gmail.com
