@@ -1,6 +1,6 @@
 ## Beer Style Compendium: Privacy policy
 
-Welcome to the Shake Beer Style Compendium app for Android!
+Welcome to the Beer Style Compendium app for Android!
 
 This is an open source Android app developed by Richard Sheppard. The source code is available on GitHub under the GNU General license; the app is also available on Google Play.
 
