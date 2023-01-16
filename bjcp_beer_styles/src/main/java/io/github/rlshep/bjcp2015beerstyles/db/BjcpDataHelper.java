@@ -133,18 +133,18 @@ public class BjcpDataHelper extends BaseDataHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_ID)) != null) {
                 category = new Category(ph.getStyleType());
-                category.setId(c.getLong(c.getColumnIndex(COLUMN_ID)));
-                category.setName(c.getString(c.getColumnIndex(COLUMN_NAME)));
-                category.setOrderNumber(c.getInt(c.getColumnIndex(COLUMN_ORDER)));
-                category.setParentId(c.getLong(c.getColumnIndex(COLUMN_PARENT_ID)));
-                category.setBookmarked(c.getInt(c.getColumnIndex(COLUMN_BOOKMARKED)) > 0);
-                category.setRevision(c.getString(c.getColumnIndex(COLUMN_REVISION)));
-                category.setLanguage((c.getString(c.getColumnIndex((COLUMN_LANG)))));
-                category.setChildCategories(getChildCategories(c.getLong(c.getColumnIndex(COLUMN_ID))));
+                category.setId(c.getLong(c.getColumnIndexOrThrow(COLUMN_ID)));
+                category.setName(c.getString(c.getColumnIndexOrThrow(COLUMN_NAME)));
+                category.setOrderNumber(c.getInt(c.getColumnIndexOrThrow(COLUMN_ORDER)));
+                category.setParentId(c.getLong(c.getColumnIndexOrThrow(COLUMN_PARENT_ID)));
+                category.setBookmarked(c.getInt(c.getColumnIndexOrThrow(COLUMN_BOOKMARKED)) > 0);
+                category.setRevision(c.getString(c.getColumnIndexOrThrow(COLUMN_REVISION)));
+                category.setLanguage((c.getString(c.getColumnIndexOrThrow((COLUMN_LANG)))));
+                category.setChildCategories(getChildCategories(c.getLong(c.getColumnIndexOrThrow(COLUMN_ID))));
 
-                String categoryCode = c.getString(c.getColumnIndex(COLUMN_CATEGORY_CODE));
+                String categoryCode = c.getString(c.getColumnIndexOrThrow(COLUMN_CATEGORY_CODE));
                 if (!StringUtils.isEmpty(categoryCode) && !NULL.equals(categoryCode)) {
                     category.setCategoryCode(categoryCode);
                 }
@@ -172,9 +172,9 @@ public class BjcpDataHelper extends BaseDataHelper {
 
         while (!c.isAfterLast()) {
             section = new Section();
-            if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
-                section.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-                section.setBody(c.getString(c.getColumnIndex(COLUMN_BODY)));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_ID)) != null) {
+                section.setId(c.getInt(c.getColumnIndexOrThrow(COLUMN_ID)));
+                section.setBody(c.getString(c.getColumnIndexOrThrow(COLUMN_BODY)));
             }
             c.moveToNext();
             sections.add(section);
@@ -213,13 +213,13 @@ public class BjcpDataHelper extends BaseDataHelper {
         while (!c.isAfterLast()) {
             vitalStatistic = new VitalStatistic();
 
-            if (c.getString(c.getColumnIndex(COLUMN_ID)) != null) {
-                vitalStatistic.setId(c.getInt(c.getColumnIndex(COLUMN_ID)));
-                vitalStatistic.setLow(c.getDouble(c.getColumnIndex(COLUMN_LOW)));
-                vitalStatistic.setHigh(c.getDouble(c.getColumnIndex(COLUMN_HIGH)));
-                vitalStatistic.setHeader(c.getString(c.getColumnIndex(COLUMN_HEADER)));
-                vitalStatistic.setType(c.getString(c.getColumnIndex(COLUMN_TYPE)));
-                vitalStatistic.setNotes(c.getString(c.getColumnIndex(COLUMN_NOTES)));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_ID)) != null) {
+                vitalStatistic.setId(c.getInt(c.getColumnIndexOrThrow(COLUMN_ID)));
+                vitalStatistic.setLow(c.getDouble(c.getColumnIndexOrThrow(COLUMN_LOW)));
+                vitalStatistic.setHigh(c.getDouble(c.getColumnIndexOrThrow(COLUMN_HIGH)));
+                vitalStatistic.setHeader(c.getString(c.getColumnIndexOrThrow(COLUMN_HEADER)));
+                vitalStatistic.setType(c.getString(c.getColumnIndexOrThrow(COLUMN_TYPE)));
+                vitalStatistic.setNotes(c.getString(c.getColumnIndexOrThrow(COLUMN_NOTES)));
             }
             c.moveToNext();
             vitalStatistics.add(vitalStatistic);
@@ -270,8 +270,8 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(COLUMN_RIGHT)) != null) {
-                searchResult = c.getString(c.getColumnIndex(COLUMN_RIGHT));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_RIGHT)) != null) {
+                searchResult = c.getString(c.getColumnIndexOrThrow(COLUMN_RIGHT));
                 searchResults.add(searchResult);
             }
         }
@@ -290,10 +290,10 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(COLUMN_RESULT_ID)) != null) {
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_RESULT_ID)) != null) {
                 searchResult = new SearchResult();
-                searchResult.setResultId(c.getInt(c.getColumnIndex(COLUMN_RESULT_ID)));
-                searchResult.setTableName(c.getString(c.getColumnIndex(COLUMN_TABLE_NAME)));
+                searchResult.setResultId(c.getInt(c.getColumnIndexOrThrow(COLUMN_RESULT_ID)));
+                searchResult.setTableName(c.getString(c.getColumnIndexOrThrow(COLUMN_TABLE_NAME)));
                 searchResult.setQuery(keyword);
 
                 searchResults.add(searchResult);
@@ -313,8 +313,8 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(COLUMN_LEFT)) != null) {
-                synonyms.add(c.getString(c.getColumnIndex(COLUMN_LEFT)));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_LEFT)) != null) {
+                synonyms.add(c.getString(c.getColumnIndexOrThrow(COLUMN_LEFT)));
             }
         }
 
@@ -334,8 +334,8 @@ public class BjcpDataHelper extends BaseDataHelper {
         c.moveToFirst();
 
         while (!c.isAfterLast()) {
-            if (c.getString(c.getColumnIndex(COLUMN_NAME)) != null) {
-                names.add(c.getString(c.getColumnIndex(COLUMN_NAME)));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_NAME)) != null) {
+                names.add(c.getString(c.getColumnIndexOrThrow(COLUMN_NAME)));
             }
             c.moveToNext();
         }
@@ -399,9 +399,9 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(COLUMN_CAT_ID)) != null) {
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_CAT_ID)) != null) {
                 searchResult = new SearchResult();
-                searchResult.setResultId(c.getInt(c.getColumnIndex(COLUMN_CAT_ID)));
+                searchResult.setResultId(c.getInt(c.getColumnIndexOrThrow(COLUMN_CAT_ID)));
                 searchResult.setTableName(TABLE_CATEGORY);
 
                 searchResults.add(searchResult);
@@ -421,8 +421,8 @@ public class BjcpDataHelper extends BaseDataHelper {
         Cursor c = getRead().rawQuery(query, null);
 
         while (c.moveToNext()) {
-            if (c.getString(c.getColumnIndex(COLUMN_TAG)) != null) {
-                tags.add(c.getString(c.getColumnIndex(COLUMN_TAG)));
+            if (c.getString(c.getColumnIndexOrThrow(COLUMN_TAG)) != null) {
+                tags.add(c.getString(c.getColumnIndexOrThrow(COLUMN_TAG)));
             }
         }
 

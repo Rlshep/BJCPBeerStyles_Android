@@ -28,8 +28,8 @@ public class CategoryBjcp2021UkTest extends BJCPTest {
 
     @Before
     public void setup() {
-        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
         setLanguage("Українська");
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
         setSrmSgAbv(true, true, true);
     }
 

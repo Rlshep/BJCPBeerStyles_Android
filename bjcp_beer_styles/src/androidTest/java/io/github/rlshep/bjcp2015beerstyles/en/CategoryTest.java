@@ -1,5 +1,6 @@
 package io.github.rlshep.bjcp2015beerstyles.en;
 
+import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -39,7 +40,7 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryCount() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasCountEqualTo(43)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasCountEqualTo(39)));
     }
 
     @Test
@@ -62,9 +63,9 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryLocal() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Local Styles", 41)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Local Styles", 35)));
 
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(41).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(35).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Catharina Sour", 4)));
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New Zealand Pilsner", 5)));
     }
@@ -83,7 +84,17 @@ public class CategoryTest extends BJCPTest {
 
     @Test
     public void testCategoryMead_en() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Mead", 39)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Mead 2015", 37)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(37).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to Mead Guidelines", 0)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Traditional Mead", 1)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sweetness")));
+        Espresso.pressBack();
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Dry Mead", 1)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Impression")));
     }
 
     @Test

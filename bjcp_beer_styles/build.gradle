@@ -1,14 +1,13 @@
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play'
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     def versionPropsFile = file('version.properties')
@@ -26,40 +25,18 @@ android {
             applicationId "io.github.rlshep.bjcp2015beerstyles"
             versionName name
             versionCode code
-            minSdkVersion 14
-            targetSdkVersion 30
+            minSdkVersion 21
+            targetSdkVersion 33
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
     } else {
         throw new Exception("Could not read version.properties!")
     }
 
-    signingConfigs {
-        release {
-            def keysPropsFile = file('C:/dev/GitHub/Personal_Scripts/keystores/keys.properties')
-            def Properties keysProps = new Properties()
-
-            if (keysPropsFile.canRead()) {
-                keysProps.load(new FileInputStream(keysPropsFile))
-            } else {
-                throw new Exception("Could not read keys.properties!")
-            }
-
-            def storePass = keysProps['STORE_PASSWORD']
-            def keyPass = keysProps['KEY_PASSWORD']
-
-            storeFile file("C:/dev/GitHub/Personal_Scripts/keystores/bjcp_key.jks")
-            storePassword storePass
-            keyAlias "BjcpBeerStylesKey"
-            keyPassword keyPass
-        }
-
-    }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
         debug {
             debuggable true
@@ -77,32 +54,26 @@ android {
 
 dependencies {
     implementation 'io.github.rlshep:BJCPBeerStyles_Core:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.appyvet:materialrangebar:1.4.6'
     implementation 'com.android.support:cardview-v7'
-//    implementation 'com.android.billingclient:billing:4.0.0'
+    implementation 'com.google.guava:guava:27.0.1-android'
 
     // App's dependencies, including test
-    implementation 'androidx.annotation:annotation:1.0.0'
+    implementation 'androidx.annotation:annotation:1.5.0'
 
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.0'
-    implementation 'androidx.test:runner:1.4.0'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation 'androidx.test:runner:1.5.2'
     testImplementation 'junit:junit:4.12'
 
     // Testing-only dependencies
     testImplementation 'org.mockito:mockito-core:2.25.1'
     androidTestImplementation 'org.mockito:mockito-android:2.25.1'
 
-    androidTestImplementation 'androidx.test:rules:1.1.1'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
-}
-
-play {
-    track = 'alpha'
-    serviceAccountEmail = 'bjcpbeerstyles@api-7620542471319259434-751037.iam.gserviceaccount.com'
-    serviceAccountCredentials = file("C:/dev/GitHub/Personal_Scripts/keystores/api-7620542471319259434-751037-78e602389150.p12")
 }
