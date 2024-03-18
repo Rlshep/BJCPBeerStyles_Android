@@ -40,4 +40,13 @@ public class CategoryBjcp2021UkTest extends BJCPTest {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Мутний ІРА / Hazy IPA", 10)));
     }
 
+    @Test
+    public void testCategoryCider_uk() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Сидри 2015", 38)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Вступ до стильового довідника сидрів", 0)));
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Стандартний сидр і пері", 1)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("виготовлений")));
+    }
 }
