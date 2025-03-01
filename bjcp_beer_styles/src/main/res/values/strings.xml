@@ -1,9 +1,10 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.3.13</string>
-    <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2021, BJCP, Inc. </string>
+    <string name="about_version">Beer Style Compendium v1.4.0</string>
+    <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2025, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
     <string name="about_author">Application authored by BJCP Certified Judge Richard Sheppard.</string>
+    <string name="about_contributor">Contributions made by Michael H. and Paul Hayslett of the </string>
     <string name="about_ba">2021 Brewers Association Beer Style Guidelines used with permission of </string>
     <string name="about_ba_end">Brewers Association</string>
     <string name="about_report_begin">"Report any bugs or issues to "</string>
@@ -43,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">is not available for</string>
     <string name="message_available_2">showing English instead.</string>
-    <string name="message_first">Release Notes version 1.3.7\n\n1. Language is now selectable within the application. Note: not all guidelines are available in multiple languages.\n\n2. Guidelines are selectable including BJCP 2021, BJCP 2015, BA 2021.\n\n3. Group Mead and Cider categories together in BJCP 2021.\n\n4. Minor fixes to Saison and Wood-Aged statistics\n\n5. Bug fix where advance search was not returning correct categories.</string>
+    <string name="message_first">Release Notes version 1.4.0\n\n1. Added BJCP 2025 Cider styles.</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
@@ -64,6 +65,7 @@
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
+        <item>2025 BJCP</item>
     </string-array>
     <string name="settings_language_name">Language:</string>
     <string-array name="settings_languages">
