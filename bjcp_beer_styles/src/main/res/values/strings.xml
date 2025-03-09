@@ -73,6 +73,12 @@
         <item>Español</item>
         <item>Українська</item>
     </string-array>
+    <string name="settings_theme_name">Application Theme:</string>
+    <string-array name="settings_app_themes">
+        <item>System Default</item>
+        <item>Dark</item>
+        <item>Light</item>
+    </string-array>
     <string name="settings_volume">Volume</string>
     <string name="settings_weight">Weight</string>
     <string name="search">Search</string>
