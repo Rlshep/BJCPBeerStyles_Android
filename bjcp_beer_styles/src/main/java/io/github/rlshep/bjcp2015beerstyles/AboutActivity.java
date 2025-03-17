@@ -25,6 +25,8 @@ public class AboutActivity extends BjcpActivity {
         body += getString(R.string.about_ba) + "<a href='https://www.brewersassociation.org/'> " + getString(R.string.about_ba_end) + "</a><br><br>";
         body += getString(R.string.about_author) + " " + getString(R.string.twitter_begin) + " <a href='https://twitter.com/rlshep'>@rlshep</a><br><br>";
 
+        body += getString(R.string.about_contributor) + "<a href='https://www.undergroundbrewers.org/'>" + " Underground Brewers" + "</a><br><br>";
+
         body += getString(R.string.about_report_begin) + " <a href='https://github.com/Rlshep/BJCPBeerStyles_Android/issues'>" + getString(R.string.about_report_end) + "</a><br><br>";
 
         TextView sectionsTextView = (TextView) findViewById(R.id.aboutText);

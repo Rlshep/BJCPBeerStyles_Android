@@ -1,9 +1,10 @@
 <resources>
-    <string name="about_version">Compendio de estilo cervecero v1.3.13</string>
-    <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2021, BJCP, Inc. </string>
+    <string name="about_version">Compendio de estilo cervecero v1.4.0</string>
+    <string name="about_bjcp_begin">BJCP la información de la guía de estilo es Copyright © 2025, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Programa de Certificación de Juez de Cerveza.</string>
     <string name="about_bjcp_end">Reproducido con permiso.</string>
     <string name="about_author">Aplicación creada por el juez certificado BJCP Richard Sheppard.</string>
+    <string name="about_contributor">Contribuciones de Michael Herbst y Paul Hayslett de los </string>
     <string name="about_ba">Pautas de estilo de cerveza de la Asociación de Cerveceros de 2021 utilizadas con permiso de la Asociación de Cerveceros.</string>
     <string name="about_ba_end">Asociación de Cerveceros</string>
     <string name="about_report_begin">"Reportar cualquier error o problema a"</string>
@@ -43,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">no está disponible para</string>
     <string name="message_available_2">mostrando inglés en su lugar.</string>
-    <string name="message_first">Notas de la versión versión 1.3.7\n\n1. El idioma ahora se puede seleccionar dentro de la aplicación. Nota: no todas las pautas están disponibles en varios idiomas.\n\n2. Las pautas son seleccionables, incluidas BJCP 2021, BJCP 2015, BA 2021.\n\n3. Agrupar las categorías de hidromiel y sidra en BJCP 2021.\n\n4. Correcciones menores a las estadísticas de Saison y madera envejecida.\n\n5. Corrección de errores donde la búsqueda avanzada no devolvía las categorías correctas.</string>
+    <string name="message_first">Notas de la versión versión 1.4.0\n\n1. Se agregaron pautas para la sidra BJCP 2025</string>
     <string name="no_search_results">No se han encontrado resultados</string>
     <string name="not_enough_chars">Por favor, introduzca al menos 3 caracteres de búsqueda.</string>
     <string name="og">OG</string>
@@ -65,12 +66,19 @@
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
+        <item>2025 BJCP</item>
     </string-array>
     <string name="settings_language_name">Idioma:</string>
     <string-array name="settings_languages">
         <item>English</item>
         <item>Español</item>
         <item>Українська</item>
+    </string-array>
+    <string name="settings_theme_name">Tema de la aplicación:</string>
+    <string-array name="settings_app_themes">
+        <item>System Default</item>
+        <item>Dark</item>
+        <item>Light</item>
     </string-array>
     <string name="settings_volume">Volumen</string>
     <string name="settings_weight">Peso</string>
