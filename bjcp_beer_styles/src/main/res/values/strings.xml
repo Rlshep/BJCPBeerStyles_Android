@@ -44,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">is not available for</string>
     <string name="message_available_2">showing English instead.</string>
-    <string name="message_first">Release Notes version 1.4.0\n\n1. Added BJCP 2025 Cider styles.</string>
+    <string name="message_first">Release Notes version 1.4.0\n\n1. Added BJCP 2025 Cider styles.\n2. Fixed typos and minor revisions according to Errata.</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
