@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.4.0</string>
+    <string name="about_version">Beer Style Compendium v1.4.1</string>
     <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2025, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
@@ -44,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">is not available for</string>
     <string name="message_available_2">showing English instead.</string>
-    <string name="message_first">Release Notes version 1.4.0\n\n1. Added BJCP 2025 Cider styles.\n2. Fixed typos and minor revisions according to Errata.</string>
+    <string name="message_first">Release Notes version 1.4.1\n\n1. Added BJCP 2025 Cider styles.\n2. Fixed typos and minor revisions according to Errata.</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
@@ -65,7 +65,6 @@
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
-        <item>2025 BJCP</item>
     </string-array>
     <string name="settings_language_name">Language:</string>
     <string-array name="settings_languages">
