@@ -6,7 +6,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.CoreMatchers.anything;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2025;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
 
@@ -29,7 +29,7 @@ public class Category2025Test extends BJCPTest {
 
     @Before
     public void setup() {
-        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2025));
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
         setLanguage("English");
         setSrmSgAbv(true, true, true);
     }
