@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuItemCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -52,6 +53,9 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         preferencesHelper.setupPreferences();
         searchSuggestions = new SearchHelper().getSearchSuggestions(this);
         currentLanguage = preferencesHelper.getLanguage();
+
+        AppCompatDelegate.setDefaultNightMode(preferencesHelper.getTheme());
+
         setAppLanguage(currentLanguage);
 
         validateCorrectDatabaseVersion();
@@ -141,6 +145,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
             setAppLanguage(appLanguage);
             recreate();
         }
+
+        AppCompatDelegate.setDefaultNightMode(preferencesHelper.getTheme());
     }
 
     @Override

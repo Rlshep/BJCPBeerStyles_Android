@@ -1,5 +1,14 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.SPANISH;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
+import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_LANGUAGE;
+import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_THEME;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,20 +18,14 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
-
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.SPANISH;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
-import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_LANGUAGE;
 
 public class SettingsActivity extends BjcpActivity {
     private PreferencesHelper preferencesHelper;
@@ -60,10 +63,10 @@ public class SettingsActivity extends BjcpActivity {
         abv.setChecked(preferencesHelper.isABV());
         abw.setChecked(!preferencesHelper.isABV());
     }
-
     private void initializeSpinners() {
         initializeSpinner(R.id.settings_guideline, R.array.settings_guidelines, preferencesHelper.getStyleTypeName());
         initializeSpinner(R.id.settings_language, R.array.settings_languages, BjcpConstants.getKeyValue(LANGUAGE_MAP, preferencesHelper.getLanguage()));
+        initializeSpinner(R.id.settings_theme, R.array.settings_app_themes, preferencesHelper.getThemeStr());
     }
 
     private void initializeSpinner(int spinnerId, int valuesId, String defaultValue) {
@@ -130,6 +133,7 @@ public class SettingsActivity extends BjcpActivity {
     private void addListenerOnSpinners() {
         Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
         Spinner language = (Spinner) findViewById(R.id.settings_language);
+        Spinner theme = (Spinner) findViewById(R.id.settings_theme);
 
         guideline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -158,6 +162,20 @@ public class SettingsActivity extends BjcpActivity {
                     recreate();
                 }
                 showAvailabilityMessage();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        theme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String themeName = (String) parent.getItemAtPosition(pos);
+                preferencesHelper.setPreferences(UNIT_THEME, themeName);
+
+                AppCompatDelegate.setDefaultNightMode(preferencesHelper.getTheme());
             }
 
             @Override
