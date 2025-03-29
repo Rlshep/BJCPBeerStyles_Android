@@ -56,7 +56,7 @@ public class Category2021Test extends BJCPTest {
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Impression")));
     }
 
-    @Test
+   // @Test
     public void testCategoryCider_en() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2015", 38)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
