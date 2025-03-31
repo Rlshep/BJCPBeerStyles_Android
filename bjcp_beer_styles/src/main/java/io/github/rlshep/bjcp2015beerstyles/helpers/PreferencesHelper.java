@@ -171,7 +171,7 @@ public class PreferencesHelper {
         return themeNbr;
     }
 
-    public String getThemeStr() {
+    public String getThemeString() {
 
         String currentThemeStr = SYSTEM_DEFAULT_THEME;
         int currentTheme = getTheme();

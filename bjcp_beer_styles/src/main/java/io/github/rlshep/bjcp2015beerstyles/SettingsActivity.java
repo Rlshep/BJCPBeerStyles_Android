@@ -66,7 +66,7 @@ public class SettingsActivity extends BjcpActivity {
     private void initializeSpinners() {
         initializeSpinner(R.id.settings_guideline, R.array.settings_guidelines, preferencesHelper.getStyleTypeName());
         initializeSpinner(R.id.settings_language, R.array.settings_languages, BjcpConstants.getKeyValue(LANGUAGE_MAP, preferencesHelper.getLanguage()));
-        initializeSpinner(R.id.settings_theme, R.array.settings_app_themes, preferencesHelper.getThemeStr());
+        initializeSpinner(R.id.settings_theme, R.array.settings_app_themes, preferencesHelper.getThemeString());
     }
 
     private void initializeSpinner(int spinnerId, int valuesId, String defaultValue) {
