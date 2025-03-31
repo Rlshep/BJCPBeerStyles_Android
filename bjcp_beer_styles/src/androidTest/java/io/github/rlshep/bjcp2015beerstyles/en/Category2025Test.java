@@ -36,8 +36,8 @@ public class Category2025Test extends BJCPTest {
 
     @Test
     public void testCategoryIntro() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 0)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 38)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to Cider Guidelines", 0)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Do not attempt to infer any deeper meaning")));
@@ -47,8 +47,8 @@ public class Category2025Test extends BJCPTest {
     @Test
     public void testCategoryCider_en() {
         // Fire Cider
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 0)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 38)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Cider", 2)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(2).perform(click());
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(5).perform(click());
@@ -67,8 +67,8 @@ public class Category2025Test extends BJCPTest {
 
     @Test
     public void testCommonCider_en() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 0)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 38)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Traditional Cider", 1)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Common Cider", 2)));
@@ -80,8 +80,8 @@ public class Category2025Test extends BJCPTest {
 
     @Test
     public void testSpecialtyCider_en() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 0)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2025", 38)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Specialty Cider", 3)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Spiced Cider", 3)));

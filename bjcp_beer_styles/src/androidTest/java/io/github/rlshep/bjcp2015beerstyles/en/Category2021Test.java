@@ -57,21 +57,6 @@ public class Category2021Test extends BJCPTest {
     }
 
     @Test
-    public void testCategoryCider_en() {
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Cider 2015", 38)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(38).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Introduction to Cider Guidelines", 0)));
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Standard Cider and Perry", 1)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(0).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Sweetness")));
-        Espresso.pressBack();
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(1).perform(click());
-        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("New World Cider", 3)));
-        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(3).perform(click());
-        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo("Impression")));
-    }
-
-    @Test
     public void testCategorySaison() {
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Strong Belgian Ale", 25)));
         onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(25).perform(click());
