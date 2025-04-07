@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -160,6 +161,10 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         final ArrayAdapterSearchView searchView = (ArrayAdapterSearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         searchView.setBackgroundColor(getResources().getColor(R.color.pressed_color));
+
+        EditText txtSearch = ((EditText)searchView.findViewById(androidx.appcompat.R.id.search_src_text));
+        txtSearch.setTextColor(getResources().getColor(R.color.cardview_dark_background));
+        txtSearch.setHintTextColor(getResources().getColor(R.color.cardview_dark_background));
 
         // Set adapter to get search suggestions.
         searchSuggestionAdapter = new ArrayAdapter<String>(this, R.layout.find_view, searchSuggestions);
