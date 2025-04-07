@@ -45,7 +45,7 @@
                 android:id="@+id/ibu_text"
                 android:layout_gravity="center"
                 android:text="@string/ibu"
-                android:textColor="@color/darkTextColor"
+
                 android:textStyle="bold" />
 
             <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -84,7 +84,7 @@
                 android:id="@+id/abv_text"
                 android:layout_gravity="center"
                 android:text="@string/ABV"
-                android:textColor="@color/darkTextColor"
+
                 android:textStyle="bold" />
 
             <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -123,7 +123,7 @@
                 android:id="@+id/color_text"
                 android:layout_gravity="center"
                 android:text="@string/srm"
-                android:textColor="@color/darkTextColor"
+
                 android:textStyle="bold" />
 
             <com.appyvet.materialrangebar.RangeBar xmlns:app="http://schemas.android.com/apk/res-auto"
