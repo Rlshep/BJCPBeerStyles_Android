@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 34
+   // compileSdkVersion 35
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     def versionPropsFile = file('version.properties')
@@ -26,7 +26,7 @@ android {
             versionName name
             versionCode code
             minSdkVersion 23
-            targetSdkVersion 34
+            targetSdkVersion 35
             testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         }
     } else {
@@ -43,18 +43,20 @@ android {
         }
     }
 
-    configurations.all {
+    configurations.configureEach {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:1.3.9'
     }
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+        compileSdk 35
     }
+    namespace 'io.github.rlshep.bjcp2015beerstyles'
 }
 
 dependencies {
     implementation 'io.github.rlshep:BJCPBeerStyles_Core:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 //    implementation 'com.appyvet:materialrangebar:1.4.6'
@@ -63,18 +65,18 @@ dependencies {
     implementation 'com.google.guava:guava:27.0.1-android'
 
     // App's dependencies, including test
-    implementation 'androidx.annotation:annotation:1.5.0'
+    implementation 'androidx.annotation:annotation:1.9.1'
 
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'androidx.test:runner:1.5.2'
+    implementation 'androidx.vectordrawable:vectordrawable:1.2.0'
+    implementation 'androidx.test:runner:1.6.2'
     testImplementation 'junit:junit:4.12'
 
     // Testing-only dependencies
     testImplementation 'org.mockito:mockito-core:2.25.1'
     androidTestImplementation 'org.mockito:mockito-android:2.25.1'
 
-    androidTestImplementation 'androidx.test:rules:1.5.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     androidTestImplementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
 }
