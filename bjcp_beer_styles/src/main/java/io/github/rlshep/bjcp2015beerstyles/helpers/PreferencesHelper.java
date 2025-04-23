@@ -15,6 +15,8 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLIS
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 
+import androidx.appcompat.app.AppCompatDelegate;
+
 public class PreferencesHelper {
     public static final String PREFERENCE_FILE_KEY = "bjcp_preferences";
     public static final String UNIT_GRAVITY = "gravity";
@@ -22,6 +24,7 @@ public class PreferencesHelper {
     public static final String UNIT_STYLE_TYPE = "style_type";
     public static final String UNIT_ALCOHOL = "alcohol";
     public static final String UNIT_LANGUAGE = "language";
+    public static final String UNIT_THEME = "theme";
     public static final String MESSAGE_FIRST_135 = "first";
     public static final String MESSAGE_NEVER_SHOW_AVAILABILITY = "not_available";
     public static final String GRAVITY_PLATO = "plato";
@@ -30,6 +33,10 @@ public class PreferencesHelper {
     public static final String COLOR_EBC = "ebc";
     public static final String ALCOHOL_ABV = "abv";
     public static final String ALCOHOL_ABW = "abw";
+
+    private static final String SYSTEM_DEFAULT_THEME = "System Default";
+    private static final String DARK_THEME = "Dark";
+    private static final String LIGHT_THEME = "Light";
 
     private final SharedPreferences sharedPref;
     private final Activity activity;
@@ -47,6 +54,8 @@ public class PreferencesHelper {
         String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
         String languagePref = sharedPref.getString(UNIT_LANGUAGE, null);
         String firstPref = sharedPref.getString(MESSAGE_FIRST_135, null);  //TODO: Remove in future release
+
+        String themePref = sharedPref.getString(UNIT_THEME, null);
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -73,6 +82,10 @@ public class PreferencesHelper {
 
         if (StringUtils.isEmpty(languagePref)) {
             setPreferences(UNIT_LANGUAGE, lh.getLocaleLanguage());
+        }
+
+        if(StringUtils.isEmpty(themePref)) {
+            setPreferences(UNIT_THEME, SYSTEM_DEFAULT_THEME);
         }
     }
 
@@ -140,6 +153,39 @@ public class PreferencesHelper {
 
     public boolean isShowLanguageAvailabilityMessage() {
         return (null == sharedPref.getString(MESSAGE_NEVER_SHOW_AVAILABILITY, null));
+    }
+
+    public int getTheme() {
+        String themeStr = sharedPref.getString(UNIT_THEME, SYSTEM_DEFAULT_THEME);
+        int themeNbr = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
+
+        switch(themeStr) {
+            case DARK_THEME:
+                themeNbr = AppCompatDelegate.MODE_NIGHT_YES;
+                break;
+            case LIGHT_THEME:
+                themeNbr = AppCompatDelegate.MODE_NIGHT_NO;
+                break;
+        }
+
+        return themeNbr;
+    }
+
+    public String getThemeString() {
+
+        String currentThemeStr = SYSTEM_DEFAULT_THEME;
+        int currentTheme = getTheme();
+
+        switch(currentTheme) {
+            case AppCompatDelegate.MODE_NIGHT_YES:
+                currentThemeStr = DARK_THEME;
+                break;
+            case AppCompatDelegate.MODE_NIGHT_NO:
+                currentThemeStr = LIGHT_THEME;
+                break;
+        }
+
+        return currentThemeStr;
     }
 
 }

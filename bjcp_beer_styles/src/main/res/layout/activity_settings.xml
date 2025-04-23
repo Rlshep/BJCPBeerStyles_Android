@@ -31,7 +31,6 @@
                 android:layout_marginRight="15dp"
                 android:id="@+id/settingColor"
                 android:text="@string/settings_color"
-                android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <RadioGroup
@@ -72,7 +71,6 @@
                 android:layout_marginRight="15dp"
                 android:id="@+id/settingGravity"
                 android:text="@string/settings_gravity"
-                android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <RadioGroup
@@ -112,7 +110,6 @@
                 android:layout_marginRight="15dp"
                 android:id="@+id/settingAlcohol"
                 android:text="@string/settings_alcohol"
-                android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <RadioGroup
@@ -152,7 +149,6 @@
                 android:layout_marginRight="15dp"
                 android:id="@+id/settingLanguageName"
                 android:text="@string/settings_language_name"
-                android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <Spinner
@@ -175,11 +171,32 @@
                 android:layout_marginRight="15dp"
                 android:id="@+id/settingGuidelineName"
                 android:text="@string/settings_guideline_name"
-                android:textColor="@color/darkTextColor"
                 android:textStyle="bold"/>
 
             <Spinner
                 android:id="@+id/settings_guideline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/settingThemeName"
+                android:text="@string/settings_theme_name"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/settings_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </Spinner>
