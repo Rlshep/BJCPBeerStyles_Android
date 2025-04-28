@@ -62,7 +62,8 @@ public class MainActivity extends BjcpActivity implements SearchView.OnQueryText
         validateCorrectDatabaseVersion();
         setupToolbar(R.id.tool_bar, preferencesHelper.getStyleTypeName(), true, false);
         setupViews();
-        showFirstMessage();
+// Disable popup for now.
+//        showFirstMessage();
     }
 
 
