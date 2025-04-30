@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:background="@color/ColorPrimary"
-
+    android:fitsSystemWindows="true"
     app:titleTextColor="@android:color/white"
     app:titleTextAppearance="@style/ToolbarTitle"
     app:editTextColor="@android:color/white"
