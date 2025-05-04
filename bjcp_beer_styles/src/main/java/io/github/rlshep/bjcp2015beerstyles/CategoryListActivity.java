@@ -25,6 +25,7 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ZoomHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
 
@@ -32,6 +33,7 @@ public class CategoryListActivity extends BjcpActivity {
     private GestureDetector gestureDetector;
     private String categoryId = "";
 
+    private ZoomHelper zoomHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class CategoryListActivity extends BjcpActivity {
         setContentView(R.layout.activity_category_list);
         String searchedText = "";
         String title = "";
+
+        zoomHelper = new ZoomHelper();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -73,8 +77,7 @@ public class CategoryListActivity extends BjcpActivity {
         categoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (parent.getItemAtPosition(position) instanceof Category) {
-                    Category category = (Category) parent.getItemAtPosition(position);
+                if (parent.getItemAtPosition(position) instanceof Category category) {
                     BjcpController.loadCategory((Activity) view.getContext(), category);
                 }
             }
@@ -89,8 +92,8 @@ public class CategoryListActivity extends BjcpActivity {
                 if (parent.getItemAtPosition(position) instanceof Category) {
                     addCategoryToBookmarked((Category) parent.getItemAtPosition(position));
                     consumed = true;
-                }  else if (parent.getItemAtPosition(position) instanceof Section) {
-                    TextView rowText = (TextView) findViewById(R.id.catSectionText);
+                } else if (parent.getItemAtPosition(position) instanceof Section) {
+                    TextView rowText = findViewById(R.id.catSectionText);
                     rowText.setSelectAllOnFocus(true);
                     consumed = false;
                 }
@@ -106,7 +109,7 @@ public class CategoryListActivity extends BjcpActivity {
 
         try {
             boolean eventConsumed = gestureDetector.onTouchEvent(event);
-            TextView rowText = (TextView) findViewById(R.id.catSectionText);
+            TextView rowText = findViewById(R.id.catSectionText);
 
             if (eventConsumed) {
                 if (GestureListener.SWIPE_LEFT.equals(GestureListener.currentGesture)) {
@@ -117,13 +120,13 @@ public class CategoryListActivity extends BjcpActivity {
 
                 eventReturn = true;
             } else if (rowText.isSelected()) {
-                if (event.equals(MotionEvent.ACTION_DOWN)) {
+                eventReturn = event.equals(MotionEvent.ACTION_DOWN);
+            } else {
+                if (zoomHelper.calculateZoom(event, rowText)) {
                     eventReturn = true;
                 } else {
-                    eventReturn = false;
+                    eventReturn = super.dispatchTouchEvent(event);
                 }
-            }else {
-                eventReturn = super.dispatchTouchEvent(event);
             }
 
         } catch (Exception e) {
