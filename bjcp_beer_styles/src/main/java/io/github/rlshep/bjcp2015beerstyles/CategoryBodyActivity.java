@@ -90,7 +90,6 @@ public class CategoryBodyActivity extends BjcpActivity {
                 TextView sectionsTextView = findViewById(R.id.sectionsText);
 
                 if (zoomHelper.calculateZoom(event, sectionsTextView)) {
-                    //eventConsumed = true;
                     eventReturn = true;
                 } else {
                     eventReturn = super.dispatchTouchEvent(event);

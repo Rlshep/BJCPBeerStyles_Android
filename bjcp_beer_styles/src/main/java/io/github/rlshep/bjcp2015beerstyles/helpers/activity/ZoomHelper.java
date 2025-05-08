@@ -27,7 +27,7 @@ public class ZoomHelper {
             } else {
                 float scale = (getDistance(event) - bastDst) / move;
                 float factor = (float) Math.pow(2, scale);
-                ratio = Math.min(30.0f, Math.max(0.1f, baseRatio * factor));
+                ratio = Math.min(20.0f, Math.max(0.1f, baseRatio * factor));
 
                 textview.setTextSize(ratio + 15);
             }
