@@ -1,5 +1,8 @@
 package io.github.rlshep.bjcp2015beerstyles;
 
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
+
 import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
@@ -24,10 +27,8 @@ import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.CategoryBodyHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.VitalStatisticsHelper;
+import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ZoomHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
-
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ZERO;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpContract.XML_SRM;
 
 
 public class CategoryBodyActivity extends BjcpActivity {
@@ -36,6 +37,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     private GestureDetector gestureDetector;
     private String categoryId = "";
     private CategoryBodyHelper categoryBodyHelper;
+    private ZoomHelper zoomHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class CategoryBodyActivity extends BjcpActivity {
         Bundle extras = getIntent().getExtras();
         String searchedText = "";
         String title = "";
+
+        zoomHelper = new ZoomHelper();
 
         if (extras != null) {
             if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
@@ -82,7 +86,14 @@ public class CategoryBodyActivity extends BjcpActivity {
                     changeCategory(1);
                 }
             } else {
-                eventReturn = super.dispatchTouchEvent(event);
+
+                TextView sectionsTextView = findViewById(R.id.sectionsText);
+
+                if (zoomHelper.calculateZoom(event, sectionsTextView)) {
+                    eventReturn = true;
+                } else {
+                    eventReturn = super.dispatchTouchEvent(event);
+                }
             }
         } catch (Exception e) {
             // I don't know why this is happening. setSpan out of index.
@@ -157,7 +168,7 @@ public class CategoryBodyActivity extends BjcpActivity {
 
     private TextView getSrmTextView(String srm, int i) {
         int id = getResources().getIdentifier(srm + i, "id", getPackageName());
-        return (TextView) findViewById(id);
+        return findViewById(id);
     }
 
     private void changeCategory(int i) {
