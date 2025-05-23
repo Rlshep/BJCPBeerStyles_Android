@@ -53,6 +53,7 @@ public class ZoomHelper {
         return eventConsumed;
     }
 
+    // if a view runs off the screen due to zooming then it gets recycled and the method below won't find it
     private Set<TextView> findSectionViews(@NonNull TextView textview) {
         Set<TextView> sectionViews = new HashSet<>();
 
@@ -65,7 +66,7 @@ public class ZoomHelper {
             for (int k = 0; k < lp1.getChildCount(); k++) {
                 TextView tv = (TextView) lp1.getChildAt(k);
 
-                if (!tv.getText().toString().isEmpty() && !tv.getText().toString().contains(" - ") && tv.getTypeface().getStyle() != Typeface.BOLD) {
+                if (!tv.getText().toString().isEmpty() && tv.getTypeface().getStyle() != Typeface.BOLD) {
                     sectionViews.add(tv);
                 }
             }
