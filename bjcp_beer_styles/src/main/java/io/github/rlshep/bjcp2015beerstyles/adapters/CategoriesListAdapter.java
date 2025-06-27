@@ -38,6 +38,8 @@ public class CategoriesListAdapter extends ArrayAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View listRowView = inflater.inflate(R.layout.categories_list_row, parent, false);
+        listRowView.setHasTransientState(true);
+
         TextView rowText;
         Object item = getItem(position);
 
