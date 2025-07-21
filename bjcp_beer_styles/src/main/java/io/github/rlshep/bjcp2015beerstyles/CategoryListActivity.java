@@ -122,7 +122,7 @@ public class CategoryListActivity extends BjcpActivity {
             } else if (rowText.isSelected()) {
                 eventReturn = event.equals(MotionEvent.ACTION_DOWN);
             } else {
-                if (zoomHelper.calculateZoom(event, rowText)) {
+                if (zoomHelper.calculateZoom(event, rowText, true)) {
                     eventReturn = true;
                 } else {
                     eventReturn = super.dispatchTouchEvent(event);
