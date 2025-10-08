@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-   // compileSdkVersion 35
+    compileSdkVersion = 35
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_21
-        targetCompatibility JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     def versionPropsFile = file('version.properties')
@@ -49,7 +49,7 @@ android {
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
-        compileSdk 35
+        compileSdk = 35
     }
     namespace 'io.github.rlshep.bjcp2015beerstyles'
 }
