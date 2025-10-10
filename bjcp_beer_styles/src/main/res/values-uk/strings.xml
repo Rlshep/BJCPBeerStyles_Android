@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Довідник пивних стилів 1.4.8</string>
+    <string name="about_version">Довідник пивних стилів 1.4.9</string>
     <string name="about_bjcp_begin">Авторське право на довідник BJCP належить BJCP © 2025, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Програма сертифікації пивних суддів.</string>
     <string name="about_bjcp_end">Використовується за згодою.</string>
@@ -44,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">недоступний такою мовою: </string>
     <string name="message_available_2">Замість цього відображається англійська версія.</string>
-    <string name="message_first">Примітки до випуску версії 1.4.8\n\n Додано підтримку масштабування тексту</string>
+    <string name="message_first">Примітки до випуску версії 1.4.9\n\n Оновіть до Android 16</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
     <string name="og">OG</string>
