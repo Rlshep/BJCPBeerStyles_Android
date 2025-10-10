@@ -1,7 +1,7 @@
 # BJCP2021BeerStyles
 An Android application to display BJCP 2021 Style Guidelines
 
-All style guideline information is Copyright � 2021, BJCP, Inc. Beer Judge Certification Program.
+All style guideline information is Copyright � 2025, BJCP, Inc. Beer Judge Certification Program.
 Reproduced with permission.
 
 Application authored by Richard Sheppard.
