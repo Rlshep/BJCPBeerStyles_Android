@@ -117,4 +117,14 @@ public class Category2021Test extends BJCPTest {
 
         onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(" Dunkles Weissbier made with rye")));
     }
+
+    @Test
+    public void testCategoryLastInHistoricalList() {
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Historical Beer", 27)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(27).perform(click());
+        onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Historical Beer: Sahti", 9)));
+        onData(anything()).inAdapterView(withId(R.id.categoryListView)).atPosition(9).perform(click());
+
+        onView(withId(R.id.sectionsText)).check(matches(Matchers.hasValueEqualTo(" Finnish farmhouse beer usually with rye and juniper, and a banana-clove yeast character")));
+    }
 }
