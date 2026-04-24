@@ -78,6 +78,12 @@
         <item>Dark</item>
         <item>Light</item>
     </string-array>
+    <string name="settings_font_size">Font Size:</string>
+    <string-array name="settings_fontsize">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
     <string name="settings_volume">Volume</string>
     <string name="settings_weight">Weight</string>
     <string name="search">Search</string>

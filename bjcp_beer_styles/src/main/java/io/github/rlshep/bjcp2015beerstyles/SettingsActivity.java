@@ -8,6 +8,7 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.SPANIS
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_LANGUAGE;
 import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.UNIT_THEME;
+import static io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper.FONT_SIZE;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -19,6 +20,8 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatDelegate;
+
+import org.junit.internal.runners.statements.FailOnTimeout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +70,7 @@ public class SettingsActivity extends BjcpActivity {
         initializeSpinner(R.id.settings_guideline, R.array.settings_guidelines, preferencesHelper.getStyleTypeName());
         initializeSpinner(R.id.settings_language, R.array.settings_languages, BjcpConstants.getKeyValue(LANGUAGE_MAP, preferencesHelper.getLanguage()));
         initializeSpinner(R.id.settings_theme, R.array.settings_app_themes, preferencesHelper.getThemeString());
+        initializeSpinner(R.id.settings_fontsize, R.array.settings_fontsize, preferencesHelper.getFontSize());
     }
 
     private void initializeSpinner(int spinnerId, int valuesId, String defaultValue) {
@@ -134,6 +138,7 @@ public class SettingsActivity extends BjcpActivity {
         Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
         Spinner language = (Spinner) findViewById(R.id.settings_language);
         Spinner theme = (Spinner) findViewById(R.id.settings_theme);
+        Spinner font = (Spinner) findViewById(R.id.settings_fontsize);
 
         guideline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -176,6 +181,18 @@ public class SettingsActivity extends BjcpActivity {
                 preferencesHelper.setPreferences(UNIT_THEME, themeName);
 
                 AppCompatDelegate.setDefaultNightMode(preferencesHelper.getTheme());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        font.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String fontSize = (String) parent.getItemAtPosition(pos);
+                preferencesHelper.setPreferences(FONT_SIZE, fontSize);
             }
 
             @Override

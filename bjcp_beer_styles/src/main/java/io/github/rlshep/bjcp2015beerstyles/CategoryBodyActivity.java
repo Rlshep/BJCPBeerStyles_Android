@@ -25,6 +25,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.CategoryBodyHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.VitalStatisticsHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ZoomHelper;
@@ -87,7 +88,7 @@ public class CategoryBodyActivity extends BjcpActivity {
                 }
             } else {
 
-                TextView sectionsTextView = findViewById(R.id.sectionsText);
+                TextView sectionsTextView = findViewById(R.id.catSectionText);
 
                 if (zoomHelper.calculateZoom(event, sectionsTextView, false)) {
                     eventReturn = true;
@@ -124,7 +125,11 @@ public class CategoryBodyActivity extends BjcpActivity {
         TextView sectionsTextView = findViewById(R.id.sectionsText);
         sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(categoryBodyHelper.getMainText(), searchedText)));
         sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
-    }
+
+        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
+        float textSize = preferencesHelper.getFontSizeActual();
+        sectionsTextView.setTextSize(textSize);
+        }
 
     private void setColors() {
         List<VitalStatistic> vitalStatistics = BjcpDataHelper.getInstance(this).getVitalStatistic(categoryId);

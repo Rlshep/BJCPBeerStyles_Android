@@ -78,6 +78,12 @@
         <item>Dark</item>
         <item>Light</item>
     </string-array>
+    <string name="settings_font_size">Розмір шрифту:</string>
+    <string-array name="settings_fontsize">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
     <string name="settings_volume">обсягу</string>
     <string name="settings_weight">ваги</string>
     <string name="search">Пошук</string>

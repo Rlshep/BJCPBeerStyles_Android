@@ -33,6 +33,7 @@ public class PreferencesHelper {
     public static final String COLOR_EBC = "ebc";
     public static final String ALCOHOL_ABV = "abv";
     public static final String ALCOHOL_ABW = "abw";
+    public static final String FONT_SIZE = "font_size";
 
     private static final String SYSTEM_DEFAULT_THEME = "System Default";
     private static final String DARK_THEME = "Dark";
@@ -56,6 +57,7 @@ public class PreferencesHelper {
         String firstPref = sharedPref.getString(MESSAGE_FIRST_135, null);  //TODO: Remove in future release
 
         String themePref = sharedPref.getString(UNIT_THEME, null);
+        String fontPref = sharedPref.getString(FONT_SIZE, null);
 
         if (StringUtils.isEmpty(gravityPref)) {       //First time in
             if (MetricConverter.isCountryMetric(lh.getCountry())) {
@@ -86,6 +88,10 @@ public class PreferencesHelper {
 
         if(StringUtils.isEmpty(themePref)) {
             setPreferences(UNIT_THEME, SYSTEM_DEFAULT_THEME);
+        }
+
+        if(StringUtils.isEmpty(fontPref)) {
+            setPreferences(FONT_SIZE, "Small");
         }
     }
 
@@ -188,4 +194,26 @@ public class PreferencesHelper {
         return currentThemeStr;
     }
 
+    public String getFontSize() {
+        return sharedPref.getString(FONT_SIZE, null);
+    }
+
+    public float getFontSizeActual() {
+
+        float size = 14;
+
+        switch(getFontSize()) {
+            case "Small":
+                size = 14;
+                break;
+            case "Medium":
+                size = 24;
+                break;
+            case "Large":
+                size = 32;
+                break;
+        }
+
+        return size;
+    }
 }
