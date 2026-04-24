@@ -44,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">недоступний такою мовою: </string>
     <string name="message_available_2">Замість цього відображається англійська версія.</string>
-    <string name="message_first">Примітки до випуску версії 1.4.9\n\n Оновіть до Android 16</string>
+    <string name="message_first">Примітки до випуску версії 1.4.10\n\n Налаштовуваний розмір тексту</string>
     <string name="no_search_results">Немає результатів</string>
     <string name="not_enough_chars">Введіть щонайменше три літери.</string>
     <string name="og">OG</string>
