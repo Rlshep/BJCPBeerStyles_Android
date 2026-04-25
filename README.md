@@ -25,6 +25,8 @@ Thank you to Seth Kroger for providing the formatted XML.
 2. Build the code: ./gradlew clean assembleRelease
 3. Push the application to an emulator or connected device: adb install -d bjcp_beer_styles/build/outputs/apk/release/bjcp_beer_styles-release.apk
 4. Execute device tests: ./gradlew cAT
+   a. Device test only a single class: ./gradlew cAT -Pandroid.testInstrumentationRunnerArguments.class=io.github.rlshep.bjcp2015beerstyles.en.SearchTest
+
 
 If changing db
 -----------------------------------

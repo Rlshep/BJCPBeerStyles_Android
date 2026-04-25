@@ -89,6 +89,9 @@ public class SearchTest extends BJCPTest {
 
     @Test
     public void searchText_return_new_england_ipa() throws InterruptedException {
+
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
