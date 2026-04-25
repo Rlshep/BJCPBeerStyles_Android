@@ -10,7 +10,7 @@ Thank you to Seth Kroger for providing the formatted XML.
 ## Build Information
 
 1. Edit build.gradle within bjcp_beer_styles and add the following:
-
+```
     signingConfigs {
        create("release") {
            // You need to specify either an absolute path or include the
@@ -21,7 +21,7 @@ Thank you to Seth Kroger for providing the formatted XML.
            keyPassword = ""
            }
        }
-
+```
 2. Build the code: ./gradlew clean assembleRelease
 3. Push the application to an emulator or connected device: adb install -d bjcp_beer_styles/build/outputs/apk/release/bjcp_beer_styles-release.apk
 4. Execute device tests: ./gradlew cAT
