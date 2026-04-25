@@ -36,6 +36,8 @@ public class CategoryListActivity extends BjcpActivity {
 
     private ZoomHelper zoomHelper;
 
+    private PreferencesHelper preferencesHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,7 @@ public class CategoryListActivity extends BjcpActivity {
         String title = "";
 
         zoomHelper = new ZoomHelper();
+        preferencesHelper = new PreferencesHelper(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -70,8 +73,6 @@ public class CategoryListActivity extends BjcpActivity {
 
         listView.addAll(BjcpDataHelper.getInstance(this).getCategorySections(categoryId));
         listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
-
-        PreferencesHelper preferencesHelper = new PreferencesHelper(this);
 
         ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText, preferencesHelper.getFontSizeActual());
         ListView categoryListView = findViewById(R.id.categoryListView);

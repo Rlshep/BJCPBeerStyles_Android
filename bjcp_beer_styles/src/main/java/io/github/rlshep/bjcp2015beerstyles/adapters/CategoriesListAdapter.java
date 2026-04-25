@@ -70,6 +70,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);
             rowText.setTextIsSelectable(true);
+           // rowText.setTextSize(size);
         }
 
         return listRowView;

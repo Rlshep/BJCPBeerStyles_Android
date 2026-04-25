@@ -207,10 +207,10 @@ public class PreferencesHelper {
                 size = 14;
                 break;
             case "Medium":
-                size = 24;
+                size = 20;
                 break;
             case "Large":
-                size = 32;
+                size = 24;
                 break;
         }
 
