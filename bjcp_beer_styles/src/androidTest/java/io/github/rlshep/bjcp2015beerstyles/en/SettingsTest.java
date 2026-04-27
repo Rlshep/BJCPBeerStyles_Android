@@ -140,4 +140,12 @@ public class SettingsTest extends BJCPTest {
         onView(withId(R.id.settings_fontsize)).perform(click());
         onData(hasToString("Small")).perform(click());
     }
+
+    @Test
+    public void settings_applicationTheme() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingThemeName)).check(matches(Matchers.hasValueEqualTo("Application Theme")));
+        onView(withId(R.id.settings_theme)).perform(click());
+        onData(hasToString("System Default")).perform(click());
+    }
 }
