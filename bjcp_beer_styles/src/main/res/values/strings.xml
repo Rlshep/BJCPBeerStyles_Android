@@ -1,5 +1,5 @@
 <resources>
-    <string name="about_version">Beer Style Compendium v1.4.9</string>
+    <string name="about_version">Beer Style Compendium v1.4.10</string>
     <string name="about_bjcp_begin">BJCP style guideline information is Copyright © 2025, BJCP, Inc. </string>
     <string name="about_bjcp_mid">Beer Judge Certification Program.</string>
     <string name="about_bjcp_end">Reproduced with permission.</string>
@@ -44,7 +44,7 @@
     <string name="ibu">IBU</string>
     <string name="message_available_1">is not available for</string>
     <string name="message_available_2">showing English instead.</string>
-    <string name="message_first">Release Notes version 1.4.9\n\n1. Upgrade to Android 16</string>
+    <string name="message_first">Release Notes version 1.4.10\n\n1. Configurable text size</string>
     <string name="no_search_results">No Results Found</string>
     <string name="not_enough_chars">Please enter at least 3 search characters.</string>
     <string name="og">OG</string>
@@ -77,6 +77,12 @@
         <item>System Default</item>
         <item>Dark</item>
         <item>Light</item>
+    </string-array>
+    <string name="settings_font_size">Font Size:</string>
+    <string-array name="settings_fontsize">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
     <string name="settings_volume">Volume</string>
     <string name="settings_weight">Weight</string>

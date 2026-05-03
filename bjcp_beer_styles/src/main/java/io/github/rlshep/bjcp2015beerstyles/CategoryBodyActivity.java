@@ -25,6 +25,7 @@ import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.VitalStatistic;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
 import io.github.rlshep.bjcp2015beerstyles.formatters.StringFormatter;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.CategoryBodyHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.VitalStatisticsHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ZoomHelper;
@@ -38,6 +39,7 @@ public class CategoryBodyActivity extends BjcpActivity {
     private String categoryId = "";
     private CategoryBodyHelper categoryBodyHelper;
     private ZoomHelper zoomHelper;
+    private PreferencesHelper preferencesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class CategoryBodyActivity extends BjcpActivity {
         String title = "";
 
         zoomHelper = new ZoomHelper();
+        preferencesHelper = new PreferencesHelper(this);
 
         if (extras != null) {
             if (!StringUtils.isEmpty(extras.getString("CATEGORY"))) {
@@ -88,12 +91,23 @@ public class CategoryBodyActivity extends BjcpActivity {
             } else {
 
                 TextView sectionsTextView = findViewById(R.id.sectionsText);
+                TextView srmText = getSrmTextView("srmText", 1);
 
-                if (zoomHelper.calculateZoom(event, sectionsTextView, false)) {
-                    eventReturn = true;
+                if (srmText != null) {
+                    if (zoomHelper.calculateZoom(event, sectionsTextView, false)
+                            && zoomHelper.calculateZoom(event, srmText, false)) {
+                        eventReturn = true;
+                    } else {
+                        eventReturn = super.dispatchTouchEvent(event);
+                    }
                 } else {
-                    eventReturn = super.dispatchTouchEvent(event);
+                    if (zoomHelper.calculateZoom(event, sectionsTextView, false)) {
+                        eventReturn = true;
+                    } else {
+                        eventReturn = super.dispatchTouchEvent(event);
+                    }
                 }
+
             }
         } catch (Exception e) {
             // I don't know why this is happening. setSpan out of index.
@@ -124,6 +138,9 @@ public class CategoryBodyActivity extends BjcpActivity {
         TextView sectionsTextView = findViewById(R.id.sectionsText);
         sectionsTextView.setText(Html.fromHtml(StringFormatter.getHighlightedText(categoryBodyHelper.getMainText(), searchedText)));
         sectionsTextView.setMovementMethod(LinkMovementMethod.getInstance());   //Make links actually work.
+
+        float textSize = preferencesHelper.getFontSizeActual();
+        sectionsTextView.setTextSize(textSize);
     }
 
     private void setColors() {
@@ -146,6 +163,9 @@ public class CategoryBodyActivity extends BjcpActivity {
             srmText.setText(Html.fromHtml(colorVerbiage));
             srmText.setVisibility(View.VISIBLE);
             setColorBoxes(vitalStatistic, i);
+
+            float textSize = preferencesHelper.getFontSizeActual();
+            srmText.setTextSize(textSize);
         }
     }
 

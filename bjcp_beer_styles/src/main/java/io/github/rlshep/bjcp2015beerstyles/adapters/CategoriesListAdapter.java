@@ -23,15 +23,18 @@ public class CategoriesListAdapter extends ArrayAdapter {
     private ArrayList<Integer> selectedIds = new ArrayList<Integer>();
     private boolean selectEnabled = true;
 
+    private float size;
+
     @SuppressWarnings("unchecked")
     public CategoriesListAdapter(Context context, List listValues) {
         super(context, R.layout.categories_list_row, listValues);
     }
 
     @SuppressWarnings("unchecked")
-    public CategoriesListAdapter(Context context, List listValues, String searchedText) {
+    public CategoriesListAdapter(Context context, List listValues, String searchedText, float size) {
         super(context, R.layout.categories_list_row, listValues);
         this.searchedText = searchedText;
+        this.size = size;
     }
 
     @Override
@@ -51,6 +54,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText(Html.fromHtml(StringFormatter.getHighlightedText(section.getBody(), searchedText)));
             rowText.setTextIsSelectable(true);
+            rowText.setTextSize(size);
         }
         if (item instanceof Category) {
             Category category = (Category) item;
@@ -66,6 +70,7 @@ public class CategoriesListAdapter extends ArrayAdapter {
             rowText = (TextView) listRowView.findViewById(R.id.catSectionText);
             rowText.setText((String) item);
             rowText.setTextIsSelectable(true);
+           // rowText.setTextSize(size);
         }
 
         return listRowView;

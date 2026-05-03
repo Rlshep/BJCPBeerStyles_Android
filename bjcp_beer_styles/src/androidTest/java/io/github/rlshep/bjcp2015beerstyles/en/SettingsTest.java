@@ -132,4 +132,20 @@ public class SettingsTest extends BJCPTest {
         Espresso.pressBack();
         onView(withId(R.id.categoryListView)).check(matches(Matchers.hasListViewEqualTo("Вступ", 0)));
     }
+
+    @Test
+    public void settings_fontSize() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingFontSize)).check(matches(Matchers.hasValueEqualTo("Font Size:")));
+        onView(withId(R.id.settings_fontsize)).perform(click());
+        onData(hasToString("Small")).perform(click());
+    }
+
+    @Test
+    public void settings_applicationTheme() {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settingThemeName)).check(matches(Matchers.hasValueEqualTo("Application Theme")));
+        onView(withId(R.id.settings_theme)).perform(click());
+        onData(hasToString("System Default")).perform(click());
+    }
 }

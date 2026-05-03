@@ -1,8 +1,22 @@
 package io.github.rlshep.bjcp2015beerstyles.en;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.CoreMatchers.anything;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,26 +28,13 @@ import io.github.rlshep.bjcp2015beerstyles.MainActivity;
 import io.github.rlshep.bjcp2015beerstyles.R;
 import io.github.rlshep.bjcp2015beerstyles.matchers.Matchers;
 
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
-import static androidx.test.espresso.action.ViewActions.typeText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.getKeyValue;
-import static org.hamcrest.CoreMatchers.anything;
-
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SearchTest extends BJCPTest {
     public static final String STRING_TO_BE_TYPED = "Espresso";
     public static final String APOSTROPHE_TO_BE_TYPED = "Marston's";
     public static final String EXACT_TO_BE_TYPED = "Fuller's";
-    public static final String NEW_ENGLAND_IPA = "New England IPA";
+    public static final String NEW_ENGLAND_IPA = "NEIPA";
     public static final String NEW_ENGLAND_IPA_SYNONYM = "Hazy IPA";
     public static final String KOLSCH = "Kolsch";
     public static final String KOLSCH_ACTUAL = "Kölsch";
@@ -88,6 +89,9 @@ public class SearchTest extends BJCPTest {
 
     @Test
     public void searchText_return_new_england_ipa() throws InterruptedException {
+
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());
@@ -98,6 +102,9 @@ public class SearchTest extends BJCPTest {
 
     @Test
     public void searchText_return_hazy_ipa() throws InterruptedException {
+
+        setGuideline(getKeyValue(GUIDELINE_MAP, BJCP_2021));
+
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text)).perform(typeText(NEW_ENGLAND_IPA_SYNONYM), closeSoftKeyboard());
         onView(withId(R.id.search_src_text)).perform(pressImeActionButton());

@@ -25,6 +25,7 @@ import io.github.rlshep.bjcp2015beerstyles.db.BjcpDataHelper;
 import io.github.rlshep.bjcp2015beerstyles.domain.Category;
 import io.github.rlshep.bjcp2015beerstyles.domain.Section;
 import io.github.rlshep.bjcp2015beerstyles.exceptions.ExceptionHandler;
+import io.github.rlshep.bjcp2015beerstyles.helpers.PreferencesHelper;
 import io.github.rlshep.bjcp2015beerstyles.helpers.activity.ZoomHelper;
 import io.github.rlshep.bjcp2015beerstyles.listeners.GestureListener;
 
@@ -35,6 +36,8 @@ public class CategoryListActivity extends BjcpActivity {
 
     private ZoomHelper zoomHelper;
 
+    private PreferencesHelper preferencesHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class CategoryListActivity extends BjcpActivity {
         String title = "";
 
         zoomHelper = new ZoomHelper();
+        preferencesHelper = new PreferencesHelper(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -70,7 +74,7 @@ public class CategoryListActivity extends BjcpActivity {
         listView.addAll(BjcpDataHelper.getInstance(this).getCategorySections(categoryId));
         listView.addAll(BjcpDataHelper.getInstance(this).getCategoriesByParent(categoryId));
 
-        ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText);
+        ListAdapter categoryAdapter = new CategoriesListAdapter(this, listView, searchedText, preferencesHelper.getFontSizeActual());
         ListView categoryListView = findViewById(R.id.categoryListView);
         categoryListView.setAdapter(categoryAdapter);
 
