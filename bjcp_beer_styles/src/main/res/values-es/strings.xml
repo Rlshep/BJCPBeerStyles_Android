@@ -61,11 +61,21 @@
     <string name="settings_plato">Plato</string>
     <string name="settings_specific_gravity">SG</string>
     <string name="settings_title">Títulos en ingles:</string>
-    <string name="settings_guideline_name">Guía:</string>
+    <string name="settings_guideline_name">Guía de Cerveza:</string>
     <string-array name="settings_guidelines">
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
+    </string-array>
+    <string name="settings_mead_guideline_name">Guía de Hidromiel: </string>
+    <string-array name="settings_mead_guidelines">
+        <item>2015 BJCP Hidromiel</item>
+        <item>2026 BJCP Hidromiel</item>
+    </string-array>
+    <string name="settings_cider_guideline_name">Guía de Sidra: </string>
+    <string-array name="settings_cider_guidelines">
+        <item>2015 BJCP Sidra</item>
+        <item>2025 BJCP Sidra</item>
     </string-array>
     <string name="settings_language_name">Idioma:</string>
     <string-array name="settings_languages">

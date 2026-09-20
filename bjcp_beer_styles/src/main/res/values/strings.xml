@@ -60,11 +60,21 @@
     <string name="settings_plato">Plato</string>
     <string name="settings_title">English titles:</string>
     <string name="settings_specific_gravity">SG</string>
-    <string name="settings_guideline_name">Guideline: </string>
+    <string name="settings_guideline_name">Beer Guideline: </string>
     <string-array name="settings_guidelines">
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
+    </string-array>
+    <string name="settings_mead_guideline_name">Mead Guideline: </string>
+    <string-array name="settings_mead_guidelines">
+        <item>2015 BJCP Mead</item>
+        <item>2026 BJCP Mead</item>
+    </string-array>
+    <string name="settings_cider_guideline_name">Cider Guideline: </string>
+    <string-array name="settings_cider_guidelines">
+        <item>2015 BJCP Cider</item>
+        <item>2025 BJCP Cider</item>
     </string-array>
     <string name="settings_language_name">Language:</string>
     <string-array name="settings_languages">

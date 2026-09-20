@@ -6,8 +6,8 @@ android {
     compileSdkVersion = 37
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     def versionPropsFile = file('version.properties')
@@ -55,7 +55,7 @@ android {
 }
 
 dependencies {
-    implementation 'io.github.rlshep:BJCPBeerStyles_Core:1.0.0'
+    implementation files('libs/BJCPBeerStyles_Core-1.0.0.jar')
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'

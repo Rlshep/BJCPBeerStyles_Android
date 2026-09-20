@@ -37,6 +37,22 @@ public abstract class BJCPTest {
         Espresso.pressBack();
     }
 
+    public static void setMeadGuideline(String guideline) {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settings_mead_guideline)).perform(click());
+        onData(containsString(guideline)).perform(click());
+        onView(withId(R.id.settings_mead_guideline)).check(matches(withSpinnerText(containsString(guideline))));
+        Espresso.pressBack();
+    }
+
+    public static void setCiderGuideline(String guideline) {
+        onView(withId(R.id.action_settings)).perform(click());
+        onView(withId(R.id.settings_cider_guideline)).perform(click());
+        onData(containsString(guideline)).perform(click());
+        onView(withId(R.id.settings_cider_guideline)).check(matches(withSpinnerText(containsString(guideline))));
+        Espresso.pressBack();
+    }
+
     public static void setLanguage(String language) {
         onView(withId(R.id.action_settings)).perform(click());
         onView(withId(R.id.settings_language)).perform(click());

@@ -3,6 +3,8 @@ package io.github.rlshep.bjcp2015beerstyles;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BA_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.MEAD_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.CIDER_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.LANGUAGE_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.SPANISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
@@ -68,6 +70,8 @@ public class SettingsActivity extends BjcpActivity {
     }
     private void initializeSpinners() {
         initializeSpinner(R.id.settings_guideline, R.array.settings_guidelines, preferencesHelper.getStyleTypeName());
+        initializeSpinner(R.id.settings_cider_guideline, R.array.settings_cider_guidelines, preferencesHelper.getCiderStyleTypeName());
+        initializeSpinner(R.id.settings_mead_guideline, R.array.settings_mead_guidelines, preferencesHelper.getMeadStyleTypeName());
         initializeSpinner(R.id.settings_language, R.array.settings_languages, BjcpConstants.getKeyValue(LANGUAGE_MAP, preferencesHelper.getLanguage()));
         initializeSpinner(R.id.settings_theme, R.array.settings_app_themes, preferencesHelper.getThemeString());
         initializeSpinner(R.id.settings_fontsize, R.array.settings_fontsize, preferencesHelper.getFontSize());
@@ -136,6 +140,8 @@ public class SettingsActivity extends BjcpActivity {
 
     private void addListenerOnSpinners() {
         Spinner guideline = (Spinner) findViewById(R.id.settings_guideline);
+        Spinner ciderGuideline = (Spinner) findViewById(R.id.settings_cider_guideline);
+        Spinner meadGuideline = (Spinner) findViewById(R.id.settings_mead_guideline);
         Spinner language = (Spinner) findViewById(R.id.settings_language);
         Spinner theme = (Spinner) findViewById(R.id.settings_theme);
         Spinner font = (Spinner) findViewById(R.id.settings_fontsize);
@@ -148,6 +154,30 @@ public class SettingsActivity extends BjcpActivity {
                 getToolbar().setTitle(styleTypeName);
                 showAvailabilityMessage();
                 onLoad = false; // hack to skip first time in.
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        ciderGuideline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String styleTypeName = (String) parent.getItemAtPosition(pos);
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_CIDER_STYLE_TYPE, CIDER_MAP.get(styleTypeName));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+
+        meadGuideline.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                String styleTypeName = (String) parent.getItemAtPosition(pos);
+                preferencesHelper.setPreferences(PreferencesHelper.UNIT_MEAD_STYLE_TYPE, MEAD_MAP.get(styleTypeName));
             }
 
             @Override

@@ -191,6 +191,50 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="15dp"
+                android:id="@+id/settingCiderGuidelineName"
+                android:text="@string/settings_cider_guideline_name"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/settings_cider_guideline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
+                android:id="@+id/settingMeadGuidelineName"
+                android:text="@string/settings_mead_guideline_name"
+                android:textStyle="bold"/>
+
+            <Spinner
+                android:id="@+id/settings_mead_guideline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </Spinner>
+        </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="15dp"
                 android:id="@+id/settingThemeName"
                 android:text="@string/settings_theme_name"
                 android:textStyle="bold"/>

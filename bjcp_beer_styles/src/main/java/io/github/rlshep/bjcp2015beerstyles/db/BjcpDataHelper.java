@@ -80,7 +80,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     private String getCategoryTopWhere() {
-        return " WHERE " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "' ";
+        return " WHERE " + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "') AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "' ";
     }
 
     public Category getCategory(String categoryId) {
@@ -195,7 +195,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     }
 
     public List<Category> getBookmarkedCategories() {
-        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 AND "  + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_LANG + " = '" + ph.getLanguage() + "' ORDER BY " + COLUMN_CATEGORY_CODE;
+        String query = CATEGORY_SELECT + getCategoryTopWhere() + " AND " + COLUMN_BOOKMARKED + " = 1 ORDER BY " + COLUMN_CATEGORY_CODE;
 
         return getCategories(query);
     }
@@ -264,7 +264,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     public List<String> searchSynonyms(String keyword) {
         ArrayList<String> searchResults = new ArrayList<>();
         String searchResult;
-        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
+        String query = "SELECT " + COLUMN_RIGHT + " FROM " + TABLE_SYNONYMS + " WHERE  " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "') AND UPPER(" + COLUMN_LEFT + ") = UPPER('" + keyword + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -285,7 +285,7 @@ public class BjcpDataHelper extends BaseDataHelper {
     private List<SearchResult> searchStyles(String keyword) {
         SearchResult searchResult;
         List<SearchResult> searchResults = new ArrayList<>();
-        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
+        String query = "SELECT " + COLUMN_RESULT_ID + ", " + COLUMN_TABLE_NAME + " FROM " + TABLE_FTS_SEARCH + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "') AND " + COLUMN_BODY + " MATCH '\"" + keyword + "\"*' ORDER BY " + COLUMN_RESULT_ID;
 
         Cursor c = getRead().rawQuery(query, null);
 
@@ -307,7 +307,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllSynonyms() {
         ArrayList<String> synonyms = new ArrayList<>();
-        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
+        final String query = "SELECT DISTINCT " + COLUMN_LEFT + " FROM " + TABLE_SYNONYMS + " WHERE " + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND " + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -327,7 +327,7 @@ public class BjcpDataHelper extends BaseDataHelper {
         ArrayList<String> names = new ArrayList<>();
         String language = ph.getLanguage();
 
-        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " = '" + ph.getStyleType() + "' ORDER BY " + COLUMN_NAME;
+        String query = "SELECT DISTINCT " + COLUMN_NAME + " FROM " + TABLE_CATEGORY + " WHERE " + COLUMN_LANG + " = '" + language + "' AND " + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "') ORDER BY " + COLUMN_NAME;
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);
@@ -383,8 +383,8 @@ public class BjcpDataHelper extends BaseDataHelper {
                         COLUMN_RESULT_ID + " = C." + COLUMN_ID + " AND TFS." + COLUMN_TABLE_NAME + " = 'CATEGORY' AND TFS." +
                         COLUMN_BODY + " MATCH '\"" + keyword + "\"*'";
                 }
-                query = query + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() +
-                "' AND IBU." + COLUMN_LOW + ">= " + ibuLow + " AND IBU." + COLUMN_HIGH + " <= " + ibuHigh +
+                query = query + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "' AND C." + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() +
+                "') AND IBU." + COLUMN_LOW + ">= " + ibuLow + " AND IBU." + COLUMN_HIGH + " <= " + ibuHigh +
                 " AND SRM." + COLUMN_LOW + " >= " + srmLow + " AND SRM." + COLUMN_HIGH + " <= " + srmHigh +
                 " AND ABV." + COLUMN_LOW + " >= " + abvLow + " AND ABV." + COLUMN_HIGH + " <= " + abvHigh +
                 " ORDER BY C." + getOrderType();
@@ -415,7 +415,7 @@ public class BjcpDataHelper extends BaseDataHelper {
 
     public List<String> getAllTags() {
         ArrayList<String> tags = new ArrayList<>();
-        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "'" + " AND C." + COLUMN_REVISION + " = '" + ph.getStyleType() + "'";
+        final String query = "SELECT DISTINCT T." + COLUMN_TAG + " FROM " + TABLE_TAG + " T JOIN " + TABLE_CATEGORY + " C ON C." + COLUMN_ID + " = T." + COLUMN_CAT_ID + " WHERE C." + COLUMN_LANG + " = '" + ph.getLanguage() + "'" + " AND C." + COLUMN_REVISION + " IN ('" + ph.getStyleType() + "', '" + ph.getMeadStyleType() + "', '" + ph.getCiderStyleType() + "')";
 
         //Cursor point to a location in your results
         Cursor c = getRead().rawQuery(query, null);

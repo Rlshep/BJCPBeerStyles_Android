@@ -60,11 +60,21 @@
     <string name="settings_plato">Plato</string>
     <string name="settings_title">Англійські назви:</string>
     <string name="settings_specific_gravity">SG</string>
-    <string name="settings_guideline_name">Довідник:</string>
+    <string name="settings_guideline_name">Настанови для пива:</string>
     <string-array name="settings_guidelines">
         <item>2015 BJCP</item>
         <item>2021 BJCP</item>
         <item>2021 BA</item>
+    </string-array>
+    <string name="settings_mead_guideline_name">Настанови для медовухи: </string>
+    <string-array name="settings_mead_guidelines">
+        <item>2015 BJCP медовухи</item>
+        <item>2026 BJCP медовухи</item>
+    </string-array>
+    <string name="settings_cider_guideline_name">Настанови для сидру: </string>
+    <string-array name="settings_cider_guidelines">
+        <item>2015 BJCP сидру</item>
+        <item>2025 BJCP сидру</item>
     </string-array>
     <string name="settings_language_name">Мова:</string>
     <string-array name="settings_languages">

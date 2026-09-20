@@ -11,8 +11,13 @@ import io.github.rlshep.bjcp2015beerstyles.converters.MetricConverter;
 
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2015;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_2021;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_MEAD_2015;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_MEAD_2026;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_CIDER_2025;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.MEAD_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.CIDER_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -22,6 +27,8 @@ public class PreferencesHelper {
     public static final String UNIT_GRAVITY = "gravity";
     public static final String UNIT_COLOR = "color";
     public static final String UNIT_STYLE_TYPE = "style_type";
+    public static final String UNIT_MEAD_STYLE_TYPE = "mead_style_type";
+    public static final String UNIT_CIDER_STYLE_TYPE = "cider_style_type";
     public static final String UNIT_ALCOHOL = "alcohol";
     public static final String UNIT_LANGUAGE = "language";
     public static final String UNIT_THEME = "theme";
@@ -52,6 +59,8 @@ public class PreferencesHelper {
     public void setupPreferences() {
         String gravityPref = sharedPref.getString(UNIT_GRAVITY, null);
         String stylePref = sharedPref.getString(UNIT_STYLE_TYPE, null);
+        String meadStylePref = sharedPref.getString(UNIT_MEAD_STYLE_TYPE, null);
+        String ciderStylePref = sharedPref.getString(UNIT_CIDER_STYLE_TYPE, null);
         String alcoholPref = sharedPref.getString(UNIT_ALCOHOL, null);
         String languagePref = sharedPref.getString(UNIT_LANGUAGE, null);
         String firstPref = sharedPref.getString(MESSAGE_FIRST_135, null);  //TODO: Remove in future release
@@ -76,10 +85,18 @@ public class PreferencesHelper {
         if (StringUtils.isEmpty(stylePref) &&
                 (ENGLISH.equals(lh.getLocaleLanguage()) ||  UKRANIAN.equals(lh.getLocaleLanguage()))) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2021);
-        } else if (StringUtils.isEmpty(stylePref)) {    // Default to 2015 until translation is available.
+        } else if (StringUtils.isEmpty(firstPref) && !ENGLISH.equals(lh.getLocaleLanguage())) {
             setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
-        } else if (StringUtils.isEmpty(firstPref) && !ENGLISH.equals(lh.getLocaleLanguage())) {     // Temporary fix for default non-english
-            setPreferences(UNIT_STYLE_TYPE, BJCP_2015);
+        }
+
+        if (StringUtils.isEmpty(meadStylePref) && UKRANIAN.equals(lh.getLocaleLanguage())) {
+            setPreferences(UNIT_MEAD_STYLE_TYPE, BJCP_MEAD_2015);
+        } else if (StringUtils.isEmpty(meadStylePref)) {
+            setPreferences(UNIT_MEAD_STYLE_TYPE, BJCP_MEAD_2026);
+        }
+
+        if (StringUtils.isEmpty(ciderStylePref)) {
+            setPreferences(UNIT_CIDER_STYLE_TYPE, BJCP_CIDER_2025);
         }
 
         if (StringUtils.isEmpty(languagePref)) {
@@ -133,8 +150,28 @@ public class PreferencesHelper {
         return BjcpConstants.getKeyValue(GUIDELINE_MAP, styleTypeValue);
     }
 
+    public String getMeadStyleTypeName() {
+        String styleTypeValue = sharedPref.getString(UNIT_MEAD_STYLE_TYPE, null);
+
+        return BjcpConstants.getKeyValue(MEAD_MAP, styleTypeValue);
+    }
+
+    public String getCiderStyleTypeName() {
+        String styleTypeValue = sharedPref.getString(UNIT_CIDER_STYLE_TYPE, null);
+
+        return BjcpConstants.getKeyValue(CIDER_MAP, styleTypeValue);
+    }
+
     public String getStyleType() {
         return  sharedPref.getString(UNIT_STYLE_TYPE, null);
+    }
+
+    public String getMeadStyleType() {
+        return sharedPref.getString(UNIT_MEAD_STYLE_TYPE, null);
+    }
+
+    public String getCiderStyleType() {
+        return sharedPref.getString(UNIT_CIDER_STYLE_TYPE, null);
     }
 
     public int getArrayPosition(String[] array, String item) {
