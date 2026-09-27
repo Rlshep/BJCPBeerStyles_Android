@@ -54,13 +54,18 @@ android {
     namespace = 'io.github.rlshep.bjcp2015beerstyles'
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
-    implementation files('libs/BJCPBeerStyles_Core-1.0.0.jar')
+    implementation name: 'BJCPBeerStyles_Core-1.0.0'
+    implementation name: 'materialrangebar-1.4.6', ext: 'aar'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'commons-lang:commons-lang:2.6'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-//    implementation 'com.appyvet:materialrangebar:1.4.6'
-    implementation files('libs/materialrangebar-1.4.6.aar')
     implementation 'com.android.support:cardview-v7'
     implementation 'com.google.guava:guava:33.6.0-android'
 

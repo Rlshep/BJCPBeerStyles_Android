@@ -16,8 +16,8 @@ import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_M
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.BJCP_CIDER_2025;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.ENGLISH;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.GUIDELINE_MAP;
-import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.MEAD_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.CIDER_MAP;
+import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.MEAD_MAP;
 import static io.github.rlshep.bjcp2015beerstyles.constants.BjcpConstants.UKRANIAN;
 
 import androidx.appcompat.app.AppCompatDelegate;
@@ -151,15 +151,15 @@ public class PreferencesHelper {
     }
 
     public String getMeadStyleTypeName() {
-        String styleTypeValue = sharedPref.getString(UNIT_MEAD_STYLE_TYPE, null);
+        String meadStyleTypeValue = sharedPref.getString(UNIT_MEAD_STYLE_TYPE, null);
 
-        return BjcpConstants.getKeyValue(MEAD_MAP, styleTypeValue);
+        return BjcpConstants.getKeyValue(MEAD_MAP, meadStyleTypeValue);
     }
 
     public String getCiderStyleTypeName() {
-        String styleTypeValue = sharedPref.getString(UNIT_CIDER_STYLE_TYPE, null);
+        String ciderStyleTypeValue = sharedPref.getString(UNIT_CIDER_STYLE_TYPE, null);
 
-        return BjcpConstants.getKeyValue(CIDER_MAP, styleTypeValue);
+        return BjcpConstants.getKeyValue(CIDER_MAP, ciderStyleTypeValue);
     }
 
     public String getStyleType() {
@@ -175,15 +175,17 @@ public class PreferencesHelper {
     }
 
     public int getArrayPosition(String[] array, String item) {
-        int i;
+        if (array == null || item == null) {
+            return 0;
+        }
 
-        for (i=0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             if (item.equals(array[i])) {
                 return i;
             }
         }
 
-        return i;
+        return 0;
     }
 
     public String getLanguage() {
